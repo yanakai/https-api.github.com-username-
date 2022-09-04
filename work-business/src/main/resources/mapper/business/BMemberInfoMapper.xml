@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.business.mapper.BMemberInfoMapper">
+
+    <resultMap type="BMemberInfo" id="BMemberInfoResult">
+        <result property="memberId"    column="member_id"    />
+        <result property="memberName"    column="member_name"    />
+        <result property="memberPhonenumper"    column="member_phonenumper"    />
+        <result property="sex"    column="sex"    />
+        <result property="memberPassword"    column="member_password"    />
+        <result property="memberCardId"    column="member_card_id"    />
+        <result property="memberCardName"    column="member_card_name"    />
+        <result property="memberType"    column="member_type"    />
+        <result property="memberTypeName"    column="member_type_name"    />
+        <result property="rechargeAmount"    column="recharge_amount"    />
+        <result property="giveAmount"    column="give_amount"    />
+        <result property="singleAmount"    column="single_amount"    />
+        <result property="surplusAmount"    column="surplus_amount"    />
+        <result property="surplusTimes"    column="surplus_times"    />
+        <result property="paymentType"    column="payment_type"    />
+        <result property="artificerId"    column="artificer_id"    />
+        <result property="artificerName"    column="artificer_name"    />
+        <result property="memberPoints"    column="member_points"    />
+        <result property="additive"    column="additive"    />
+        <result property="additiveNumber"    column="additive_number"    />
+        <result property="cardPersonnel"    column="card_personnel"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createNema"    column="create_nema"    />
+        <result property="modifyName"    column="modify_name"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectBMemberInfoVo">
+        select member_id, member_name, member_phonenumper, sex, member_password, member_card_id, member_card_name, member_type, member_type_name, recharge_amount, give_amount, single_amount, surplus_amount, surplus_times, payment_type, artificer_id, artificer_name, member_points, additive, additive_number, card_personnel, remark, create_time, create_nema, modify_name, modify_time from b_member_info
+    </sql>
+
+    <select id="selectBMemberInfoList" parameterType="BMemberInfo" resultMap="BMemberInfoResult">
+        <include refid="selectBMemberInfoVo"/>
+        <where>
+            <if test="memberName != null  and memberName != ''"> and member_name like concat('%', #{memberName}, '%')</if>
+            <if test="memberPhonenumper != null  and memberPhonenumper != ''"> and member_phonenumper like concat('%', #{memberPhonenumper}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="memberPassword != null  and memberPassword != ''"> and member_password = #{memberPassword}</if>
+            <if test="memberCardId != null "> and member_card_id = #{memberCardId}</if>
+            <if test="memberCardName != null  and memberCardName != ''"> and member_card_name like concat('%', #{memberCardName}, '%')</if>
+            <if test="memberType != null  and memberType != ''"> and member_type = #{memberType}</if>
+            <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name like concat('%', #{memberTypeName}, '%')</if>
+            <if test="rechargeAmount != null "> and recharge_amount = #{rechargeAmount}</if>
+            <if test="giveAmount != null "> and give_amount = #{giveAmount}</if>
+            <if test="singleAmount != null "> and single_amount = #{singleAmount}</if>
+            <if test="surplusAmount != null "> and surplus_amount = #{surplusAmount}</if>
+            <if test="surplusTimes != null "> and surplus_times = #{surplusTimes}</if>
+            <if test="paymentType != null  and paymentType != ''"> and payment_type = #{paymentType}</if>
+            <if test="artificerId != null "> and artificer_id = #{artificerId}</if>
+            <if test="artificerName != null  and artificerName != ''"> and artificer_name like concat('%', #{artificerName}, '%')</if>
+            <if test="memberPoints != null "> and member_points = #{memberPoints}</if>
+            <if test="additive != null  and additive != ''"> and additive = #{additive}</if>
+            <if test="additiveNumber != null  and additiveNumber != ''"> and additive_number = #{additiveNumber}</if>
+            <if test="cardPersonnel != null  and cardPersonnel != ''"> and card_personnel = #{cardPersonnel}</if>
+            <if test="createNema != null  and createNema != ''"> and create_nema = #{createNema}</if>
+            <if test="modifyName != null  and modifyName != ''"> and modify_name like concat('%', #{modifyName}, '%')</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectBMemberInfoByMemberId" parameterType="Long" resultMap="BMemberInfoResult">
+        <include refid="selectBMemberInfoVo"/>
+        where member_id = #{memberId}
+    </select>
+
+    <insert id="insertBMemberInfo" parameterType="BMemberInfo">
+        insert into b_member_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">member_id,</if>
+            <if test="memberName != null">member_name,</if>
+            <if test="memberPhonenumper != null">member_phonenumper,</if>
+            <if test="sex != null">sex,</if>
+            <if test="memberPassword != null">member_password,</if>
+            <if test="memberCardId != null">member_card_id,</if>
+            <if test="memberCardName != null">member_card_name,</if>
+            <if test="memberType != null">member_type,</if>
+            <if test="memberTypeName != null">member_type_name,</if>
+            <if test="rechargeAmount != null">recharge_amount,</if>
+            <if test="giveAmount != null">give_amount,</if>
+            <if test="singleAmount != null">single_amount,</if>
+            <if test="surplusAmount != null">surplus_amount,</if>
+            <if test="surplusTimes != null">surplus_times,</if>
+            <if test="paymentType != null">payment_type,</if>
+            <if test="artificerId != null">artificer_id,</if>
+            <if test="artificerName != null">artificer_name,</if>
+            <if test="memberPoints != null">member_points,</if>
+            <if test="additive != null">additive,</if>
+            <if test="additiveNumber != null">additive_number,</if>
+            <if test="cardPersonnel != null">card_personnel,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createNema != null">create_nema,</if>
+            <if test="modifyName != null">modify_name,</if>
+            <if test="modifyTime != null">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">#{memberId},</if>
+            <if test="memberName != null">#{memberName},</if>
+            <if test="memberPhonenumper != null">#{memberPhonenumper},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="memberPassword != null">#{memberPassword},</if>
+            <if test="memberCardId != null">#{memberCardId},</if>
+            <if test="memberCardName != null">#{memberCardName},</if>
+            <if test="memberType != null">#{memberType},</if>
+            <if test="memberTypeName != null">#{memberTypeName},</if>
+            <if test="rechargeAmount != null">#{rechargeAmount},</if>
+            <if test="giveAmount != null">#{giveAmount},</if>
+            <if test="singleAmount != null">#{singleAmount},</if>
+            <if test="surplusAmount != null">#{surplusAmount},</if>
+            <if test="surplusTimes != null">#{surplusTimes},</if>
+            <if test="paymentType != null">#{paymentType},</if>
+            <if test="artificerId != null">#{artificerId},</if>
+            <if test="artificerName != null">#{artificerName},</if>
+            <if test="memberPoints != null">#{memberPoints},</if>
+            <if test="additive != null">#{additive},</if>
+            <if test="additiveNumber != null">#{additiveNumber},</if>
+            <if test="cardPersonnel != null">#{cardPersonnel},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createNema != null">#{createNema},</if>
+            <if test="modifyName != null">#{modifyName},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBMemberInfo" parameterType="BMemberInfo">
+        update b_member_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberName != null">member_name = #{memberName},</if>
+            <if test="memberPhonenumper != null">member_phonenumper = #{memberPhonenumper},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="memberPassword != null">member_password = #{memberPassword},</if>
+            <if test="memberCardId != null">member_card_id = #{memberCardId},</if>
+            <if test="memberCardName != null">member_card_name = #{memberCardName},</if>
+            <if test="memberType != null">member_type = #{memberType},</if>
+            <if test="memberTypeName != null">member_type_name = #{memberTypeName},</if>
+            <if test="rechargeAmount != null">recharge_amount = #{rechargeAmount},</if>
+            <if test="giveAmount != null">give_amount = #{giveAmount},</if>
+            <if test="singleAmount != null">single_amount = #{singleAmount},</if>
+            <if test="surplusAmount != null">surplus_amount = #{surplusAmount},</if>
+            <if test="surplusTimes != null">surplus_times = #{surplusTimes},</if>
+            <if test="paymentType != null">payment_type = #{paymentType},</if>
+            <if test="artificerId != null">artificer_id = #{artificerId},</if>
+            <if test="artificerName != null">artificer_name = #{artificerName},</if>
+            <if test="memberPoints != null">member_points = #{memberPoints},</if>
+            <if test="additive != null">additive = #{additive},</if>
+            <if test="additiveNumber != null">additive_number = #{additiveNumber},</if>
+            <if test="cardPersonnel != null">card_personnel = #{cardPersonnel},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createNema != null">create_nema = #{createNema},</if>
+            <if test="modifyName != null">modify_name = #{modifyName},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+        </trim>
+        where member_id = #{memberId}
+    </update>
+
+    <delete id="deleteBMemberInfoByMemberId" parameterType="Long">
+        delete from b_member_info where member_id = #{memberId}
+    </delete>
+
+    <delete id="deleteBMemberInfoByMemberIds" parameterType="String">
+        delete from b_member_info where member_id in
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+</mapper>

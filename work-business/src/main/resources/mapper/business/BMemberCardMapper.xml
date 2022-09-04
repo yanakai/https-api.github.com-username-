@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.business.mapper.BMemberCardMapper">
+
+    <resultMap type="BMemberCard" id="BMemberCardResult">
+        <result property="cardId"    column="card_id"    />
+        <result property="cardName"    column="card_name"    />
+        <result property="cardType"    column="card_type"    />
+        <result property="cardAmount"    column="card_amount"    />
+        <result property="cardGiveAmount"    column="card_give_amount"    />
+        <result property="singleAmount"    column="single_amount"    />
+        <result property="cardTimes"    column="card_times"    />
+        <result property="dataType"    column="data_type"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyName"    column="modify_name"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectBMemberCardVo">
+        select card_id, card_name, card_type, card_amount, card_give_amount, single_amount, card_times, data_type, create_name, create_time, modify_name, modify_time from b_member_card
+    </sql>
+
+    <select id="selectBMemberCardList" parameterType="BMemberCard" resultMap="BMemberCardResult">
+        <include refid="selectBMemberCardVo"/>
+        <where>
+            <if test="cardName != null  and cardName != ''"> and card_name like concat('%', #{cardName}, '%')</if>
+            <if test="cardType != null  and cardType != ''"> and card_type = #{cardType}</if>
+            <if test="cardAmount != null "> and card_amount = #{cardAmount}</if>
+            <if test="cardGiveAmount != null "> and card_give_amount = #{cardGiveAmount}</if>
+            <if test="singleAmount != null "> and single_amount = #{singleAmount}</if>
+            <if test="cardTimes != null "> and card_times = #{cardTimes}</if>
+            <if test="dataType != null  and dataType != ''"> and data_type = #{dataType}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="modifyName != null  and modifyName != ''"> and modify_name like concat('%', #{modifyName}, '%')</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectBMemberCardByCardId" parameterType="Long" resultMap="BMemberCardResult">
+        <include refid="selectBMemberCardVo"/>
+        where card_id = #{cardId}
+    </select>
+
+    <insert id="insertBMemberCard" parameterType="BMemberCard">
+        insert into b_member_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardId != null">card_id,</if>
+            <if test="cardName != null">card_name,</if>
+            <if test="cardType != null">card_type,</if>
+            <if test="cardAmount != null">card_amount,</if>
+            <if test="cardGiveAmount != null">card_give_amount,</if>
+            <if test="singleAmount != null">single_amount,</if>
+            <if test="cardTimes != null">card_times,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyName != null">modify_name,</if>
+            <if test="modifyTime != null">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardId != null">#{cardId},</if>
+            <if test="cardName != null">#{cardName},</if>
+            <if test="cardType != null">#{cardType},</if>
+            <if test="cardAmount != null">#{cardAmount},</if>
+            <if test="cardGiveAmount != null">#{cardGiveAmount},</if>
+            <if test="singleAmount != null">#{singleAmount},</if>
+            <if test="cardTimes != null">#{cardTimes},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyName != null">#{modifyName},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBMemberCard" parameterType="BMemberCard">
+        update b_member_card
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cardName != null">card_name = #{cardName},</if>
+            <if test="cardType != null">card_type = #{cardType},</if>
+            <if test="cardAmount != null">card_amount = #{cardAmount},</if>
+            <if test="cardGiveAmount != null">card_give_amount = #{cardGiveAmount},</if>
+            <if test="singleAmount != null">single_amount = #{singleAmount},</if>
+            <if test="cardTimes != null">card_times = #{cardTimes},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyName != null">modify_name = #{modifyName},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+        </trim>
+        where card_id = #{cardId}
+    </update>
+
+    <delete id="deleteBMemberCardByCardId" parameterType="Long">
+        delete from b_member_card where card_id = #{cardId}
+    </delete>
+
+    <delete id="deleteBMemberCardByCardIds" parameterType="String">
+        delete from b_member_card where card_id in
+        <foreach item="cardId" collection="array" open="(" separator="," close=")">
+            #{cardId}
+        </foreach>
+    </delete>
+</mapper>

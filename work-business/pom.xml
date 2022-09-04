@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>shiyuan</artifactId>
+        <groupId>com.yk</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>work-business</artifactId>
+
+    <description>
+        business业务主要代码
+    </description>
+
+    <dependencies>
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>com.yk</groupId>
+            <artifactId>work-common</artifactId>
+        </dependency>
+
+        <!-- 系统管理-->
+        <dependency>
+            <groupId>com.yk</groupId>
+            <artifactId>work-system</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

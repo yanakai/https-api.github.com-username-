@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.business.mapper.BArtificerInfoMapper">
+
+    <resultMap type="BArtificerInfo" id="BArtificerInfoResult">
+        <result property="artificerId"    column="artificer_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="artificerFullName"    column="artificer_full_name"    />
+        <result property="artificerName"    column="artificer_name"    />
+        <result property="artificerLevel"    column="artificer_level"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="sex"    column="sex"    />
+        <result property="salary"    column="salary"    />
+        <result property="entryTime"    column="entry_time"    />
+        <result property="speciality"    column="speciality"    />
+        <result property="isBell"    column="is_bell"    />
+        <result property="remark"    column="remark"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyName"    column="modify_name"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectBArtificerInfoVo">
+        select artificer_id, dept_id, dept_name, artificer_full_name, artificer_name, artificer_level, phone_number, sex, salary, entry_time, speciality, is_bell, remark, create_name, create_time, modify_name, modify_time from b_artificer_info
+    </sql>
+
+    <select id="selectBArtificerInfoList" parameterType="BArtificerInfo" resultMap="BArtificerInfoResult">
+        <include refid="selectBArtificerInfoVo"/>
+        <where>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="artificerFullName != null  and artificerFullName != ''"> and artificer_full_name like concat('%', #{artificerFullName}, '%')</if>
+            <if test="artificerName != null  and artificerName != ''"> and artificer_name like concat('%', #{artificerName}, '%')</if>
+            <if test="artificerLevel != null  and artificerLevel != ''"> and artificer_level = #{artificerLevel}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="salary != null "> and salary = #{salary}</if>
+            <if test="entryTime != null "> and entry_time = #{entryTime}</if>
+            <if test="speciality != null  and speciality != ''"> and speciality = #{speciality}</if>
+            <if test="isBell != null  and isBell != ''"> and is_bell = #{isBell}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="modifyName != null  and modifyName != ''"> and modify_name like concat('%', #{modifyName}, '%')</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectBArtificerInfoByArtificerId" parameterType="Long" resultMap="BArtificerInfoResult">
+        <include refid="selectBArtificerInfoVo"/>
+        where artificer_id = #{artificerId}
+    </select>
+
+    <insert id="insertBArtificerInfo" parameterType="BArtificerInfo" useGeneratedKeys="true" keyProperty="artificerId">
+        insert into b_artificer_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">dept_id,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="artificerFullName != null">artificer_full_name,</if>
+            <if test="artificerName != null">artificer_name,</if>
+            <if test="artificerLevel != null">artificer_level,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="sex != null">sex,</if>
+            <if test="salary != null">salary,</if>
+            <if test="entryTime != null">entry_time,</if>
+            <if test="speciality != null">speciality,</if>
+            <if test="isBell != null">is_bell,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyName != null">modify_name,</if>
+            <if test="modifyTime != null">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null">#{deptId},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="artificerFullName != null">#{artificerFullName},</if>
+            <if test="artificerName != null">#{artificerName},</if>
+            <if test="artificerLevel != null">#{artificerLevel},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="entryTime != null">#{entryTime},</if>
+            <if test="speciality != null">#{speciality},</if>
+            <if test="isBell != null">#{isBell},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyName != null">#{modifyName},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBArtificerInfo" parameterType="BArtificerInfo">
+        update b_artificer_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="artificerFullName != null">artificer_full_name = #{artificerFullName},</if>
+            <if test="artificerName != null">artificer_name = #{artificerName},</if>
+            <if test="artificerLevel != null">artificer_level = #{artificerLevel},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="entryTime != null">entry_time = #{entryTime},</if>
+            <if test="speciality != null">speciality = #{speciality},</if>
+            <if test="isBell != null">is_bell = #{isBell},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyName != null">modify_name = #{modifyName},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+        </trim>
+        where artificer_id = #{artificerId}
+    </update>
+
+    <delete id="deleteBArtificerInfoByArtificerId" parameterType="Long">
+        delete from b_artificer_info where artificer_id = #{artificerId}
+    </delete>
+
+    <delete id="deleteBArtificerInfoByArtificerIds" parameterType="String">
+        delete from b_artificer_info where artificer_id in
+        <foreach item="artificerId" collection="array" open="(" separator="," close=")">
+            #{artificerId}
+        </foreach>
+    </delete>
+</mapper>
