@@ -170,7 +170,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -188,12 +188,12 @@
                     <el-input v-model="form.memberName" placeholder="请输入会员姓名" :disabled="disabledView"/>
                 </el-form-item>
             </el-col>
-            <el-col :span="8">   
+            <el-col :span="8">
                 <el-form-item label="手机号" prop="memberPhonenumper">
                     <el-input v-model="form.memberPhonenumper" placeholder="请输入手机号" :disabled="disabledView" />
                 </el-form-item>
             </el-col>
-            <el-col :span="8">   
+            <el-col :span="8">
                 <el-form-item label="性别" prop="sex">
                     <el-select v-model="form.sex" placeholder="请选择会员性别" :disabled="disabledView">
                       <el-option
@@ -234,7 +234,7 @@
                     </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :span="6"> 
+            <el-col :span="6">
                 <el-form-item label="充值金额" prop="rechargeAmount">
                     <el-input v-model="form.rechargeAmount" :disabled="true" />
                 </el-form-item>
@@ -244,20 +244,20 @@
                     <el-input v-model="form.giveAmount" :disabled="true" />
                  </el-form-item>
             </el-col>
-            <el-col :span="6"> 
+            <el-col :span="6">
                 <el-form-item label="单次金额 " prop="singleAmount">
                     <el-input v-model="form.singleAmount" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="12"> 
+            <el-col :span="12">
                 <el-form-item label="剩余金额 " prop="surplusAmount">
                     <el-input v-model="form.surplusAmount" :disabled="true"/>
                     <i class="el-icon-warning" style="color:#F56C6C;font-size:12px">用于会员卡类型为赠送金额卡，其它类型默认数字0</i>
                 </el-form-item>
             </el-col>
-            <el-col :span="12"> 
+            <el-col :span="12">
                 <el-form-item label="剩余次数 " prop="surplusTimes">
                     <el-input v-model="form.surplusTimes" :disabled="true"/>
                     <i class="el-icon-warning" style="color:#F56C6C;font-size:12px">用于会员卡类型为赠送次数卡，其它类型默认数字0</i>
@@ -289,7 +289,7 @@
                     </el-select>
                  </el-form-item>
             </el-col>
-            <el-col :span="12"> 
+            <el-col :span="12">
                 <el-form-item label="会员积分" prop="memberPoints">
                     <el-input v-model="form.memberPoints" placeholder="请输入会员积分" :disabled="disabledView"/>
                 </el-form-item>
@@ -311,7 +311,7 @@
                     </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :span="12"> 
+            <el-col :span="12">
                 <el-form-item label="办卡人员" prop="cardPersonnel">
                     <el-input v-model="form.cardPersonnel" placeholder="请输入办卡人员" :disabled="disabledView" />
                 </el-form-item>
@@ -323,7 +323,7 @@
                     <el-input v-model="form.additive" placeholder="请输入赠品" :disabled="disabledView" />
                 </el-form-item>
             </el-col>
-            <el-col :span="12"> 
+            <el-col :span="12">
                 <el-form-item label="赠送数量" prop="additiveNumber">
                     <el-input v-model="form.additiveNumber" placeholder="请输入赠送数量" :disabled="disabledView" />
                 </el-form-item>
@@ -436,7 +436,7 @@ export default {
       editDisabledView: false,
       // 详情展示控制确定与取消按钮显隐
       buttonView:true,
-      // 会员对象信息 
+      // 会员对象信息
       memberInfo: {},
       // 合并会员卡弹窗显隐
       mergeMemberListOpen:false,
