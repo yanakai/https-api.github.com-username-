@@ -73,7 +73,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="memberList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="memberList" @selection-change="handleSelectionChange" stripe >
       <el-table-column label="会员姓名" align="center" prop="memberName" />
       <el-table-column label="手机号" align="center" prop="memberPhonenumper" :min-width=150 />
       <el-table-column label="性别" align="center" prop="sex" >
@@ -97,6 +97,7 @@
       <el-table-column label="单次金额" align="center" prop="singleAmount" />
       <el-table-column label="剩余金额" align="center" prop="surplusAmount" />
       <el-table-column label="剩余次数" align="center" prop="surplusTimes" />
+      <el-table-column label="办卡次数" align="center" prop="handleCardNum" />
       <el-table-column label="支付方式" align="center" prop="paymentType" >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.b_member_payment" :value="scope.row.paymentType"/>
@@ -651,7 +652,7 @@ export default {
     // 同种会员合并金额
     handleMerge(row){
       if(row.surplusAmount==0){
-        this.$modal.alertWarning("赠送次数卡或者会员卡剩余金额为0不再执行合并");
+        this.$modal.alertWarning("赠送次数卡或者会员卡剩余金额为0不能执行合并");
       }else{
         this.mergeMemberListOpen = true;
         this.title = "合并会员信息";

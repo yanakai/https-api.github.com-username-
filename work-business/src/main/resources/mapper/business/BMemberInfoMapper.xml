@@ -31,6 +31,8 @@
         <result property="createNema"    column="create_nema"    />
         <result property="modifyName"    column="modify_name"    />
         <result property="modifyTime"    column="modify_time"    />
+        <result property="handleCardNum"    column="handle_card_num"    />
+
     </resultMap>
 
     <sql id="selectBMemberInfoVo">
@@ -38,7 +40,11 @@
     </sql>
 
     <select id="selectBMemberInfoList" parameterType="BMemberInfo" resultMap="BMemberInfoResult">
-        <include refid="selectBMemberInfoVo"/>
+        select
+            member_id, member_name, member_phonenumper, sex, member_password, member_card_id, member_card_name, member_type, member_type_name, recharge_amount, give_amount, single_amount, surplus_amount, surplus_times, payment_type, artificer_id, artificer_name, member_points, additive, additive_number, card_personnel, remark, create_time, create_nema, modify_name, modify_time,
+            (SELECT count(member_id) FROM b_member_info WHERE member_phonenumper=bmi.member_phonenumper GROUP BY bmi.member_phonenumper ) handle_card_num
+        from
+            b_member_info bmi
         <where>
             <if test="memberName != null  and memberName != ''"> and member_name like concat('%', #{memberName}, '%')</if>
             <if test="memberPhonenumper != null  and memberPhonenumper != ''"> and member_phonenumper like concat('%', #{memberPhonenumper}, '%')</if>

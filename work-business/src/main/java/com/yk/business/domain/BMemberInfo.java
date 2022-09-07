@@ -114,6 +114,16 @@ public class BMemberInfo extends BaseEntity {
     /**************************************只做查询********************************************/
     /** 会员ids */
     private String memberIds;
+    /** 会员办卡次数 */
+    private int handleCardNum;
+
+    public int getHandleCardNum() {
+        return handleCardNum;
+    }
+
+    public void setHandleCardNum(int handleCardNum) {
+        this.handleCardNum = handleCardNum;
+    }
 
     public String getMemberIds() {
         return memberIds;
