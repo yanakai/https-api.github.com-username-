@@ -1,13 +1,18 @@
 package com.yk.business.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import com.yk.common.core.text.Convert;
 import com.yk.common.utils.DateUtils;
+import com.yk.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yk.business.mapper.BMemberInfoMapper;
 import com.yk.business.domain.BMemberInfo;
 import com.yk.business.service.IBMemberInfoService;
+
+import javax.annotation.Resource;
 
 /**
  * @Description:
@@ -20,7 +25,8 @@ import com.yk.business.service.IBMemberInfoService;
  */
 @Service
 public class BMemberInfoServiceImpl implements IBMemberInfoService {
-    @Autowired
+
+    @Resource
     private BMemberInfoMapper bMemberInfoMapper;
 
     /**
@@ -94,5 +100,30 @@ public class BMemberInfoServiceImpl implements IBMemberInfoService {
     public int deleteBMemberInfoByMemberId(Long memberId)
     {
         return bMemberInfoMapper.deleteBMemberInfoByMemberId(memberId);
+    }
+
+    @Override
+    public List<BMemberInfo> getMergeMemberList(Long memberId, String memberPhonenumper) {
+        return bMemberInfoMapper.getMergeMemberList(memberId,memberPhonenumper);
+    }
+
+    @Override
+    public int handleMergeMemberList(Long memberId,String memberIds) {
+        // 获取选中的会员信息
+        List<BMemberInfo> list = bMemberInfoMapper.getBMemberInfoListByMemberIds(Convert.toLongArray(memberIds));
+        // 获取主会员信息
+        BMemberInfo info = bMemberInfoMapper.selectBMemberInfoByMemberId(memberId);
+        BigDecimal totalAmount = new BigDecimal(0);
+        if(StringUtils.isNotEmpty(list)){
+            // 循环选中的数据，计算会员卡的剩余金额
+            for (BMemberInfo item:list){
+                totalAmount = totalAmount.add(new BigDecimal(String.valueOf(item.getSurplusAmount())));
+                item.setSurplusAmount(new BigDecimal(0));
+                bMemberInfoMapper.updateBMemberInfo(item);
+            }
+        }
+        // 把剩余金额和主会员余额相加得到该会员最终的余额
+        info.setSurplusAmount(totalAmount.add(info.getSurplusAmount()));
+        return bMemberInfoMapper.updateBMemberInfo(info);
     }
 }

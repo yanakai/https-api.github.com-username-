@@ -173,4 +173,23 @@
             #{memberId}
         </foreach>
     </delete>
+
+    <!--通过会员id和会员手机号查询该该手机号下的所有会员信息，不查询当前该会员信息-->
+    <select id="getMergeMemberList"  resultMap="BMemberInfoResult">
+        <include refid="selectBMemberInfoVo"/>
+        where member_phonenumper = #{memberPhonenumper} and member_id != #{memberId}
+        order by surplus_amount desc,create_time desc
+    </select>
+    <!--通过会员ids查询会员信息-->
+    <select id="getBMemberInfoListByMemberIds"   resultMap="BMemberInfoResult">
+        <include refid="selectBMemberInfoVo"/>
+        where member_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+
+
 </mapper>

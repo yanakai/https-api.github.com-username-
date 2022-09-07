@@ -58,4 +58,24 @@ public interface IBMemberInfoService
      * @return 结果
      */
     public int deleteBMemberInfoByMemberId(Long memberId);
+    /**
+     * @title getMergeMemberList
+     * @description 通过会员id和会员手机号查询该该手机号下的所有会员信息，不查询当前该会员信息
+     * @param memberId  预合并的会员id
+     * @param memberPhonenumper  会员手机号
+     * @return java.util.List<com.yk.business.domain.BMemberInfo>
+     * @author yanakai@126.com
+     * @date   2022/9/6
+     */
+    List<BMemberInfo> getMergeMemberList(Long memberId, String memberPhonenumper);
+    /**
+     * @title handleMergeMemberList
+     * @description  合并会员信息
+     * @param memberId  会员id
+     * @param memberIds  要合并的会员ids
+     * @return int
+     * @author yanakai@126.com
+     * @date   2022/9/6
+     */
+    int handleMergeMemberList(Long memberId, String memberIds);
 }

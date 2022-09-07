@@ -2,6 +2,7 @@ package com.yk.business.mapper;
 
 import java.util.List;
 import com.yk.business.domain.BMemberInfo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 会员信息Mapper接口
@@ -58,4 +59,24 @@ public interface BMemberInfoMapper
      * @return 结果
      */
     public int deleteBMemberInfoByMemberIds(Long[] memberIds);
+
+    /**
+     * @title getMergeMemberList
+     * @description  通过会员id和会员手机号查询该该手机号下的所有会员信息，不查询当前该会员信息
+     * @param memberId  预合并的会员id
+     * @param memberPhonenumper   会员手机号
+     * @return java.util.List<com.yk.business.domain.BMemberInfo>
+     * @author yanakai@126.com
+     * @date   2022/9/6
+     */
+    List<BMemberInfo> getMergeMemberList(@Param("memberId") Long memberId, @Param("memberPhonenumper")String memberPhonenumper);
+    /**
+     * @title getBMemberInfoListByMemberIds
+     * @description  通过会员ids查询会员信息
+     * @param memberIds  会员ids
+     * @return java.util.List<com.yk.business.domain.BMemberInfo>
+     * @author yanakai@126.com
+     * @date   2022/9/6
+     */
+    List<BMemberInfo> getBMemberInfoListByMemberIds(Long[] memberIds);
 }

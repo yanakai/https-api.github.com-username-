@@ -94,6 +94,7 @@
       </el-table-column>
       <el-table-column label="充值金额" align="center" prop="rechargeAmount" />
       <el-table-column label="赠送金额" align="center" prop="giveAmount" />
+      <el-table-column label="单次金额" align="center" prop="singleAmount" />
       <el-table-column label="剩余金额" align="center" prop="surplusAmount" />
       <el-table-column label="剩余次数" align="center" prop="surplusTimes" />
       <el-table-column label="支付方式" align="center" prop="paymentType" >
@@ -101,7 +102,7 @@
           <dict-tag :options="dict.type.b_member_payment" :value="scope.row.paymentType"/>
         </template>
       </el-table-column>
-      <el-table-column label="办卡技师" align="center" prop="artificerName" />
+      <el-table-column label="办卡技师" align="center" prop="artificerName" :min-width=120 />
       <el-table-column label="会员积分" align="center" prop="memberPoints" />
       <el-table-column label="赠品" align="center" prop="additive" :show-overflow-tooltip="true" />
       <el-table-column label="赠送数量" align="center" prop="additiveNumber" />
@@ -143,12 +144,12 @@
           >修改密码</el-button>
           <el-button
             size="small"
-            type="danger"
+            type="primary"
             round
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['business:member:remove']"
-          >删除</el-button>
+            icon="el-icon-s-fold"
+            @click="handleMerge(scope.row)"
+            v-hasPermi="['business:member:merge']"
+          >合并</el-button>
           <el-button
             size="small"
             type="info"
@@ -159,12 +160,12 @@
           >消费记录</el-button>
           <el-button
             size="small"
-            type="info"
+            type="danger"
             round
-            icon="el-icon-s-fold"
-            @click="handleMerge(scope.row)"
-            v-hasPermi="['business:member:merge']"
-          >合并</el-button>
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['business:member:remove']"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -207,7 +208,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form-item label="会员卡名称" prop="memberCardId" >
-                    <el-select v-model="form.memberCardId" filterable  placeholder="请选择会员卡" :disabled="disabledView">
+                    <el-select v-model="form.memberCardId" filterable  placeholder="请选择会员卡" :disabled="editDisabledView">
                       <el-option
                         v-for="item in memberCardList"
                         :key="item.cardId"
@@ -344,11 +345,47 @@
     <el-dialog :title="title" :visible.sync="memberUpdatePasswordOpen" width="500px" append-to-body>
       <ResetPwd :memberInfo="memberInfo" @close-page-click="memberUpdatePasswordOpen = false" />
     </el-dialog>
+    <!-- 会员合并弹窗 -->
+    <el-dialog :title="title" :visible.sync="mergeMemberListOpen" width="1000px" append-to-body>
+       <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleMergeMember"
+          v-hasPermi="['business:member:add']"
+        >合并</el-button>
+      </el-col>
+    </el-row>
+      <el-table v-loading="mergeLoading" :data="mergeMemberList" @selection-change="handleSelectionChangeByMerge">
+        <el-table-column type="selection" width="55" align="center" :selectable="selectable" />
+        <el-table-column label="会员姓名" align="center" prop="memberName" />
+        <el-table-column label="手机号" align="center" prop="memberPhonenumper" :min-width=150 />
+        <el-table-column label="办卡时间" align="center" prop="createTime" :min-width=150 >
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="会员卡名称" align="center" prop="memberCardName" :min-width=150 />
+        <el-table-column label="会员卡类型" align="center" prop="memberType" :min-width=150 >
+          <template slot-scope="scope">
+            <dict-tag :options="dict.type.b_card_type" :value="scope.row.memberType"/>
+          </template>
+        </el-table-column>
+        <el-table-column label="充值金额" align="center" prop="rechargeAmount" />
+        <el-table-column label="赠送金额" align="center" prop="giveAmount" />
+        <el-table-column label="单次金额" align="center" prop="singleAmount" />
+        <el-table-column label="剩余金额" align="center" prop="surplusAmount" />
+        <el-table-column label="剩余次数" align="center" prop="surplusTimes" />
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listMember, getMember, delMember, addMember, updateMember } from "@/api/business/member";
+import { listMember, getMember, delMember, addMember, updateMember ,getMergeMemberList,handleMergeMemberList} from "@/api/business/member";
 import { getCardList } from "@/api/business/card";
 import { getArtificerList} from "@/api/business/artificer";
 import { ResetPwd } from "@/components/memberResetPwd";
@@ -394,10 +431,24 @@ export default {
       editMemberPasswordView: false,
       // 详情展示控制字段是否可修改
       disabledView: false,
+      // 控制会员卡信息只能在添加时显示
+      editDisabledView: false,
       // 详情展示控制确定与取消按钮显隐
       buttonView:true,
       // 会员对象信息 
       memberInfo: {},
+      // 合并会员卡弹窗显隐
+      mergeMemberListOpen:false,
+      // 合并会员卡弹窗遮罩层
+      mergeLoading:true,
+      // 合并会员卡列表
+      mergeMemberList:[],
+      // 合并会员选中数组
+      mergeMemberIds: [],
+      // 合并的主会员id
+      mergeMemberId: null,
+       // 合并的主会员卡单次金额
+      mergeSingleAmount: null,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -563,6 +614,8 @@ export default {
     },
     // 详情弹出层
     handleDetails(row){
+      // 控制会员卡信息只能在添加时显示
+      this.editDisabledView = true,
       this.disabledView = true;
       this.buttonView = false;
       const memberId = row.memberId || this.ids
@@ -577,6 +630,8 @@ export default {
     // 续卡弹出层
     handleAddMember(row){
       this.reset();
+      // 控制会员卡信息只能在添加时显示
+      this.editDisabledView = false,
       this.disabledView = false;
       this.buttonView = true;
       const memberId = row.memberId || this.ids
@@ -595,11 +650,29 @@ export default {
     },
     // 同种会员合并金额
     handleMerge(row){
-      this.$modal.msgError("暂无功能");
+      if(row.surplusAmount==0){
+        this.$modal.alertWarning("赠送次数卡或者会员卡剩余金额为0不再执行合并");
+      }else{
+        this.mergeMemberListOpen = true;
+        this.title = "合并会员信息";
+        this.mergeMemberId = row.memberId;
+        this.mergeSingleAmount = row.singleAmount;
+        let params={
+          memberId :  row.memberId,
+          memberPhonenumper :  row.memberPhonenumper
+        }
+        // 通过会员手机号和需要合并会员id查询该会员下所有会员卡信息
+        getMergeMemberList(params).then(response => {
+          this.mergeMemberList = response.data;
+          this.mergeLoading = false;
+        })
+      }
     },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      // 控制会员卡信息只能在添加时显示
+      this.editDisabledView = false,
       this.disabledView = false;
       this.buttonView = true;
       //  添加功能显示会员密码
@@ -610,6 +683,8 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+      // 控制会员卡信息只能在添加时显示
+      this.editDisabledView = true,
       this.disabledView = false;
       this.buttonView = true;
       const memberId = row.memberId || this.ids
@@ -666,7 +741,36 @@ export default {
       this.download('business/member/export', {
         ...this.queryParams
       }, `member_${new Date().getTime()}.xlsx`)
-    }
+    },
+     // 合并会员卡多选框选中数据
+    handleSelectionChangeByMerge(selection) {
+      this.mergeMemberIds = selection.map(item => item.memberId)
+    },
+    // 合并会员操作实现
+    handleMergeMember(){
+      const memberId = this.mergeMemberId;
+      const memberIds = this.mergeMemberIds.join(",");
+      handleMergeMemberList(memberId,memberIds).then(response => {
+        this.$modal.msgSuccess("合并成功");
+        this.mergeMemberListOpen = false;
+        this.getList();
+      });
+    },
+     /**
+     * 根据条件禁用行复选框
+     * 函数返回值为false则禁用选择(反之亦然)
+     * @param {Object} row - 行数据
+     * @param {String} index - 索引值
+     * @return Boolean
+     */
+    selectable: function(row, index){
+        // 根据主会员卡的单次金额和预合并会员卡的单次金额是否相对，确定会员卡是否能选中
+        if(this.mergeSingleAmount == row.singleAmount){
+          return true;
+        }
+    },
+
+
   }
 };
 </script>

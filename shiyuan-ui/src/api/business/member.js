@@ -55,3 +55,26 @@ export function updateMemberPwd(memberId,oldPassword, newPassword) {
     params: data
   })
 }
+
+// 通过会员卡id和会员手机号查询需要合并的会员信息
+export function getMergeMemberList(query) {
+  return request({
+    url: '/business/member/getMergeMemberList' ,
+    method: 'get',
+    params: query
+  })
+}
+// 合并会员信息实现
+export function handleMergeMemberList(memberId,memberIds) {
+  const data = {
+    memberId,
+    memberIds
+  }
+  return request({
+    url: '/business/member/handleMergeMemberList',
+    method: 'put',
+    params: data
+  })
+}
+
+

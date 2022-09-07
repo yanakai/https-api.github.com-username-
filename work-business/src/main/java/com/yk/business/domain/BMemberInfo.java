@@ -111,6 +111,19 @@ public class BMemberInfo extends BaseEntity {
     @Excel(name = "修改人")
     private String modifyName;
 
+    /**************************************只做查询********************************************/
+    /** 会员ids */
+    private String memberIds;
+
+    public String getMemberIds() {
+        return memberIds;
+    }
+
+    public void setMemberIds(String memberIds) {
+        this.memberIds = memberIds;
+    }
+    /**********************************************************************************/
+
     /** 修改时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")

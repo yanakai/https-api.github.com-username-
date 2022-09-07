@@ -3,7 +3,6 @@ package com.yk.web.controller.business;
 import com.yk.common.annotation.Log;
 import com.yk.common.core.controller.BaseController;
 import com.yk.common.core.domain.AjaxResult;
-import com.yk.common.core.domain.model.LoginUser;
 import com.yk.common.core.page.TableDataInfo;
 import com.yk.common.enums.BusinessType;
 import com.yk.common.utils.DateUtils;
@@ -130,5 +129,36 @@ public class BMemberInfoController extends BaseController {
         memberInfo.setUpdateTime(DateUtils.getNowDate());
         return toAjax(bMemberInfoService.updateBMemberInfo(memberInfo));
     }
+
+    /**
+     * @title getMergeMemberList
+     * @description  通过会员id和会员手机号查询该该手机号下的所有会员信息，不查询当前该会员信息
+     * @param memberId 预合并的会员id
+     * @param memberPhonenumper  会员手机号
+     * @return com.yk.common.core.domain.AjaxResult
+     * @author yanakai@126.com
+     * @date   2022/9/6
+     */
+    @GetMapping(value = "/getMergeMemberList")
+    public AjaxResult getMergeMemberList(Long memberId,String memberPhonenumper){
+        BMemberInfo bMemberInfo = new BMemberInfo();
+        bMemberInfo.setMemberPhonenumper(memberPhonenumper);
+        List<BMemberInfo> list = bMemberInfoService.getMergeMemberList(memberId,memberPhonenumper);
+        return AjaxResult.success(list);
+    }
+    /**
+     * @title handleMergeMemberList
+     * @description  保存合并会员信息
+     * @param memberId  会员id
+     * @param memberIds  要合并的会员ids
+     * @return com.yk.common.core.domain.AjaxResult
+     * @author yanakai@126.com
+     * @date   2022/9/6
+     */
+    @PutMapping("/handleMergeMemberList")
+    public AjaxResult handleMergeMemberList(Long memberId,String memberIds){
+        return toAjax(bMemberInfoService.handleMergeMemberList(memberId,memberIds));
+    }
+
 
 }
