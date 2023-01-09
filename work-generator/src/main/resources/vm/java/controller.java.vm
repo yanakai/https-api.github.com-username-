@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import Log;
-import BaseController;
-import AjaxResult;
-import BusinessType;
+import com.yk.common.annotation.Log;
+import com.yk.common.core.controller.BaseController;
+import com.yk.common.core.domain.AjaxResult;
+import com.yk.common.enums.BusinessType;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
-import ExcelUtil;
+import  com.yk.common.utils.poi.ExcelUtil;
 #if($table.crud || $table.sub)
-import TableDataInfo;
+import com.yk.common.core.page.TableDataInfo;
 #elseif($table.tree)
 #end
 
