@@ -20,15 +20,15 @@ import com.yk.common.constant.Constants;
  */
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer
-{
-    @Autowired
-    private RepeatSubmitInterceptor repeatSubmitInterceptor;
+        {
+            @Autowired
+            private RepeatSubmitInterceptor repeatSubmitInterceptor;
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry)
-    {
-        /** 本地文件上传路径 */
-        registry.addResourceHandler(Constants.RESOURCE_PREFIX + "/**")
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry)
+            {
+                /** 本地文件上传路径 */
+                registry.addResourceHandler(Constants.RESOURCE_PREFIX + "/**")
                 .addResourceLocations("file:" + RuoYiConfig.getProfile() + "/");
 
         /** swagger配置 */
