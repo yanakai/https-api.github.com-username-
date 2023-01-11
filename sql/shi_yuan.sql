@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 09/01/2023 22:33:19
+ Date: 11/01/2023 23:23:44
 */
 
 SET NAMES utf8mb4;
@@ -25,19 +25,22 @@ CREATE TABLE `b_additional_info`  (
   `additional_id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `additional_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '附加项名称',
   `additional_amount` decimal(10, 2) NULL DEFAULT NULL COMMENT '附加项金额',
-  `additional_sort` int NULL DEFAULT NULL COMMENT '排序',
+  `duration` int NULL DEFAULT NULL COMMENT '服务项目时长单位分钟',
+  `data_type` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '服务项目类型 1：主服务项目；2：附加项项目',
+  `order_num` int NULL DEFAULT NULL COMMENT '排序',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `update_by` datetime NULL DEFAULT NULL COMMENT '修改人',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`additional_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表---附加项单次金额' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表---服务项目信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_additional_info
 -- ----------------------------
-INSERT INTO `b_additional_info` VALUES (1, '按摩一次', 2323.00, 12, '2023-01-09 22:22:10', NULL, '2023-01-09 22:25:05', NULL, '为撒旦法发阿斯弗苏打士大夫阿三苏打苏打苏打');
+INSERT INTO `b_additional_info` VALUES (2, '这是项', 98.00, 60, '1', 0, '2023-01-11 23:21:28', NULL, NULL, NULL, NULL);
+INSERT INTO `b_additional_info` VALUES (3, '附加项', 12.00, 111, '2', 0, '2023-01-11 23:22:52', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for b_artificer_info
@@ -62,7 +65,7 @@ CREATE TABLE `b_artificer_info`  (
   `modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
   `modify_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`artificer_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表--技师表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表--技师表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_artificer_info
@@ -89,7 +92,7 @@ CREATE TABLE `b_member_card`  (
   `modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
   `modify_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`card_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表--会员卡信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表--会员卡信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_member_card
@@ -132,7 +135,7 @@ CREATE TABLE `b_member_info`  (
   `modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
   `modify_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`member_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表--会员信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表--会员信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_member_info
@@ -171,7 +174,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table
@@ -179,7 +182,7 @@ CREATE TABLE `gen_table`  (
 INSERT INTO `gen_table` VALUES (1, 'b_artificer_info', '业务表--技师表', NULL, NULL, 'BArtificerInfo', 'crud', 'com.yk.business', 'business', 'artificer', '业务--技师', 'yanakai@126.com', '0', '/', '{\"parentMenuId\":\"2000\"}', 'admin', '2022-09-01 23:47:06', '', '2022-09-01 23:57:42', NULL);
 INSERT INTO `gen_table` VALUES (2, 'b_member_info', '业务表--会员信息', NULL, NULL, 'BMemberInfo', 'crud', 'com.yk.business', 'business', 'member', '会员信息', 'yanakai@126.com', '0', '/', '{\"parentMenuId\":\"2007\"}', 'admin', '2022-09-02 14:16:44', '', '2022-09-03 21:51:11', NULL);
 INSERT INTO `gen_table` VALUES (3, 'b_member_card', '业务表--会员卡信息', NULL, NULL, 'BMemberCard', 'crud', 'com.yk.business', 'business', 'card', '业务--会员卡信息', 'yanakai@126.com', '0', '/', '{}', 'admin', '2022-09-02 16:12:19', '', '2022-09-02 16:30:47', NULL);
-INSERT INTO `gen_table` VALUES (4, 'b_additional_info', '附加项单次金额', NULL, NULL, 'BAdditionalInfo', 'crud', 'com.yk.business', 'business', 'additional', '附加项单次金额', 'yankai', '0', '/', '{\"parentMenuId\":2007}', 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31', NULL);
+INSERT INTO `gen_table` VALUES (4, 'b_additional_info', '服务项目信息', NULL, NULL, 'BAdditionalInfo', 'crud', 'com.yk.business', 'business', 'additional', '附加项单次金额', 'yankai', '0', '/', '{\"parentMenuId\":\"2007\"}', 'admin', '2023-01-09 21:35:10', '', '2023-01-11 23:05:16', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -209,7 +212,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -269,15 +272,17 @@ INSERT INTO `gen_table_column` VALUES (53, '3', 'single_amount', '单次金额',
 INSERT INTO `gen_table_column` VALUES (54, '2', 'single_amount', '单次金额（关联表b_member_card）', 'decimal(10,2)', 'BigDecimal', 'singleAmount', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 12, '', '2022-09-03 18:52:58', NULL, '2022-09-03 21:51:16');
 INSERT INTO `gen_table_column` VALUES (55, '3', 'card_times', '会员次数卡', 'int', 'Long', 'cardTimes', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 7, '', '2022-09-03 21:49:17', '', NULL);
 INSERT INTO `gen_table_column` VALUES (56, '2', 'surplus_times', '剩余次数（关联表b_member_card）', 'int', 'Long', 'surplusTimes', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 14, '', '2022-09-03 21:51:00', NULL, '2022-09-03 21:51:16');
-INSERT INTO `gen_table_column` VALUES (57, '4', 'additional_id', '主键id', 'bigint', 'Long', 'additionalId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (58, '4', 'additional_name', '附加项名称', 'varchar(255)', 'String', 'additionalName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (59, '4', 'additional_amount', '附加项金额', 'decimal(10,2)', 'BigDecimal', 'additionalAmount', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'input', '', 3, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (60, '4', 'additional_sort', '排序', 'int', 'Long', 'additionalSort', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'input', '', 4, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (61, '4', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', '', 5, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (62, '4', 'create_by', '创建人', 'varchar(255)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 6, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (63, '4', 'update_time', '修改时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, '1', NULL, NULL, 'EQ', 'datetime', '', 7, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (64, '4', 'update_by', '修改人', 'datetime', 'Date', 'updateBy', '0', '0', NULL, NULL, '1', NULL, NULL, 'EQ', 'input', '', 8, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
-INSERT INTO `gen_table_column` VALUES (65, '4', 'remarks', '备注', 'varchar(255)', 'String', 'remarks', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'input', '', 9, 'admin', '2023-01-09 21:35:10', '', '2023-01-09 21:38:31');
+INSERT INTO `gen_table_column` VALUES (57, '4', 'additional_id', '主键id', 'bigint', 'Long', 'additionalId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 1, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (58, '4', 'additional_name', '附加项名称', 'varchar(255)', 'String', 'additionalName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (59, '4', 'additional_amount', '附加项金额', 'decimal(10,2)', 'BigDecimal', 'additionalAmount', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (61, '4', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', NULL, 7, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (62, '4', 'create_by', '创建人', 'varchar(255)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 8, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (63, '4', 'update_time', '修改时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', NULL, 9, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (64, '4', 'update_by', '修改人', 'datetime', 'Date', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', NULL, 10, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (65, '4', 'remarks', '备注', 'varchar(255)', 'String', 'remarks', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 11, 'admin', '2023-01-09 21:35:10', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (66, '4', 'data_type', '服务项目类型 1：主服务项目；2：附加项项目', 'char(2)', 'String', 'dataType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'b_additional_type', 5, '', '2023-01-11 22:34:41', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (67, '4', 'order_num', '排序', 'int', 'Long', 'orderNum', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 6, '', '2023-01-11 22:34:41', NULL, '2023-01-11 23:05:16');
+INSERT INTO `gen_table_column` VALUES (68, '4', 'duration', '服务项目时长单位分钟', 'int', 'Long', 'duration', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'input', '', 4, '', '2023-01-11 23:03:23', '', '2023-01-11 23:05:16');
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -512,7 +517,7 @@ CREATE TABLE `sys_config`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_config
@@ -543,7 +548,7 @@ CREATE TABLE `sys_dept`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 201 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -580,7 +585,7 @@ CREATE TABLE `sys_dict_data`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 110 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -624,6 +629,8 @@ INSERT INTO `sys_dict_data` VALUES (106, 1, '小白盒', '1', 'b_member_payment'
 INSERT INTO `sys_dict_data` VALUES (107, 2, '抖音', '2', 'b_member_payment', NULL, 'default', 'N', '0', 'admin', '2022-09-02 22:14:25', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (108, 3, '现金', '3', 'b_member_payment', NULL, 'default', 'N', '0', 'admin', '2022-09-02 22:14:37', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (109, 4, '刷卡', '4', 'b_member_payment', NULL, 'default', 'N', '0', 'admin', '2022-09-02 22:14:49', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (110, 1, '主服务项目', '1', 'b_additional_type', NULL, 'default', 'N', '0', 'admin', '2023-01-11 22:37:54', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (111, 2, '附加项项目', '2', 'b_additional_type', NULL, 'default', 'N', '0', 'admin', '2023-01-11 22:38:15', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -660,6 +667,7 @@ INSERT INTO `sys_dict_type` VALUES (100, '技师等级', 'b_artificer_level', '0
 INSERT INTO `sys_dict_type` VALUES (101, '会员卡名称', 'b_member_card', '0', 'admin', '2022-09-02 15:45:56', '', NULL, NULL);
 INSERT INTO `sys_dict_type` VALUES (102, '会员卡类型', 'b_card_type', '0', 'admin', '2022-09-02 17:17:04', '', NULL, NULL);
 INSERT INTO `sys_dict_type` VALUES (103, '支付方式', 'b_member_payment', '0', 'admin', '2022-09-02 22:13:38', '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (104, '服务项目', 'b_additional_type', '0', 'admin', '2023-01-11 22:37:19', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -680,7 +688,7 @@ CREATE TABLE `sys_job`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`, `job_name`, `job_group`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_job
@@ -780,6 +788,8 @@ INSERT INTO `sys_logininfor` VALUES (48, 'admin', '127.0.0.1', '内网IP', 'Chro
 INSERT INTO `sys_logininfor` VALUES (49, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2022-10-27 15:53:22');
 INSERT INTO `sys_logininfor` VALUES (50, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-01-09 21:17:48');
 INSERT INTO `sys_logininfor` VALUES (51, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-01-09 21:57:02');
+INSERT INTO `sys_logininfor` VALUES (52, 'admin', '127.0.0.1', '内网IP', 'Chrome 8', 'Windows 10', '0', '登录成功', '2023-01-11 22:34:27');
+INSERT INTO `sys_logininfor` VALUES (53, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-01-11 22:44:39');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -806,7 +816,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2025 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2031 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -919,7 +929,7 @@ INSERT INTO `sys_menu` VALUES (2021, '会员密码修改', 2009, 6, '', NULL, NU
 INSERT INTO `sys_menu` VALUES (2022, '会员信息详情', 2009, 7, '', NULL, NULL, 1, 0, 'F', '0', '0', 'business:member:details', '#', 'admin', '2022-09-03 23:10:50', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2023, '会员消费记录', 2009, 8, '', NULL, NULL, 1, 0, 'F', '0', '0', 'business:member:consumptionRecord', '#', 'admin', '2022-09-03 23:11:43', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2024, '合并会员信息', 2009, 9, '', NULL, NULL, 1, 0, 'F', '0', '0', 'business:member:merge', '#', 'admin', '2022-09-03 23:12:21', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2026, '附加项管理', 2007, 3, 'additional', 'business/additional/index', NULL, 1, 1, 'C', '0', '0', 'business:additional:list', 'clipboard', 'admin', '2023-01-09 21:59:43', 'admin', '2023-01-09 22:12:08', '附加项单次金额菜单');
+INSERT INTO `sys_menu` VALUES (2026, '服务项目管理', 2007, 3, 'additional', 'business/additional/index', NULL, 1, 1, 'C', '0', '0', 'business:additional:list', 'clipboard', 'admin', '2023-01-09 21:59:43', 'admin', '2023-01-11 22:45:58', '附加项单次金额菜单');
 INSERT INTO `sys_menu` VALUES (2027, '附加项单次金额查询', 2026, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'business:additional:query', '#', 'admin', '2023-01-09 21:59:43', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2028, '附加项单次金额新增', 2026, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'business:additional:add', '#', 'admin', '2023-01-09 21:59:43', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2029, '附加项单次金额修改', 2026, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'business:additional:edit', '#', 'admin', '2023-01-09 21:59:43', '', NULL, '');
@@ -972,7 +982,7 @@ CREATE TABLE `sys_oper_log`  (
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -1019,6 +1029,19 @@ INSERT INTO `sys_oper_log` VALUES (42, '菜单管理', 2, 'com.yk.web.controller
 INSERT INTO `sys_oper_log` VALUES (43, '菜单管理', 2, 'com.yk.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"business/additional/index\",\"createTime\":\"2023-01-09 21:59:43\",\"icon\":\"clipboard\",\"isCache\":\"1\",\"isFrame\":\"1\",\"menuId\":2026,\"menuName\":\"附加项管理\",\"menuType\":\"C\",\"orderNum\":3,\"params\":{},\"parentId\":2007,\"path\":\"additional\",\"perms\":\"business:additional:list\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-09 22:12:08');
 INSERT INTO `sys_oper_log` VALUES (44, '附加项单次金额', 1, 'com.yk.web.controller.business.BAdditionalInfoController.add()', 'POST', 1, 'admin', NULL, '/business/additional', '127.0.0.1', '内网IP', '{\"additionalAmount\":2323,\"additionalId\":1,\"additionalName\":\"按摩一次\",\"additionalSort\":12,\"createTime\":\"2023-01-09T22:22:10.339+08:00\",\"params\":{},\"remarks\":\"为\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-09 22:22:10');
 INSERT INTO `sys_oper_log` VALUES (45, '附加项单次金额', 2, 'com.yk.web.controller.business.BAdditionalInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/additional', '127.0.0.1', '内网IP', '{\"additionalAmount\":2323,\"additionalId\":1,\"additionalName\":\"按摩一次\",\"additionalSort\":12,\"createTime\":\"2023-01-09 22:22:10\",\"params\":{},\"remarks\":\"为撒旦法发阿斯弗苏打士大夫阿三苏打苏打苏打\",\"updateTime\":\"2023-01-09T22:25:04.887+08:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-09 22:25:04');
+INSERT INTO `sys_oper_log` VALUES (46, '代码生成', 2, 'com.yk.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', NULL, '/tool/gen/synchDb/b_additional_info', '127.0.0.1', '内网IP', '{tableName=b_additional_info}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:34:41');
+INSERT INTO `sys_oper_log` VALUES (47, '代码生成', 2, 'com.yk.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"additional\",\"className\":\"BAdditionalInfo\",\"columns\":[{\"capJavaField\":\"AdditionalId\",\"columnComment\":\"主键id\",\"columnId\":57,\"columnName\":\"additional_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"additionalId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 22:34:41\",\"usableColumn\":false},{\"capJavaField\":\"AdditionalName\",\"columnComment\":\"附加项名称\",\"columnId\":58,\"columnName\":\"additional_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"additionalName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 22:34:41\",\"usableColumn\":false},{\"capJavaField\":\"AdditionalAmount\",\"columnComment\":\"附加项金额\",\"columnId\":59,\"columnName\":\"additional_amount\",\"columnType\":\"decimal(10,2)\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"additionalAmount\",\"javaType\":\"BigDecimal\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 22:34:41\",\"usableColumn\":false},{\"capJavaField\":\"DataType\",\"columnComment\":\"服务项目类型 1：主服务项目；2：附加项项目\",\"columnId\":66,\"columnName\":\"data_type\",\"columnType\":\"char(2)\",\"createBy\":\"\",\"createTime\":\"2023-01-11 22:34:41\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"select\",\"increment\":false,\"insert\":true,\"isEdi', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:35:11');
+INSERT INTO `sys_oper_log` VALUES (48, '代码生成', 2, 'com.yk.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', NULL, '/tool/gen/synchDb/b_additional_info', '127.0.0.1', '内网IP', '{tableName=b_additional_info}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:35:15');
+INSERT INTO `sys_oper_log` VALUES (49, '字典类型', 1, 'com.yk.web.controller.system.SysDictTypeController.add()', 'POST', 1, 'admin', NULL, '/system/dict/type', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"dictName\":\"服务项目\",\"dictType\":\"b_additional_type\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:37:19');
+INSERT INTO `sys_oper_log` VALUES (50, '字典数据', 1, 'com.yk.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"主服务项目\",\"dictSort\":1,\"dictType\":\"b_additional_type\",\"dictValue\":\"1\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:37:54');
+INSERT INTO `sys_oper_log` VALUES (51, '字典数据', 1, 'com.yk.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"附加项项目\",\"dictSort\":2,\"dictType\":\"b_additional_type\",\"dictValue\":\"2\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:38:15');
+INSERT INTO `sys_oper_log` VALUES (52, '代码生成', 2, 'com.yk.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"additional\",\"className\":\"BAdditionalInfo\",\"columns\":[{\"capJavaField\":\"AdditionalId\",\"columnComment\":\"主键id\",\"columnId\":57,\"columnName\":\"additional_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"additionalId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 22:35:15\",\"usableColumn\":false},{\"capJavaField\":\"AdditionalName\",\"columnComment\":\"附加项名称\",\"columnId\":58,\"columnName\":\"additional_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"additionalName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 22:35:15\",\"usableColumn\":false},{\"capJavaField\":\"AdditionalAmount\",\"columnComment\":\"附加项金额\",\"columnId\":59,\"columnName\":\"additional_amount\",\"columnType\":\"decimal(10,2)\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"additionalAmount\",\"javaType\":\"BigDecimal\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 22:35:15\",\"usableColumn\":false},{\"capJavaField\":\"DataType\",\"columnComment\":\"服务项目类型 1：主服务项目；2：附加项项目\",\"columnId\":66,\"columnName\":\"data_type\",\"columnType\":\"char(2)\",\"createBy\":\"\",\"createTime\":\"2023-01-11 22:34:41\",\"dictType\":\"b_additional_type\",\"edit\":true,\"htmlType\":\"select\",\"increment\":false,\"in', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:38:49');
+INSERT INTO `sys_oper_log` VALUES (53, '菜单管理', 2, 'com.yk.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"business/additional/index\",\"createTime\":\"2023-01-09 21:59:43\",\"icon\":\"clipboard\",\"isCache\":\"1\",\"isFrame\":\"1\",\"menuId\":2026,\"menuName\":\"服务项目管理\",\"menuType\":\"C\",\"orderNum\":3,\"params\":{},\"parentId\":2007,\"path\":\"additional\",\"perms\":\"business:additional:list\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:45:58');
+INSERT INTO `sys_oper_log` VALUES (54, '附加项单次金额', 3, 'com.yk.web.controller.business.BAdditionalInfoController.remove()', 'DELETE', 1, 'admin', NULL, '/business/additional/1', '127.0.0.1', '内网IP', '{additionalIds=1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 22:53:38');
+INSERT INTO `sys_oper_log` VALUES (55, '代码生成', 2, 'com.yk.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', NULL, '/tool/gen/synchDb/b_additional_info', '127.0.0.1', '内网IP', '{tableName=b_additional_info}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 23:03:23');
+INSERT INTO `sys_oper_log` VALUES (56, '代码生成', 2, 'com.yk.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"additional\",\"className\":\"BAdditionalInfo\",\"columns\":[{\"capJavaField\":\"AdditionalId\",\"columnComment\":\"主键id\",\"columnId\":57,\"columnName\":\"additional_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"additionalId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 23:03:23\",\"usableColumn\":false},{\"capJavaField\":\"AdditionalName\",\"columnComment\":\"附加项名称\",\"columnId\":58,\"columnName\":\"additional_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"additionalName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 23:03:23\",\"usableColumn\":false},{\"capJavaField\":\"AdditionalAmount\",\"columnComment\":\"附加项金额\",\"columnId\":59,\"columnName\":\"additional_amount\",\"columnType\":\"decimal(10,2)\",\"createBy\":\"admin\",\"createTime\":\"2023-01-09 21:35:10\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"javaField\":\"additionalAmount\",\"javaType\":\"BigDecimal\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":4,\"updateTime\":\"2023-01-11 23:03:23\",\"usableColumn\":false},{\"capJavaField\":\"Duration\",\"columnComment\":\"服务项目时长单位分钟\",\"columnId\":68,\"columnName\":\"duration\",\"columnType\":\"int\",\"createBy\":\"\",\"createTime\":\"2023-01-11 23:03:23\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncremen', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 23:05:16');
+INSERT INTO `sys_oper_log` VALUES (57, '附加项单次金额', 1, 'com.yk.web.controller.business.BAdditionalInfoController.add()', 'POST', 1, 'admin', NULL, '/business/additional', '127.0.0.1', '内网IP', '{\"additionalAmount\":98,\"additionalId\":2,\"additionalName\":\"这是项\",\"createTime\":\"2023-01-11T23:21:28.199+08:00\",\"dataType\":\"1\",\"duration\":60,\"orderNum\":0,\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 23:21:28');
+INSERT INTO `sys_oper_log` VALUES (58, '附加项单次金额', 1, 'com.yk.web.controller.business.BAdditionalInfoController.add()', 'POST', 1, 'admin', NULL, '/business/additional', '127.0.0.1', '内网IP', '{\"additionalAmount\":12,\"additionalId\":3,\"additionalName\":\"附加项\",\"createTime\":\"2023-01-11T23:22:51.571+08:00\",\"dataType\":\"2\",\"duration\":111,\"orderNum\":0,\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-01-11 23:22:51');
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -1066,7 +1089,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -1215,12 +1238,12 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 100, 'admin', '典唐', '00', 'yanakai@126.com', '18888888888', '1', '/profile/avatar/2022/09/03/blob_20220903120800A002.jpeg', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-01-09 21:57:03', 'admin', '2022-09-01 23:37:14', '', '2023-01-09 21:57:02', '管理员');
+INSERT INTO `sys_user` VALUES (1, 100, 'admin', '典唐', '00', 'yanakai@126.com', '18888888888', '1', '/profile/avatar/2022/09/03/blob_20220903120800A002.jpeg', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-01-11 22:44:40', 'admin', '2022-09-01 23:37:14', '', '2023-01-11 22:44:39', '管理员');
 INSERT INTO `sys_user` VALUES (101, 100, '2323', '2323', '00', '', '15538157826', '0', '', '$2a$10$62do6hTOcRUHagBHvB2k..ulzcSssdY04t3WNB8i/AYtDSFxFg1rK', '0', '0', '', NULL, 'admin', '2022-09-02 12:02:29', '', NULL, NULL);
 
 -- ----------------------------
