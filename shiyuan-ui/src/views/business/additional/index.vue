@@ -1,13 +1,23 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="附加项名称" prop="additionalName">
+      <el-form-item label="服务项目名称" prop="additionalName">
         <el-input
           v-model="queryParams.additionalName"
-          placeholder="请输入附加项名称"
+          placeholder="请输入服务项目名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
+      </el-form-item>
+      <el-form-item label="服务项目类型" prop="dataType">
+        <el-select v-model="queryParams.dataType" placeholder="请选择服务项目类型" clearable>
+          <el-option
+            v-for="dict in dict.type.b_additional_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -28,28 +38,6 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:additional:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['business:additional:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="warning"
           plain
           icon="el-icon-download"
@@ -62,11 +50,15 @@
     </el-row>
 
     <el-table v-loading="loading" :data="additionalList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="编号" align="center" prop="additionalId" />
-      <el-table-column label="附加项名称" align="center" prop="additionalName" />
-      <el-table-column label="附加项金额" align="center" prop="additionalAmount" />
-      <el-table-column label="排序" align="center" prop="additionalSort" />
+       <el-table-column label="服务项目类型" align="center" prop="dataType">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.b_additional_type" :value="scope.row.dataType"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="服务项目名称" align="center" prop="additionalName" />
+      <el-table-column label="服务项目金额" align="center" prop="additionalAmount" />
+       <el-table-column label="时长（分钟）" align="center" prop="duration" />
+      <el-table-column label="排序" align="center" prop="orderNum" />
       <el-table-column label="备注" align="center" prop="remarks" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -100,25 +92,42 @@
 
     <!-- 添加或修改附加项单次金额对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="750px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="95px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
             <el-col :span="24">
-              <el-form-item label="附加项名称" prop="additionalName">
-                <el-input v-model="form.additionalName" placeholder="请输入附加项名称" />
+              <el-form-item label="服务项目名称" prop="additionalName">
+                <el-input v-model="form.additionalName" placeholder="请输入服务项目名称" />
               </el-form-item>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24">
-              <el-form-item label="附加项金额" prop="additionalAmount">
-                <el-input v-model="form.additionalAmount" placeholder="请输入附加项金额" />
+            <el-col :span="12">
+              <el-form-item label="服务项目类型" prop="dataType">
+                  <el-select v-model="form.dataType" placeholder="请选择服务项目类型">
+                    <el-option
+                      v-for="dict in dict.type.b_additional_type"
+                      :key="dict.value"
+                      :label="dict.label"
+                      :value="dict.value"
+                    ></el-option>
+                  </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="服务项目金额" prop="additionalAmount">
+                <el-input v-model="form.additionalAmount" placeholder="请输入服务项目金额" />
               </el-form-item>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24">
-              <el-form-item label="排序" prop="additionalSort">
-                <el-input-number v-model="form.additionalSort" controls-position="right" :min="0" />
+           <el-col :span="12">
+              <el-form-item label="时长" prop="duration">
+                <el-input-number v-model="form.duration" controls-position="right" :min="10" />分钟
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="排序" prop="orderNum">
+                <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
               </el-form-item>
             </el-col>
         </el-row>
@@ -143,6 +152,7 @@ import { listAdditional, getAdditional, delAdditional, addAdditional, updateAddi
 
 export default {
   name: "Additional",
+  dicts: ['b_additional_type'],
   data() {
     return {
       // 遮罩层
@@ -161,6 +171,8 @@ export default {
       additionalList: [],
       // 弹出层标题
       title: "",
+      // 服务项目对应时长
+      durationMin:10,
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -174,11 +186,14 @@ export default {
       // 表单校验
       rules: {
         additionalName: [
-          { required: true, message: "附加项名称不能为空", trigger: "blur" },
-          { min: 2, max: 20, message: '附加项名称长度必须介于 2 和 30 之间', trigger: 'blur' }
+          { required: true, message: "服务项目名称不能为空", trigger: "blur" },
+          { min: 2, max: 20, message: '服务项目名称长度必须介于 2 和 30 之间', trigger: 'blur' }
+        ],
+        dataType: [
+          { required: true, message: "服务项目类型不能为空", trigger: "blur" }
         ],
         additionalAmount: [
-          { required: true, message: "附件项金额不能为空", trigger: "blur" },
+          { required: true, message: "服务项目金额不能为空", trigger: "blur" },
           {
             pattern: /^\d+(\.\d{0,2})?$/,
             message: "只能输入数字或者两位小数",
@@ -213,7 +228,7 @@ export default {
         additionalId: null,
         additionalName: null,
         additionalAmount: null,
-        additionalSort: null,
+        orderNum: null,
         createTime: null,
         createBy: null,
         updateTime: null,
@@ -242,7 +257,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加附加项";
+      this.title = "添加服务项目";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -251,7 +266,7 @@ export default {
       getAdditional(additionalId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改附加项";
+        this.title = "修改服务项目";
       });
     },
     /** 提交按钮 */
@@ -277,7 +292,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const additionalIds = row.additionalId || this.ids;
-      this.$modal.confirm('是否确认删除附加项编号为"' + additionalIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除服务项目编号为"' + additionalIds + '"的数据项？').then(function() {
         return delAdditional(additionalIds);
       }).then(() => {
         this.getList();

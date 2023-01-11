@@ -8,7 +8,9 @@
         <result property="additionalId"    column="additional_id"    />
         <result property="additionalName"    column="additional_name"    />
         <result property="additionalAmount"    column="additional_amount"    />
-        <result property="additionalSort"    column="additional_sort"    />
+        <result property="duration"    column="duration"    />
+        <result property="dataType"    column="data_type"    />
+        <result property="orderNum"    column="order_num"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
@@ -17,15 +19,19 @@
     </resultMap>
 
     <sql id="selectBAdditionalInfoVo">
-        select additional_id, additional_name, additional_amount, additional_sort, create_time, create_by, update_time, update_by, remarks from b_additional_info
+        select additional_id, additional_name, additional_amount, duration, data_type, order_num, create_time, create_by, update_time, update_by, remarks from b_additional_info
     </sql>
 
     <select id="selectBAdditionalInfoList" parameterType="BAdditionalInfo" resultMap="BAdditionalInfoResult">
         <include refid="selectBAdditionalInfoVo"/>
         <where>
             <if test="additionalName != null  and additionalName != ''"> and additional_name like concat('%', #{additionalName}, '%')</if>
+            <if test="additionalAmount != null "> and additional_amount = #{additionalAmount}</if>
+            <if test="duration != null "> and duration = #{duration}</if>
+            <if test="dataType != null  and dataType != ''"> and data_type = #{dataType}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
         </where>
-        order by additional_sort
     </select>
 
     <select id="selectBAdditionalInfoByAdditionalId" parameterType="Long" resultMap="BAdditionalInfoResult">
@@ -38,7 +44,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="additionalName != null">additional_name,</if>
             <if test="additionalAmount != null">additional_amount,</if>
-            <if test="additionalSort != null">additional_sort,</if>
+            <if test="duration != null">duration,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="orderNum != null">order_num,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateTime != null">update_time,</if>
@@ -48,7 +56,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="additionalName != null">#{additionalName},</if>
             <if test="additionalAmount != null">#{additionalAmount},</if>
-            <if test="additionalSort != null">#{additionalSort},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="orderNum != null">#{orderNum},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -62,7 +72,9 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="additionalName != null">additional_name = #{additionalName},</if>
             <if test="additionalAmount != null">additional_amount = #{additionalAmount},</if>
-            <if test="additionalSort != null">additional_sort = #{additionalSort},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>

@@ -29,9 +29,17 @@ public class BAdditionalInfo  extends BaseEntity {
     @Excel(name = "附加项金额")
     private BigDecimal additionalAmount;
 
+    /** 服务项目时长单位分钟 */
+    @Excel(name = "服务项目时长单位分钟")
+    private Long duration;
+
+    /** 服务项目类型 1：主服务项目；2：附加项项目 */
+    @Excel(name = "服务项目类型 1：主服务项目；2：附加项项目")
+    private String dataType;
+
     /** 排序 */
     @Excel(name = "排序")
-    private Long additionalSort;
+    private Long orderNum;
 
     /** 备注 */
     @Excel(name = "备注")
@@ -64,14 +72,33 @@ public class BAdditionalInfo  extends BaseEntity {
     {
         return additionalAmount;
     }
-    public void setAdditionalSort(Long additionalSort)
+
+    public void setDuration(Long duration)
     {
-        this.additionalSort = additionalSort;
+        this.duration = duration;
     }
 
-    public Long getAdditionalSort()
+    public Long getDuration()
     {
-        return additionalSort;
+        return duration;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public void setOrderNum(Long orderNum)
+    {
+        this.orderNum = orderNum;
+    }
+
+    public Long getOrderNum()
+    {
+        return orderNum;
     }
     public void setRemarks(String remarks)
     {
@@ -89,7 +116,9 @@ public class BAdditionalInfo  extends BaseEntity {
                 .append("additionalId", getAdditionalId())
                 .append("additionalName", getAdditionalName())
                 .append("additionalAmount", getAdditionalAmount())
-                .append("additionalSort", getAdditionalSort())
+                .append("duration", getDuration())
+                .append("dataType",getDataType())
+                .append("orderNum", getOrderNum())
                 .append("createTime", getCreateTime())
                 .append("createBy", getCreateBy())
                 .append("updateTime", getUpdateTime())
