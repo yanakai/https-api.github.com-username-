@@ -122,7 +122,7 @@
         <el-row>
            <el-col :span="12">
               <el-form-item label="时长" prop="duration">
-                <el-input-number v-model="form.duration" controls-position="right" :min="10" />分钟
+                <el-input-number v-model="form.duration" controls-position="right"  />分钟
               </el-form-item>
             </el-col>
             <el-col :span="12">
