@@ -10,6 +10,7 @@
         <result property="endTime"    column="end_time"    />
         <result property="orderAmount"    column="order_amount"    />
         <result property="orderState"    column="order_state"    />
+        <result property="paymentType"    column="payment_type"    />
         <result property="bellType"    column="bell_type"    />
         <result property="additionalId"    column="additional_id"    />
         <result property="additionalName"    column="additional_name"    />
@@ -20,15 +21,20 @@
     </resultMap>
 
     <sql id="selectBOrderInfoVo">
-        select order_id, start_time, end_time, order_amount, order_state, bell_type, additional_id, additional_name, artificer_id, artificer_name, create_time, create_by from b_order_info
+        select order_id, start_time, end_time, order_amount, order_state, payment_type, bell_type, additional_id, additional_name, artificer_id, artificer_name, create_time, create_by from b_order_info
     </sql>
 
     <select id="selectBOrderInfoList" parameterType="BOrderInfo" resultMap="BOrderInfoResult">
         <include refid="selectBOrderInfoVo"/>
         <where>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="orderAmount != null "> and order_amount = #{orderAmount}</if>
             <if test="orderState != null  and orderState != ''"> and order_state = #{orderState}</if>
+            <if test="paymentType != null  and paymentType != ''"> and payment_type = #{paymentType}</if>
             <if test="bellType != null  and bellType != ''"> and bell_type = #{bellType}</if>
             <if test="additionalId != null "> and additional_id = #{additionalId}</if>
+            <if test="additionalName != null  and additionalName != ''"> and additional_name = #{additionalName}</if>
             <if test="artificerId != null "> and artificer_id = #{artificerId}</if>
             <if test="artificerName != null  and artificerName != ''"> and artificer_name = #{artificerName}</if>
         </where>
@@ -46,6 +52,7 @@
             <if test="endTime != null">end_time,</if>
             <if test="orderAmount != null">order_amount,</if>
             <if test="orderState != null">order_state,</if>
+            <if test="paymentType != null">payment_type,</if>
             <if test="bellType != null">bell_type,</if>
             <if test="additionalId != null">additional_id,</if>
             <if test="additionalName != null">additional_name,</if>
@@ -59,6 +66,7 @@
             <if test="endTime != null">#{endTime},</if>
             <if test="orderAmount != null">#{orderAmount},</if>
             <if test="orderState != null">#{orderState},</if>
+            <if test="paymentType != null">#{paymentType},</if>
             <if test="bellType != null">#{bellType},</if>
             <if test="additionalId != null">#{additionalId},</if>
             <if test="additionalName != null">#{additionalName},</if>
@@ -76,6 +84,7 @@
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="orderAmount != null">order_amount = #{orderAmount},</if>
             <if test="orderState != null">order_state = #{orderState},</if>
+            <if test="paymentType != null">payment_type = #{paymentType},</if>
             <if test="bellType != null">bell_type = #{bellType},</if>
             <if test="additionalId != null">additional_id = #{additionalId},</if>
             <if test="additionalName != null">additional_name = #{additionalName},</if>

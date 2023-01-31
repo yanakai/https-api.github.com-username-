@@ -3,6 +3,7 @@ package com.yk.business.service.impl;
 import java.util.List;
 
 import com.yk.common.utils.DateUtils;
+import com.yk.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yk.business.mapper.BOrderInfoMapper;
@@ -55,6 +56,8 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
     public int insertBOrderInfo(BOrderInfo bOrderInfo)
     {
         bOrderInfo.setCreateTime(DateUtils.getNowDate());
+        bOrderInfo.setCreateBy(SecurityUtils.getLoginUser().getUser().getNickName());
+        bOrderInfo.setOrderState("0");
         return bOrderInfoMapper.insertBOrderInfo(bOrderInfo);
     }
 

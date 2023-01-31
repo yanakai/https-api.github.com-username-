@@ -1,7 +1,9 @@
 package com.yk.web.controller.business;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +31,10 @@ import com.yk.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/business/order")
-public class BOrderInfoController extends BaseController
-{
+public class BOrderInfoController extends BaseController {
     @Autowired
     private IBOrderInfoService bOrderInfoService;
+
 
     /**
      * 查询订单信息列表
@@ -101,4 +103,7 @@ public class BOrderInfoController extends BaseController
     {
         return toAjax(bOrderInfoService.deleteBOrderInfoByOrderIds(orderIds));
     }
+
+
+
 }

@@ -8,6 +8,14 @@ export function listAdditional(query) {
     params: query
   })
 }
+//查询服务项目列表不分页
+export function additionalList(query){
+  return request({
+    url: '/business/additional/getAdditionalList',
+    method: 'get',
+    params: query
+  })
+}
 
 // 查询附加项单次金额详细
 export function getAdditional(additionalId) {

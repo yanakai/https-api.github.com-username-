@@ -13,6 +13,8 @@ import router from './router'
 import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
+import moment from 'moment'//导入文件操作日期
+moment.locale('zh-cn');//需要汉化
 
 import './assets/icons' // icon
 import './permission' // permission control
@@ -50,6 +52,8 @@ Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
+Vue.prototype.$moment = moment;//赋值使用
+
 
 // 全局组件挂载
 Vue.component('DictTag', DictTag)

@@ -105,4 +105,13 @@ public class BAdditionalInfoController extends BaseController {
     {
         return toAjax(bAdditionalInfoService.deleteBAdditionalInfoByAdditionalIds(additionalIds));
     }
+
+    /**
+     * 查询服务项目列表不分页
+     */
+    @GetMapping("/getAdditionalList")
+    public AjaxResult getAdditionalList(BAdditionalInfo bAdditionalInfo){
+        List<BAdditionalInfo> list = bAdditionalInfoService.selectBAdditionalInfoList(bAdditionalInfo);
+        return AjaxResult.success(list);
+    }
 }

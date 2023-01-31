@@ -22,13 +22,13 @@ public class BOrderInfo extends BaseEntity
     private Long orderId;
 
     /** 订单开始时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
     /** 订单结束时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
     /** 订单金额 */
@@ -38,6 +38,10 @@ public class BOrderInfo extends BaseEntity
     /** 订单状态关联字典表b_order_state */
     @Excel(name = "订单状态关联字典表b_order_state")
     private String orderState;
+
+    /** 订单付款类型关联字典表b_order_payment_type */
+    @Excel(name = "订单付款类型关联字典表b_order_payment_type")
+    private String paymentType;
 
     /** 排钟类型关联字典表 b_order_bellType */
     @Excel(name = "排钟类型关联字典表 b_order_bellType")
@@ -106,6 +110,16 @@ public class BOrderInfo extends BaseEntity
         this.bellType = bellType;
     }
 
+    public void setPaymentType(String paymentType)
+    {
+        this.paymentType = paymentType;
+    }
+
+    public String getPaymentType()
+    {
+        return paymentType;
+    }
+
     public String getBellType()
     {
         return bellType;
@@ -155,6 +169,7 @@ public class BOrderInfo extends BaseEntity
                 .append("endTime", getEndTime())
                 .append("orderAmount", getOrderAmount())
                 .append("orderState", getOrderState())
+                .append("paymentType", getPaymentType())
                 .append("bellType", getBellType())
                 .append("additionalId", getAdditionalId())
                 .append("additionalName", getAdditionalName())
