@@ -159,7 +159,7 @@
                   @change="selectAdditionalName($event)"
                   >
                   <el-option
-                    v-for="item in zhuAdditionalList"
+                    v-for="item in additionalList"
                     :key="item.additionalId"
                     :label="item.additionalName"
                     :value="item.additionalId"
@@ -214,58 +214,42 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 结账对话框对话框 -->
+    <!-- 添加或修改订单信息对话框 -->
     <el-dialog :title="jieZhangTitle" :visible.sync="jieZhangOpen" width="1000px" append-to-body>
       <el-form ref="form" :model="jieZhangForm" :rules="jieZhangRules" label-width="90px">
-        <div  v-for="orderInfo in selectOrderList" :key="orderInfo.orderId">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="开单技师" prop="artificerId">
-                <el-select v-model="orderInfo.artificerName" placeholder="请选择技师名称"
-                  @change="selectArtificerName($event)"
-                  >
-                  <el-option
-                    v-for="item in artificerList"
-                    :key="item.artificerId"
-                    :label="item.artificerName"
-                    :value="item.artificerId"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="服务项目" prop="additionalId">
-                <el-select v-model="orderInfo.additionalId" placeholder="请选择服务项目" 
-                  @change="selectAdditionalName($event)"
-                  >
-                  <el-option
-                    v-for="item in zhuAdditionalList"
-                    :key="item.additionalId"
-                    :label="item.additionalName"
-                    :value="item.additionalId"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="开始时间" prop="startTime">
-                zhang
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="辅助项目" prop="additionalId">
-                <el-checkbox-group v-model="orderInfo.additionalIds">
-                  <el-checkbox v-for="(itemObj,index) in fuZhuAdditionalList" :key="index" :value="itemObj.additionalId" :label="itemObj.additionalName">
-                    {{itemObj.additionalName}}
-                  </el-checkbox>
-                </el-checkbox-group>
-              </el-form-item>
-            </el-col>
-          </el-row> 
-          <el-divider />
-        </div>
+         <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="55" align="center" />
+          <el-table-column label="序号" align="center" prop="index" >
+            <template slot-scope="scope">
+              <span>{{ scope.$index + 1}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="开始时间" align="center" prop="startTime" width="180">
+            <template slot-scope="scope">
+              <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="开单技师" align="center" prop="artificerName" />
+          <el-table-column label="排钟类型" align="center" prop="bellType">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.b_order_bell_type" :value="scope.row.bellType"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="服务项目" align="center" prop="additionalName" />
+          <el-table-column label="辅助项目" align="center" prop="additionalName" />
+          <el-table-column label="订单金额" align="center" prop="orderAmount" />
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="text"
+                icon="el-icon-delete"
+                @click="handleJDelete(scope.row)"
+                v-hasPermi="['business:order:remove']"
+              >删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitJieZhangForm">确 定</el-button>
@@ -289,8 +273,6 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
-      // 选中的数组对象
-      selectOrderList: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -315,10 +297,8 @@ export default {
         artificerId: null,
         artificerName: null,
       },
-      //主服务项目列表
-      zhuAdditionalList: [],
-      // 辅助项目列表
-      fuZhuAdditionalList: [],
+      //服务项目列表
+      additionalList: [],
       // 技师列表
       artificerList: [],
       // 表单参数
@@ -326,10 +306,7 @@ export default {
       // 结账弹出层
       jieZhangOpen: false,
       // 结账表单参数
-      jieZhangForm: {
-        artificerId: null,
-        additionalIds:[],
-      },
+      jieZhangForm: {},
       // 表单校验
       rules: {
         startTime: [
@@ -405,7 +382,6 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.orderId)
-      this.selectOrderList = selection;
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -414,8 +390,8 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加订单信息";
-      // 加载主服务项目列表
-      this.getZhuAdditionalList();
+      // 加载服务项目列表
+      this.getAdditionalList();
       // 加载技师列表数据
       this.getArtificerListDat();
     },
@@ -429,18 +405,11 @@ export default {
         this.title = "修改订单信息";
       });
     },
-    /** 查询主服务和附加项项目列表 1：主服务；2：附加项*/
-    getZhuAdditionalList(){ 
-        const params = {dataType:1};
+    /** 查询服务项目列表 */
+    getAdditionalList(){
+        const params = {};
         additionalList(params).then(response => {
-          this.zhuAdditionalList = response.data;
-        })
-    },
-    /** 查询主服务和附加项项目列表 1：主服务；2：附加项*/
-    getFuZhuAdditionalList(){ 
-        const params = {dataType:2};
-        additionalList(params).then(response => {
-          this.fuZhuAdditionalList = response.data;
+          this.additionalList = response.data;
         })
     },
      /**监听服务项目下拉事件获取label的值 */
@@ -478,14 +447,6 @@ export default {
     /** 结账按钮操作 */
     handlePayment(){
       if(this.ids.length>0){
-        // 加载主服务项目列表
-        this.getZhuAdditionalList();
-        // 加载附加项项目列表
-        this.getFuZhuAdditionalList();
-        // 加载技师列表数据
-        this.getArtificerListDat();
-        alert(this.zhuAdditionalList)
-        alert(this.fuZhuAdditionalList)
         this.jieZhangOpen= true;
       }else{
         this.$modal.msgError("请选择账单");
@@ -528,7 +489,7 @@ export default {
         ...this.queryParams
       }, `order_${new Date().getTime()}.xlsx`)
     },
-    /** 确认结账按钮操作 */
+    /** 结账弹出层 */
     submitJieZhangForm(){
 
     }
