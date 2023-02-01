@@ -375,7 +375,7 @@ export default {
           }else{
             this.form.additionalId=null;
             this.form.additionalName=null;
-            this.$modal.msgError("请先选择开始时间");
+            this.$modal.alertWarning("请先选择开始时间");
           }
       }
     },
