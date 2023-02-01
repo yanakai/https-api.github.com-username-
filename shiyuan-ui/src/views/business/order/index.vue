@@ -83,7 +83,11 @@
 
     <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="订单id" align="center" prop="orderId" />
+      <el-table-column label="序号" align="center" prop="index" >
+        <template slot-scope="scope">
+          <span>{{ scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="开始时间" align="center" prop="startTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
@@ -390,9 +394,9 @@ export default {
           this.form.artificerName= obj.artificerFullName;
       }
     },
+    /** 结账按钮操作 */
     handlePayment(){
-      let item = this.$moment("2018-01-28 12:00").add(30, 'minutes');
-      this.$modal.msgSuccess(item.format("YYYY-MM-DD hh:mm"));
+      this.$modal.msgSuccess(this.ids);
     },
     /** 提交按钮 */
     submitForm() {
