@@ -1,12 +1,13 @@
 package com.yk.business.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.yk.common.annotation.Excel;
 import com.yk.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 订单信息对象 b_order_info
@@ -22,13 +23,13 @@ public class BOrderInfo extends BaseEntity
     private Long orderId;
 
     /** 订单开始时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm")
     private Date startTime;
 
     /** 订单结束时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm")
     private Date endTime;
 
     /** 订单金额 */
@@ -68,8 +69,8 @@ public class BOrderInfo extends BaseEntity
     private Long memberId;
 
     /** 付款时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "付款时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Excel(name = "付款时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm:ss")
     private Date paymentTime;
 
     public void setOrderId(Long orderId)
