@@ -22,13 +22,13 @@ public class BOrderInfo extends BaseEntity
     private Long orderId;
 
     /** 订单开始时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date startTime;
 
     /** 订单结束时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date endTime;
 
     /** 订单金额 */
@@ -43,11 +43,12 @@ public class BOrderInfo extends BaseEntity
     @Excel(name = "订单付款类型关联字典表b_order_payment_type")
     private String paymentType;
 
-    /** 排钟类型关联字典表 b_order_bellType */
-    @Excel(name = "排钟类型关联字典表 b_order_bellType")
+    /** 排钟类型关联字典表 b_order_bell_type */
+    @Excel(name = "排钟类型关联字典表 b_order_bell_type")
     private String bellType;
 
     /** 服务项目id */
+    @Excel(name = "服务项目id")
     private Long additionalId;
 
     /** 服务项目名称 */
@@ -55,10 +56,21 @@ public class BOrderInfo extends BaseEntity
     private String additionalName;
 
     /** 技师id */
+    @Excel(name = "技师id")
     private Long artificerId;
 
     /** 技师名称 */
+    @Excel(name = "技师名称")
     private String artificerName;
+
+    /** 结账会员id */
+    @Excel(name = "结账会员id")
+    private Long memberId;
+
+    /** 付款时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "付款时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date paymentTime;
 
     public void setOrderId(Long orderId)
     {
@@ -105,11 +117,6 @@ public class BOrderInfo extends BaseEntity
     {
         return orderState;
     }
-    public void setBellType(String bellType)
-    {
-        this.bellType = bellType;
-    }
-
     public void setPaymentType(String paymentType)
     {
         this.paymentType = paymentType;
@@ -118,6 +125,10 @@ public class BOrderInfo extends BaseEntity
     public String getPaymentType()
     {
         return paymentType;
+    }
+    public void setBellType(String bellType)
+    {
+        this.bellType = bellType;
     }
 
     public String getBellType()
@@ -160,6 +171,24 @@ public class BOrderInfo extends BaseEntity
     {
         return artificerName;
     }
+    public void setMemberId(Long memberId)
+    {
+        this.memberId = memberId;
+    }
+
+    public Long getMemberId()
+    {
+        return memberId;
+    }
+    public void setPaymentTime(Date paymentTime)
+    {
+        this.paymentTime = paymentTime;
+    }
+
+    public Date getPaymentTime()
+    {
+        return paymentTime;
+    }
 
     @Override
     public String toString() {
@@ -175,8 +204,12 @@ public class BOrderInfo extends BaseEntity
                 .append("additionalName", getAdditionalName())
                 .append("artificerId", getArtificerId())
                 .append("artificerName", getArtificerName())
+                .append("memberId", getMemberId())
+                .append("paymentTime", getPaymentTime())
                 .append("createTime", getCreateTime())
                 .append("createBy", getCreateBy())
+                .append("updateTime", getUpdateTime())
+                .append("updateBy", getUpdateBy())
                 .toString();
     }
 }
