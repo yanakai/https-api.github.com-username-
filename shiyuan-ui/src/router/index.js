@@ -149,6 +149,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/business/order-jieZhang',
+    component: Layout,
+    hidden: true,
+    permissions: ['business:order:payment'],
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/business/order/jieZhang'),
+        name: 'jieZhang',
+        meta: { title: '订单结账', activeMenu: '/business/order' }
+      }
+    ]
+  },
+  {
     path: '/tool/gen-edit',
     component: Layout,
     hidden: true,
