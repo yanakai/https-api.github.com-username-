@@ -130,7 +130,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -155,7 +155,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="服务项目" prop="additionalId">
-                <el-select v-model="form.additionalId" placeholder="请选择服务项目" 
+                <el-select v-model="form.additionalId" placeholder="请选择服务项目"
                   @change="selectAdditionalName($event)"
                   >
                   <el-option
@@ -235,7 +235,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="服务项目" prop="additionalId">
-                <el-select v-model="orderInfo.additionalId" placeholder="请选择服务项目" 
+                <el-select v-model="orderInfo.additionalId" placeholder="请选择服务项目"
                   @change="selectAdditionalName($event)"
                   >
                   <el-option
@@ -256,16 +256,17 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="辅助项目" prop="additionalId">
-                <el-checkbox-group v-model="orderInfo.additionalIds">
-                  <el-checkbox v-for="(itemObj,index) in fuZhuAdditionalList" :key="index" :value="itemObj.additionalId" :label="itemObj.additionalName">
+                <el-checkbox-group v-model="additionalIds">
+                  <el-checkbox name="type" v-for="(itemObj,index) in fuZhuAdditionalList" :key="index" :label="itemObj.additionalId">
                     {{itemObj.additionalName}}
                   </el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
-          </el-row> 
+          </el-row>
           <el-divider />
         </div>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitJieZhangForm">确 定</el-button>
@@ -303,6 +304,8 @@ export default {
       orderList: [],
       // 弹出层标题
       title: "",
+      // 结账弹窗层
+      jieZhangTitle: "",
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -351,7 +354,9 @@ export default {
       // 结账表单校验
       jieZhangRules: {
 
-      }
+      },
+      // 定义结账弹窗选择辅助项目的复选框选中数组
+      additionalIds:[],
     };
   },
   created() {
@@ -386,9 +391,7 @@ export default {
         artificerId: null,
         artificerName: null,
         createTime: null,
-        createBy: null,
-        artificerName: null,
-        additionalName: null
+        createBy: null
       };
       this.resetForm("form");
     },
@@ -430,14 +433,14 @@ export default {
       });
     },
     /** 查询主服务和附加项项目列表 1：主服务；2：附加项*/
-    getZhuAdditionalList(){ 
+    getZhuAdditionalList(){
         const params = {dataType:1};
         additionalList(params).then(response => {
           this.zhuAdditionalList = response.data;
         })
     },
     /** 查询主服务和附加项项目列表 1：主服务；2：附加项*/
-    getFuZhuAdditionalList(){ 
+    getFuZhuAdditionalList(){
         const params = {dataType:2};
         additionalList(params).then(response => {
           this.fuZhuAdditionalList = response.data;
@@ -478,19 +481,19 @@ export default {
     /** 结账按钮操作 */
     handlePayment(){
       if(this.ids.length>0){
-        // 加载主服务项目列表
+        /*// 加载主服务项目列表
         this.getZhuAdditionalList();
         // 加载附加项项目列表
         this.getFuZhuAdditionalList();
         // 加载技师列表数据
         this.getArtificerListDat();
-        alert(this.zhuAdditionalList)
-        alert(this.fuZhuAdditionalList)
-        this.jieZhangOpen= true;
+        this.jieZhangTitle="结账弹窗";
+        this.jieZhangOpen= true;*/
+        this.$router.push({ path: '/business/order-jieZhang/index', query: {dataType:"2"  } })
       }else{
         this.$modal.msgError("请选择账单");
       }
-     
+
     },
     /** 提交按钮 */
     submitForm() {
