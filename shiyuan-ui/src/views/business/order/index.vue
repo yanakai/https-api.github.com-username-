@@ -489,7 +489,7 @@ export default {
         this.getArtificerListDat();
         this.jieZhangTitle="结账弹窗";
         this.jieZhangOpen= true;*/
-        this.$router.push({ path: '/business/order-jieZhang/index', query: {dataType:"2"  } })
+        this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
       }else{
         this.$modal.msgError("请选择账单");
       }
