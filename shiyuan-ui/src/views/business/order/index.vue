@@ -249,12 +249,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
-              <el-form-item label="开始时间" prop="startTime">
-                zhang
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
+            <el-col :span="24">
               <el-form-item label="辅助项目" prop="additionalId">
                 <el-checkbox-group v-model="additionalIds">
                   <el-checkbox name="type" v-for="(itemObj,index) in fuZhuAdditionalList" :key="index" :label="itemObj.additionalId">
@@ -481,15 +476,15 @@ export default {
     /** 结账按钮操作 */
     handlePayment(){
       if(this.ids.length>0){
-        /*// 加载主服务项目列表
+        // 加载主服务项目列表
         this.getZhuAdditionalList();
         // 加载附加项项目列表
         this.getFuZhuAdditionalList();
         // 加载技师列表数据
         this.getArtificerListDat();
         this.jieZhangTitle="结账弹窗";
-        this.jieZhangOpen= true;*/
-        this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
+        this.jieZhangOpen= true;
+       // this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
       }else{
         this.$modal.msgError("请选择账单");
       }
