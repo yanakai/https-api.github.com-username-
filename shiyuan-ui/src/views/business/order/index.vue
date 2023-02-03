@@ -443,7 +443,7 @@ export default {
     },
      /**监听服务项目下拉事件获取label的值 */
     selectAdditionalName(val){//这个val也就是value值
-      let obj = this.additionalList.find(item => item.additionalId === val);
+      let obj = this.zhuAdditionalList.find(item => item.additionalId === val);
       // 判断的时候可以直接写obj而不需要以判断对象是否为空的方式是因为：如果找不到，find方法返回的是undefined而不是空对象
       if(obj) {
           this.form.additionalName= obj.additionalName;
