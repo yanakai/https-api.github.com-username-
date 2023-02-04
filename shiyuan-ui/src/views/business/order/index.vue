@@ -74,6 +74,7 @@
           plain
           icon="el-icon-download"
           size="mini"
+          :disabled="multiple"
           @click="handleExport"
           v-hasPermi="['business:order:export']"
         >导出</el-button>
@@ -111,18 +112,29 @@
         </template>
       </el-table-column>
       <el-table-column label="服务项目" align="center" prop="additionalName" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" :min-width=150>
         <template slot-scope="scope">
           <el-button
-            size="mini"
-            type="text"
+              size="small"
+              type="primary"
+              round
+              icon="el-icon-plus"
+              @click="handlePayment"
+              v-hasPermi="['business:order:payment']"
+            >结账
+          </el-button>
+          <el-button
+            size="small"
+            type="primary"
+            round
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['business:order:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
-            type="text"
+            size="small"
+            type="danger"
+            round
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['business:order:remove']"
@@ -214,14 +226,14 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 结账对话框对话框 -->
+    <!-- 结账对话框 -->
     <el-dialog :title="jieZhangTitle" :visible.sync="jieZhangOpen" width="1000px" append-to-body>
       <el-form ref="form" :model="jieZhangForm" :rules="jieZhangRules" label-width="90px">
-        <div  v-for="orderInfo in selectOrderList" :key="orderInfo.orderId">
+        <div  v-for="jieZhangForm in selectOrderList" :key="jieZhangForm.orderId">
           <el-row>
             <el-col :span="12">
               <el-form-item label="开单技师" prop="artificerId">
-                <el-select v-model="orderInfo.artificerName" placeholder="请选择技师名称"
+                <el-select v-model="jieZhangForm.artificerName" placeholder="请选择技师名称"
                   @change="selectArtificerName($event)"
                   >
                   <el-option
@@ -235,7 +247,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="服务项目" prop="additionalId">
-                <el-select v-model="orderInfo.additionalId" placeholder="请选择服务项目"
+                <el-select v-model="jieZhangForm.additionalId" placeholder="请选择服务项目"
                   @change="selectAdditionalName($event)"
                   >
                   <el-option
@@ -252,8 +264,12 @@
             <el-col :span="24">
               <el-form-item label="辅助项目" prop="additionalId">
                 <el-checkbox-group v-model="additionalIds">
-                  <el-checkbox name="type" v-for="(itemObj,index) in fuZhuAdditionalList" :key="index" :label="itemObj.additionalId">
-                    {{itemObj.additionalName}}
+                  <el-checkbox 
+                    v-for="item in fuZhuAdditionalList" 
+                    :key="item.additionalId" 
+                    :value="item.additionalId" 
+                    :label="item.additionalName"
+                  >
                   </el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
@@ -265,7 +281,7 @@
           <el-col :span="24">
             <el-form-item label="会员搜索">
               <el-autocomplete style="width:100%"
-                v-model="orderInfo.memberId"
+                v-model="jieZhangForm.memberId"
                 :fetch-suggestions="memberSearchAsync"
                 @select="handleMemberSelect"
                 placeholder="请输入会员姓名、手机号"
@@ -278,7 +294,7 @@
           <el-col :span="8">
             <el-form-item label="结账时间" prop="endTime">
               <el-date-picker
-                v-model="orderInfo.endTime"
+                v-model="jieZhangForm.endTime"
                 type="datetime"
                 value-format="yyyy-MM-dd HH:mm"
                 placeholder="请选择结束时间">
@@ -287,7 +303,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="结账方式" prop="paymentType">
-              <el-select v-model="orderInfo.paymentType"  placeholder="请选择支付方式" >
+              <el-select v-model="jieZhangForm.paymentType"  placeholder="请选择支付方式" >
                 <el-option  
                   v-for="dict in dict.type.b_order_payment_type"
                   :key="dict.value"
@@ -299,7 +315,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="结账金额" prop="orderAmount">
-              <el-input v-model="orderInfo.orderAmount" placeholder="请输入会员卡金额" />
+              <el-input v-model="jieZhangForm.orderAmount" placeholder="请输入会员卡金额" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -342,6 +358,8 @@ import { listOrder, getOrder, delOrder, addOrder, updateOrder } from "@/api/busi
 import { additionalList } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
 import {memberCardList} from "@/api/business/member";
+import { getCard} from "@/api/business/card";
+import Vue from 'vue'
 
 
 export default {
@@ -367,8 +385,6 @@ export default {
       orderList: [],
       // 弹出层标题
       title: "",
-      // 结账弹窗层
-      jieZhangTitle: "",
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -381,20 +397,8 @@ export default {
         artificerId: null,
         artificerName: null,
       },
-      //主服务项目列表
-      zhuAdditionalList: [],
-      // 辅助项目列表
-      fuZhuAdditionalList: [],
-      // 技师列表
-      artificerList: [],
       // 表单参数
       form: {},
-      // 结账弹出层
-      jieZhangOpen: false,
-      // 结账表单参数
-      jieZhangForm: {
-        artificerId: null,
-      },
       // 表单校验
       rules: {
         startTime: [
@@ -413,10 +417,18 @@ export default {
           { required: true, message: "开单技师不能为空", trigger: "blur" }
         ],
       },
+      // 结账弹窗层
+      jieZhangTitle: "",
+      //主服务项目列表
+      zhuAdditionalList: [],
+      // 辅助项目列表
+      fuZhuAdditionalList: [],
+      // 技师列表
+      artificerList: [],
+      // 结账弹出层
+      jieZhangOpen: false,
       // 结账表单校验
-      jieZhangRules: {
-
-      },
+      jieZhangRules: {},
       // 定义结账弹窗选择辅助项目的复选框选中数组
       additionalIds:[],
       memberInfo:null,
@@ -424,11 +436,12 @@ export default {
       cardSurplusNum:null,
       memberPassword:null,
       consumeNum:null,
-      orderInfo:{
+      // 结账表单参数
+      jieZhangForm: {
+        artificerId: null,
         endTime:null,
         paymentType:null,
         orderAmount:null,
-
       },
       memberCardList:[],
     };
@@ -555,28 +568,43 @@ export default {
     /** 结账按钮操作 */
     handlePayment(){
       if(this.ids.length>0){
+        // 重置结账表单
+        this.resetJieZhangForm();
         // 加载主服务项目列表
         this.getZhuAdditionalList();
         // 加载附加项项目列表
         this.getFuZhuAdditionalList();
         // 加载技师列表数据
         this.getArtificerListDat();
-        // 加载会员信息
-        this.getMemberCardList();
+        // 结账金额赋值
+        for (let item of this.selectOrderList) {
+          this.jieZhangForm.orderAmount += item.orderAmount;
+        }
+        // 加载结账时间
+        this.getNowTime();
         this.jieZhangTitle="结账弹窗";
         this.jieZhangOpen= true;
        // this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
       }else{
         this.$modal.msgError("请选择账单");
       }
+    },
+    // 重置结账表单
+    resetJieZhangForm() {
+      this.jieZhangForm = {
+        artificerId: null,
+        endTime:null,
+        paymentType:null,
+        orderAmount:null,
+      };
+      this.resetForm("jieZhangForm");
+    },
+    //获取选中的会员卡金额
+    getMemberCardAmount(){
 
     },
-    /** 查询会员列表 */
-    getMemberCardList(){
-      const params={};
-      memberCardList(params).then(response => {
-        this.memberCardList = response.data;
-      })
+    getNowTime(){
+      this.jieZhangForm.endTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
     },
     /** 提交按钮 */
     submitForm() {
@@ -630,7 +658,6 @@ export default {
           }else{
             i.value = i.memberName
           }
-          
         }
         const list = response.data;
         callback(list);
