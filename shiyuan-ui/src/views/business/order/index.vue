@@ -261,6 +261,72 @@
           </el-row>
           <el-divider />
         </div>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="会员搜索">
+              <el-autocomplete style="width:100%"
+                v-model="orderInfo.memberId"
+                :fetch-suggestions="memberSearchAsync"
+                @select="handleMemberSelect"
+                placeholder="请输入会员姓名、手机号"
+                >
+              </el-autocomplete>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="结账时间" prop="endTime">
+              <el-date-picker
+                v-model="orderInfo.endTime"
+                type="datetime"
+                value-format="yyyy-MM-dd HH:mm"
+                placeholder="请选择结束时间">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="结账方式" prop="paymentType">
+              <el-select v-model="orderInfo.paymentType"  placeholder="请选择支付方式" >
+                <el-option  
+                  v-for="dict in dict.type.b_order_payment_type"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="结账金额" prop="orderAmount">
+              <el-input v-model="orderInfo.orderAmount" placeholder="请输入会员卡金额" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="剩余金额" prop="cardSurplusAmount">
+              <el-input v-model="cardSurplusAmount" :disabled="true" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="剩余次数" prop="cardSurplusNum">
+              <el-input v-model="cardSurplusNum" :disabled="true"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="消费次数" prop="consumeNum">
+              <el-input v-model="consumeNum" :disabled="true"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="密码" prop="memberPassword">
+              <el-input v-model="memberPassword"  />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -275,6 +341,8 @@
 import { listOrder, getOrder, delOrder, addOrder, updateOrder } from "@/api/business/order";
 import { additionalList } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
+import {memberCardList} from "@/api/business/member";
+
 
 export default {
   name: "Order",
@@ -326,7 +394,6 @@ export default {
       // 结账表单参数
       jieZhangForm: {
         artificerId: null,
-        additionalIds:[],
       },
       // 表单校验
       rules: {
@@ -352,6 +419,18 @@ export default {
       },
       // 定义结账弹窗选择辅助项目的复选框选中数组
       additionalIds:[],
+      memberInfo:null,
+      cardSurplusAmount:null,
+      cardSurplusNum:null,
+      memberPassword:null,
+      consumeNum:null,
+      orderInfo:{
+        endTime:null,
+        paymentType:null,
+        orderAmount:null,
+
+      },
+      memberCardList:[],
     };
   },
   created() {
@@ -482,6 +561,8 @@ export default {
         this.getFuZhuAdditionalList();
         // 加载技师列表数据
         this.getArtificerListDat();
+        // 加载会员信息
+        this.getMemberCardList();
         this.jieZhangTitle="结账弹窗";
         this.jieZhangOpen= true;
        // this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
@@ -489,6 +570,13 @@ export default {
         this.$modal.msgError("请选择账单");
       }
 
+    },
+    /** 查询会员列表 */
+    getMemberCardList(){
+      const params={};
+      memberCardList(params).then(response => {
+        this.memberCardList = response.data;
+      })
     },
     /** 提交按钮 */
     submitForm() {
@@ -529,6 +617,27 @@ export default {
     /** 确认结账按钮操作 */
     submitJieZhangForm(){
 
+    },
+    // 会员信息预搜索
+    memberSearchAsync(queryString, callback) {
+        const params={memberName: queryString};
+        memberCardList(params).then(response => {
+        this.memberCardList = response.data;
+        //在这里为这个数组中每一个对象加一个value字段, 因为autocomplete只识别value字段并在下拉列中显示
+        for(let i of response.data){
+          if(i.remark){
+            i.value = i.memberName+"；"+i.remark; //将想要展示的数据作为value
+          }else{
+            i.value = i.memberName
+          }
+          
+        }
+        const list = response.data;
+        callback(list);
+      })
+    },
+    // 会员信息选中时间
+    handleMemberSelect(item){
     }
   }
 };

@@ -9,6 +9,16 @@ export function listMember(query) {
   })
 }
 
+// 查询会员信息列表 不分页
+export function memberCardList(query) {
+  return request({
+    url: '/business/member/getMemberList',
+    method: 'get',
+    params: query
+  })
+}
+
+
 // 查询会员信息详细
 export function getMember(memberId) {
   return request({

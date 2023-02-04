@@ -51,6 +51,17 @@ public class BMemberInfoController extends BaseController {
         return getDataTable(list);
     }
 
+
+    /**
+     * 查询会员信息列表 不分页
+     */
+    @GetMapping("/getMemberList")
+    public AjaxResult getMemberList(BMemberInfo bMemberInfo)
+    {
+        List<BMemberInfo> list = bMemberInfoService.selectBMemberInfoList(bMemberInfo);
+        return AjaxResult.success(list);
+    }
+
     /**
      * 导出会员信息列表
      */
