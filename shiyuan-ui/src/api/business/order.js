@@ -42,3 +42,15 @@ export function delOrder(orderId) {
     method: 'delete'
   })
 }
+
+// 保存结账信息
+export function savePaymentData(data) {
+  return request({
+    url: '/business/order/savePaymentData',
+    method: 'post',
+    data: data
+  })
+}
+
+
+

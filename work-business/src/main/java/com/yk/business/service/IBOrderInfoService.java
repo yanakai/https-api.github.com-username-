@@ -2,6 +2,7 @@ package com.yk.business.service;
 
 import java.util.List;
 import com.yk.business.domain.BOrderInfo;
+import com.yk.business.domain.BPaymentDataVo;
 
 /**
  * 订单信息Service接口
@@ -58,4 +59,13 @@ public interface IBOrderInfoService
      * @return 结果
      */
     public int deleteBOrderInfoByOrderId(Long orderId);
+    /**
+     * @title savePaymentData
+     * @description  订单结账保存
+     * @param bPaymentDataVo
+     * @return int
+     * @author yanakai@126.com
+     * @date   2023/2/7
+     */
+    int savePaymentData(BPaymentDataVo bPaymentDataVo);
 }

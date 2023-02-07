@@ -1,14 +1,22 @@
 package com.yk.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.yk.business.domain.BOrderAdditional;
+import com.yk.business.domain.BPaymentDataVo;
+import com.yk.business.mapper.BOrderAdditionalMapper;
 import com.yk.common.utils.DateUtils;
 import com.yk.common.utils.SecurityUtils;
+import com.yk.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yk.business.mapper.BOrderInfoMapper;
 import com.yk.business.domain.BOrderInfo;
 import com.yk.business.service.IBOrderInfoService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 订单信息Service业务层处理
@@ -19,8 +27,11 @@ import com.yk.business.service.IBOrderInfoService;
 @Service
 public class BOrderInfoServiceImpl implements IBOrderInfoService
 {
-    @Autowired
+    @Resource
     private BOrderInfoMapper bOrderInfoMapper;
+
+    @Resource
+    private BOrderAdditionalMapper bOrderAdditionalMapper;
 
     /**
      * 查询订单信息
@@ -95,5 +106,39 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
     public int deleteBOrderInfoByOrderId(Long orderId)
     {
         return bOrderInfoMapper.deleteBOrderInfoByOrderId(orderId);
+    }
+
+    @Override
+    @Transactional
+    public int savePaymentData(BPaymentDataVo bPaymentDataVo) {
+        int state =0;
+        /** 赋值订单信息 */
+        BOrderInfo orderInfo = new BOrderInfo();
+        orderInfo.setOrderId(bPaymentDataVo.getOrderId());
+        orderInfo.setOrderAmount(bPaymentDataVo.getOrderAmount());
+        orderInfo.setEndTime(bPaymentDataVo.getEndTime());
+        orderInfo.setMemberId(bPaymentDataVo.getMemberId());
+        orderInfo.setPaymentTime(bPaymentDataVo.getEndTime());
+        orderInfo.setPaymentType(bPaymentDataVo.getPaymentType());
+        orderInfo.setUpdateTime(DateUtils.getNowDate());
+        orderInfo.setUpdateBy(SecurityUtils.getLoginUser().getUser().getNickName());
+        orderInfo.setOrderState("1");
+        state = bOrderInfoMapper.updateBOrderInfo(orderInfo);
+        /** 赋值订单信息 */
+
+        /** 赋值辅助项目信息 */
+        // 判断账单是否选中辅助项目
+        if(StringUtils.isNotEmpty(bPaymentDataVo.getAdditionalIds())){
+            List<BOrderAdditional> list = new ArrayList<>(bPaymentDataVo.getAdditionalIds().length);
+            for(Long additionalId : bPaymentDataVo.getAdditionalIds()){
+                BOrderAdditional bOrderAdditional = new BOrderAdditional();
+                bOrderAdditional.setOrderId(bPaymentDataVo.getOrderId());
+                bOrderAdditional.setAdditionalId(additionalId);
+                list.add(bOrderAdditional);
+            }
+            state = bOrderAdditionalMapper.saveOrderAdditional(list);
+        }
+        /** 赋值辅助信息 */
+        return state;
     }
 }

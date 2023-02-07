@@ -58,7 +58,7 @@
           v-hasPermi="['business:order:add']"
         >新增</el-button>
       </el-col>
-      <!-- <el-col :span="1.5">
+      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -67,7 +67,18 @@
           @click="handlePayment"
           v-hasPermi="['business:order:payment']"
         >结账</el-button>
-      </el-col> -->
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          :disabled="multiple"
+          @click="handleExport"
+          v-hasPermi="['business:order:export']"
+        >导出</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -104,12 +115,11 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" :min-width=150>
         <template slot-scope="scope">
           <el-button
-              v-if="scope.row.orderState === '0'"
               size="small"
               type="primary"
               round
               icon="el-icon-plus"
-              @click="handlePayment(scope.row)"
+              @click="handlePayment"
               v-hasPermi="['business:order:payment']"
             >结账
           </el-button>
@@ -218,55 +228,55 @@
     </el-dialog>
     <!-- 结账对话框 -->
     <el-dialog :title="jieZhangTitle" :visible.sync="jieZhangOpen" width="1000px" append-to-body>
-      <el-form ref="jieZhangForm" :model="jieZhangForm" :rules="jieZhangRules" label-width="90px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="开单技师" prop="artificerId">
-              <el-select v-model="jieZhangForm.artificerName" placeholder="请选择技师名称"
-                @change="selectArtificerName($event)"
-                >
-                <el-option
-                  v-for="item in artificerList"
-                  :key="item.artificerId"
-                  :label="item.artificerName"
-                  :value="item.artificerId"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="服务项目" prop="additionalId">
-              <el-select v-model="jieZhangForm.additionalId" placeholder="请选择服务项目"
-                @change="selectZhuAdditional($event)"
-                >
-                <el-option
-                  v-for="item in zhuAdditionalList"
-                  :key="item.additionalId"
-                  :label="item.additionalName"
-                  :value="item.additionalId"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="辅助项目" prop="additionalId">
-              <el-checkbox-group v-model="additionalIds"  >
-                <el-checkbox 
-                  v-for="item in fuZhuAdditionalList" 
-                  :key="item.additionalId" 
-                  :value="item.additionalId" 
-                  :label="item.additionalId"
-                  @change="e => changeFuZhuAdditionalLisgt(e,item)"
-                >
-                {{item.additionalName}}
-                </el-checkbox>
-              </el-checkbox-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-divider />
+      <el-form ref="form" :model="jieZhangForm" :rules="jieZhangRules" label-width="90px">
+        <div  v-for="jieZhangForm in selectOrderList" :key="jieZhangForm.orderId">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="开单技师" prop="artificerId">
+                <el-select v-model="jieZhangForm.artificerName" placeholder="请选择技师名称"
+                  @change="selectArtificerName($event)"
+                  >
+                  <el-option
+                    v-for="item in artificerList"
+                    :key="item.artificerId"
+                    :label="item.artificerName"
+                    :value="item.artificerId"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="服务项目" prop="additionalId">
+                <el-select v-model="jieZhangForm.additionalId" placeholder="请选择服务项目"
+                  @change="selectAdditionalName($event)"
+                  >
+                  <el-option
+                    v-for="item in zhuAdditionalList"
+                    :key="item.additionalId"
+                    :label="item.additionalName"
+                    :value="item.additionalId"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="辅助项目" prop="additionalId">
+                <el-checkbox-group v-model="additionalIds">
+                  <el-checkbox 
+                    v-for="item in fuZhuAdditionalList" 
+                    :key="item.additionalId" 
+                    :value="item.additionalId" 
+                    :label="item.additionalName"
+                  >
+                  </el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-divider />
+        </div>
         <el-row>
           <el-col :span="24">
             <el-form-item label="会员搜索">
@@ -312,41 +322,44 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="剩余金额" prop="cardSurplusAmount">
-              <el-input v-model="jieZhangForm.cardSurplusAmount" :disabled="true" />
+              <el-input v-model="cardSurplusAmount" :disabled="true" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="剩余次数" prop="cardSurplusNum">
-              <el-input v-model="jieZhangForm.cardSurplusNum" :disabled="true"/>
+              <el-input v-model="cardSurplusNum" :disabled="true"/>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="消费次数" prop="consumeNum">
-              <el-input v-model="jieZhangForm.consumeNum" :disabled="true"/>
+              <el-input v-model="consumeNum" :disabled="true"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="密码" prop="memberPassword">
-              <el-input v-model="jieZhangForm.memberPassword"  />
+              <el-input v-model="memberPassword"  />
             </el-form-item>
           </el-col>
         </el-row>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitJieZhangForm">确 定</el-button>
-        <el-button @click="cancelJieZhangForm">取 消</el-button>
+        <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { listOrder, getOrder, delOrder, addOrder, updateOrder,savePaymentData } from "@/api/business/order";
+import { listOrder, getOrder, delOrder, addOrder, updateOrder } from "@/api/business/order";
 import { additionalList } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
 import {memberCardList} from "@/api/business/member";
+import { getCard} from "@/api/business/card";
+import Vue from 'vue'
 
 
 export default {
@@ -358,6 +371,8 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      // 选中的数组对象
+      selectOrderList: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -412,40 +427,23 @@ export default {
       artificerList: [],
       // 结账弹出层
       jieZhangOpen: false,
+      // 结账表单校验
+      jieZhangRules: {},
       // 定义结账弹窗选择辅助项目的复选框选中数组
       additionalIds:[],
-      //选择的辅助项目金额
-      fuZhuAdditionalAmount:0,
-      //选择的主服务项目金额
-      zhuAdditionalAmount:0,
-      // 会员密码校验
-      confirmPassword:null,
+      memberInfo:null,
+      cardSurplusAmount:null,
+      cardSurplusNum:null,
+      memberPassword:null,
+      consumeNum:null,
       // 结账表单参数
       jieZhangForm: {
-        orderId:null,
-        memberId: null,
         artificerId: null,
         endTime:null,
         paymentType:null,
         orderAmount:null,
-        // 充值会员剩余金额
-        cardSurplusAmount:0,
-        // 次数会员剩余次数
-        cardSurplusNum:0,
-        // 结账密码
-        memberPassword:null,
-        // 消费次数
-        consumeNum:0,
-        // 会员密码
-        memberPassword:null,
       },
       memberCardList:[],
-      // 结账表单校验
-      jieZhangRules: {
-        paymentType: [
-          { required: true, message: "结账方式不能为空", trigger: "blur" }
-        ],
-      },
     };
   },
   created() {
@@ -497,6 +495,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.orderId)
+      this.selectOrderList = selection;
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -543,6 +542,7 @@ export default {
           if(this.form.startTime){
             const entTime = this.$moment(this.form.startTime).add(obj.duration,'minutes').format("YYYY-MM-DD HH:mm");// 通过this.$moment() 计算日期的加减和格式化
             this.form.endTime = entTime ;
+            this.form.orderAmount = obj.additionalAmount;
           }else{
             this.form.additionalId=null;
             this.form.additionalName=null;
@@ -562,8 +562,49 @@ export default {
       let obj = this.artificerList.find(item => item.artificerId === val);
       // 判断的时候可以直接写obj而不需要以判断对象是否为空的方式是因为：如果找不到，find方法返回的是undefined而不是空对象
       if(obj) {
-        this.form.artificerName= obj.artificerFullName;
+          this.form.artificerName= obj.artificerFullName;
       }
+    },
+    /** 结账按钮操作 */
+    handlePayment(){
+      if(this.ids.length>0){
+        // 重置结账表单
+        this.resetJieZhangForm();
+        // 加载主服务项目列表
+        this.getZhuAdditionalList();
+        // 加载附加项项目列表
+        this.getFuZhuAdditionalList();
+        // 加载技师列表数据
+        this.getArtificerListDat();
+        // 结账金额赋值
+        for (let item of this.selectOrderList) {
+          this.jieZhangForm.orderAmount += item.orderAmount;
+        }
+        // 加载结账时间
+        this.getNowTime();
+        this.jieZhangTitle="结账弹窗";
+        this.jieZhangOpen= true;
+       // this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
+      }else{
+        this.$modal.msgError("请选择账单");
+      }
+    },
+    // 重置结账表单
+    resetJieZhangForm() {
+      this.jieZhangForm = {
+        artificerId: null,
+        endTime:null,
+        paymentType:null,
+        orderAmount:null,
+      };
+      this.resetForm("jieZhangForm");
+    },
+    //获取选中的会员卡金额
+    getMemberCardAmount(){
+
+    },
+    getNowTime(){
+      this.jieZhangForm.endTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
     },
     /** 提交按钮 */
     submitForm() {
@@ -595,71 +636,17 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-    /** 结账按钮操作 */
-    handlePayment(row){
-      // 重置结账表单
-        this.resetJieZhangForm();
-        // 赋值订单信息
-        this.jieZhangForm = row;
-        // 赋值主服务项目金额
-        this.zhuAdditionalAmount = this.jieZhangForm.orderAmount;
-        // 加载附加项项目列表
-        this.getFuZhuAdditionalList();
-        // 加载主服务项目列表
-        this.getZhuAdditionalList();
-        // 加载技师列表数据
-        this.getArtificerListDat();
-        // 加载结账时间
-        this.getNowTime();
-        this.jieZhangTitle="结账弹窗";
-        this.jieZhangOpen= true;
-       // this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('business/order/export', {
+        ...this.queryParams
+      }, `order_${new Date().getTime()}.xlsx`)
     },
-    // 重置结账表单
-    resetJieZhangForm() {
-      this.jieZhangForm = {
-        orderId:null,
-        memberId: null,
-        artificerId: null,
-        endTime:null,
-        paymentType:null,
-        orderAmount:null,
-        // 充值会员剩余金额
-        cardSurplusAmount:0,
-        // 次数会员剩余次数
-        cardSurplusNum:0,
-        // 结账密码
-        memberPassword:null,
-        // 消费次数
-        consumeNum:0,
-        // 会员密码
-        memberPassword:null,
-      };
-      this.resetForm("jieZhangForm");
+    /** 确认结账按钮操作 */
+    submitJieZhangForm(){
+
     },
-     /**监听主服务项目下拉  计算结账金额 */
-    selectZhuAdditional(val){//这个val也就是value值
-      let obj = this.zhuAdditionalList.find(item => item.additionalId === val);
-      // 判断的时候可以直接写obj而不需要以判断对象是否为空的方式是因为：如果找不到，find方法返回的是undefined而不是空对象
-      if(obj) {
-          this.jieZhangForm.orderAmount = this.fuZhuAdditionalAmount + obj.additionalAmount;
-      }
-    },
-    // 选择辅助项目复选款事件 计算结账金额
-    changeFuZhuAdditionalLisgt(e,item){
-      if(e) {
-        for(let id of this.additionalIds){
-          if(item.additionalId == id){
-            this.fuZhuAdditionalAmount += item.additionalAmount;
-          }
-        }
-      } else {
-        this.fuZhuAdditionalAmount  -= item.additionalAmount;
-      }
-      // 结账金额 = 主服务项目 + 辅助项目
-      this.jieZhangForm.orderAmount = this.fuZhuAdditionalAmount + this.zhuAdditionalAmount;
-    },
-     /** 会员信息预搜索 */
+    // 会员信息预搜索
     memberSearchAsync(queryString, callback) {
         const params={memberName: queryString};
         memberCardList(params).then(response => {
@@ -678,76 +665,7 @@ export default {
     },
     // 会员信息选中时间
     handleMemberSelect(item){
-      // 选中会员密码赋值
-      this.confirmPassword = item.memberPassword;
-      // 选中会员id赋值
-      this.jieZhangForm.memberId = item.memberId;
-      // 判断当前选中的会员类型 1:赠送金额卡；2:赠送次数卡
-      if(item.memberType == 1){
-        if(item.surplusAmount < this.jieZhangForm.orderAmount){
-          this.$modal.alertWarning("当前会员不足以支付本次订单！！！");
-          // 当会员剩余金额不够本次支付时，该订单金额= 该会员剩余金额 ，未支付金额重新创建订单支付
-          this.jieZhangForm.orderAmount = item.surplusAmount;
-          // 会员剩余金额设置为0；
-          this.jieZhangForm.cardSurplusAmount = 0;
-        }else{
-          // 赠送金额卡会员 计算剩余金额
-          if(item.singleAmount < this.zhuAdditionalAmount){
-            this.$modal.alertWarning("当前会员为老会员，使用老卡的支付方式");
-          }
-          // 会员结账金额 = 辅助项目金额 + 该会员的单次金额
-          this.jieZhangForm.orderAmount = this.fuZhuAdditionalAmount + item.singleAmount ; 
-          // 会员剩余金额 = 会员总金额 - 本次消费金额
-          this.jieZhangForm.cardSurplusAmount = item.surplusAmount - this.jieZhangForm.orderAmount;
-          // 赠送金额卡会员 剩余次数为0 
-          this.jieZhangForm.cardSurplusNum = 0;
-          // 赠送金额卡会员 当前消费次数为0 
-          this.jieZhangForm.consumeNum = 0;
-        }
-      }else {
-        // 赠送次数会员 结账金额为 0  辅助项目不能选取 
-        this.jieZhangForm.orderAmount = 0;
-        // 赠送次数会员 剩余金额为0
-        this.jieZhangForm.cardSurplusAmount = 0;
-        // 赠送次数卡 计算剩余次数
-        if(item.surplusTimes > 0){
-          // 选中会员的剩余次数
-          this.jieZhangForm.cardSurplusNum = item.surplusTimes - 1;
-          // 当前消费次数
-          this.jieZhangForm.consumeNum = 1;
-        }else{
-          this.$modal.alertWarning("该会员赠送次数已经用完！");
-        }
-      }
-    },
-    getNowTime(){
-      this.jieZhangForm.endTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
-    },
-    // 结账弹窗取消按钮
-    cancelJieZhangForm() {
-      this.jieZhangOpen= false;
-      this.resetJieZhangForm();
-    },
-    /** 确认结账按钮操作 */
-    submitJieZhangForm(){
-      this.$refs["jieZhangForm"].validate(valid => {
-        if (valid) {
-          if(this.jieZhangForm.memberPassword){
-            if(this.jieZhangForm.memberPassword != this.confirmPassword){
-              this.$modal.alertWarning("会员密码错误");
-              return ;
-            }
-          }
-          // 赋值选中的辅助项目
-          this.jieZhangForm.additionalIds = this.additionalIds;
-          savePaymentData(this.jieZhangForm).then(response => {
-            this.$modal.msgSuccess("结账成功");
-            this.jieZhangOpen = false;
-            this.getList();
-          });
-        }
-      })
-    },
+    }
   }
 };
 </script>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yk.business.mapper.BOrderAdditionalMapper">
+
+    <resultMap type="BOrderAdditional" id="BOrderAdditionalResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="additionalId"    column="additional_id"    />
+    </resultMap>
+
+    <sql id="selectBOrderAdditionalVo">
+        select id, order_id, additional_id from b_order_additional
+    </sql>
+
+    <select id="selectBOrderAdditionalList" parameterType="BOrderAdditional" resultMap="BOrderAdditionalResult">
+        <include refid="selectBOrderAdditionalVo"/>
+        <where>
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="additionalId != null "> and additional_id = #{additionalId}</if>
+        </where>
+    </select>
+
+    <select id="selectBOrderAdditionalById" parameterType="Long" resultMap="BOrderAdditionalResult">
+        <include refid="selectBOrderAdditionalVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBOrderAdditional" parameterType="BOrderAdditional" useGeneratedKeys="true" keyProperty="id">
+        insert into b_order_additional
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="additionalId != null">additional_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="additionalId != null">#{additionalId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBOrderAdditional" parameterType="BOrderAdditional">
+        update b_order_additional
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="additionalId != null">additional_id = #{additionalId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteBOrderAdditionalByIds" parameterType="String">
+        delete from b_order_additional where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--批量保存订单与辅助项目信息-->
+    <insert id="saveOrderAdditional">
+        insert into b_order_additional(order_id, additional_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.orderId},#{item.additionalId})
+        </foreach>
+    </insert>
+
+
+
+</mapper>

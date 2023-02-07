@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yk.business.domain.BPaymentDataVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -102,6 +103,20 @@ public class BOrderInfoController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] orderIds)
     {
         return toAjax(bOrderInfoService.deleteBOrderInfoByOrderIds(orderIds));
+    }
+
+    /**
+     * @title savePaymentData
+     * @description  订单结账保存
+     * @param bPaymentDataVo  订单对象
+     * @return com.yk.common.core.domain.AjaxResult
+     * @author yanakai@126.com
+     * @date   2023/2/7
+     */
+    @PostMapping("/savePaymentData")
+    @Log(title = "订单结账", businessType = BusinessType.INSERT)
+    public AjaxResult savePaymentData(@RequestBody BPaymentDataVo bPaymentDataVo){
+        return toAjax(bOrderInfoService.savePaymentData(bPaymentDataVo));
     }
 
 
