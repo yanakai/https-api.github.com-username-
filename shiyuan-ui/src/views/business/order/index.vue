@@ -503,6 +503,8 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加订单信息";
+      // 加载开单时间
+      this.form.startTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
       // 加载主服务项目列表
       this.getZhuAdditionalList();
       // 加载技师列表数据
@@ -608,7 +610,7 @@ export default {
         // 加载技师列表数据
         this.getArtificerListDat();
         // 加载结账时间
-        this.getNowTime();
+        this.jieZhangForm.endTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
         this.jieZhangTitle="结账弹窗";
         this.jieZhangOpen= true;
        // this.$router.push({ path: '/business/order-jieZhang/index', query: {orderDataList:this.selectOrderList  } })
@@ -715,9 +717,6 @@ export default {
           this.$modal.alertWarning("该会员赠送次数已经用完！");
         }
       }
-    },
-    getNowTime(){
-      this.jieZhangForm.endTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
     },
     // 结账弹窗取消按钮
     cancelJieZhangForm() {
