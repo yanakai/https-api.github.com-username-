@@ -253,10 +253,10 @@
           <el-col :span="24">
             <el-form-item label="辅助项目" prop="additionalId">
               <el-checkbox-group v-model="additionalIds"  >
-                <el-checkbox 
-                  v-for="item in fuZhuAdditionalList" 
-                  :key="item.additionalId" 
-                  :value="item.additionalId" 
+                <el-checkbox
+                  v-for="item in fuZhuAdditionalList"
+                  :key="item.additionalId"
+                  :value="item.additionalId"
                   :label="item.additionalId"
                   @change="e => changeFuZhuAdditionalLisgt(e,item)"
                 >
@@ -294,7 +294,7 @@
           <el-col :span="8">
             <el-form-item label="结账方式" prop="paymentType">
               <el-select v-model="jieZhangForm.paymentType"  placeholder="请选择支付方式" >
-                <el-option  
+                <el-option
                   v-for="dict in dict.type.b_order_payment_type"
                   :key="dict.value"
                   :label="dict.label"
@@ -436,8 +436,6 @@ export default {
         memberPassword:null,
         // 消费次数
         consumeNum:0,
-        // 会员密码
-        memberPassword:null,
       },
       memberCardList:[],
       // 结账表单校验
@@ -632,8 +630,6 @@ export default {
         memberPassword:null,
         // 消费次数
         consumeNum:0,
-        // 会员密码
-        memberPassword:null,
       };
       this.resetForm("jieZhangForm");
     },
@@ -696,16 +692,16 @@ export default {
             this.$modal.alertWarning("当前会员为老会员，使用老卡的支付方式");
           }
           // 会员结账金额 = 辅助项目金额 + 该会员的单次金额
-          this.jieZhangForm.orderAmount = this.fuZhuAdditionalAmount + item.singleAmount ; 
+          this.jieZhangForm.orderAmount = this.fuZhuAdditionalAmount + item.singleAmount ;
           // 会员剩余金额 = 会员总金额 - 本次消费金额
           this.jieZhangForm.cardSurplusAmount = item.surplusAmount - this.jieZhangForm.orderAmount;
-          // 赠送金额卡会员 剩余次数为0 
+          // 赠送金额卡会员 剩余次数为0
           this.jieZhangForm.cardSurplusNum = 0;
-          // 赠送金额卡会员 当前消费次数为0 
+          // 赠送金额卡会员 当前消费次数为0
           this.jieZhangForm.consumeNum = 0;
         }
       }else {
-        // 赠送次数会员 结账金额为 0  辅助项目不能选取 
+        // 赠送次数会员 结账金额为 0  辅助项目不能选取
         this.jieZhangForm.orderAmount = 0;
         // 赠送次数会员 剩余金额为0
         this.jieZhangForm.cardSurplusAmount = 0;
