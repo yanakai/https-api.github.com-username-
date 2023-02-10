@@ -10,7 +10,7 @@ export function listMember(query) {
 }
 
 // 查询会员信息列表 不分页
-export function memberCardList(query) {
+export function memberList(query) {
   return request({
     url: '/business/member/getMemberList',
     method: 'get',

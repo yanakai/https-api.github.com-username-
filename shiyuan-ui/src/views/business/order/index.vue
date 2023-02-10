@@ -271,7 +271,7 @@
           <el-col :span="24">
             <el-form-item label="会员搜索">
               <el-autocomplete style="width:100%"
-                v-model="jieZhangForm.memberId"
+                v-model="jieZhangForm.memberName"
                 :fetch-suggestions="memberSearchAsync"
                 @select="handleMemberSelect"
                 placeholder="请输入会员姓名、手机号"
@@ -346,7 +346,7 @@
 import { listOrder, getOrder, delOrder, addOrder, updateOrder,savePaymentData } from "@/api/business/order";
 import { additionalList } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
-import {memberCardList} from "@/api/business/member";
+import {memberList} from "@/api/business/member";
 
 
 export default {
@@ -437,7 +437,6 @@ export default {
         // 消费次数
         consumeNum:0,
       },
-      memberCardList:[],
       // 结账表单校验
       jieZhangRules: {
         paymentType: [
@@ -659,27 +658,24 @@ export default {
     },
      /** 会员信息预搜索 */
     memberSearchAsync(queryString, callback) {
-        const params={memberName: queryString};
-        memberCardList(params).then(response => {
-        this.memberCardList = response.data;
+        const params={searchValue: queryString};
+        memberList(params).then(response => {
         //在这里为这个数组中每一个对象加一个value字段, 因为autocomplete只识别value字段并在下拉列中显示
         for(let i of response.data){
-          if(i.remark){
-            i.value = i.memberName+"；"+i.remark; //将想要展示的数据作为value
-          }else{
-            i.value = i.memberName
-          }
+          i.value = i.memberName
         }
         const list = response.data;
         callback(list);
       })
     },
-    // 会员信息选中时间
+    // 会员信息选中赋值
     handleMemberSelect(item){
       // 选中会员密码赋值
       this.confirmPassword = item.memberPassword;
       // 选中会员id赋值
       this.jieZhangForm.memberId = item.memberId;
+      // 选中会员的名称负值
+      this.jieZhangForm.memberName = item.memberName;
       // 判断当前选中的会员类型 1:赠送金额卡；2:赠送次数卡
       if(item.memberType == 1){
         if(item.surplusAmount < this.jieZhangForm.orderAmount){
@@ -695,8 +691,8 @@ export default {
           }
           // 会员结账金额 = 辅助项目金额 + 该会员的单次金额
           this.jieZhangForm.orderAmount = this.fuZhuAdditionalAmount + item.singleAmount ;
-          // 会员剩余金额 = 会员总金额 - 本次消费金额
-          this.jieZhangForm.cardSurplusAmount = item.surplusAmount - this.jieZhangForm.orderAmount;
+          // 会员剩余金额 = 会员剩余金额
+          this.jieZhangForm.cardSurplusAmount = item.surplusAmount;
           // 赠送金额卡会员 剩余次数为0
           this.jieZhangForm.cardSurplusNum = 0;
           // 赠送金额卡会员 当前消费次数为0
@@ -709,8 +705,8 @@ export default {
         this.jieZhangForm.cardSurplusAmount = 0;
         // 赠送次数卡 计算剩余次数
         if(item.surplusTimes > 0){
-          // 选中会员的剩余次数
-          this.jieZhangForm.cardSurplusNum = item.surplusTimes - 1;
+          // 选中会员的剩余次数 = 会员剩余次数
+          this.jieZhangForm.cardSurplusNum = item.surplusTimes;
           // 当前消费次数
           this.jieZhangForm.consumeNum = 1;
         }else{
