@@ -3,8 +3,10 @@ package com.yk.business.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yk.business.domain.BMemberInfo;
 import com.yk.business.domain.BOrderAdditional;
 import com.yk.business.domain.BPaymentDataVo;
+import com.yk.business.mapper.BMemberInfoMapper;
 import com.yk.business.mapper.BOrderAdditionalMapper;
 import com.yk.common.utils.DateUtils;
 import com.yk.common.utils.SecurityUtils;
@@ -32,6 +34,9 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
 
     @Resource
     private BOrderAdditionalMapper bOrderAdditionalMapper;
+
+    @Resource
+    private BMemberInfoMapper bMemberInfoMapper;
 
     /**
      * 查询订单信息
@@ -137,6 +142,20 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
                 list.add(bOrderAdditional);
             }
             state = bOrderAdditionalMapper.saveOrderAdditional(list);
+        }
+        /** 赋值辅助信息 */
+        /** 修改会员的剩余金额/剩余次数 */
+        // 判断账单付款是否会员付款
+        if(bPaymentDataVo.getMemberId() !=null && "1".equals(bPaymentDataVo.getPaymentType())){
+            // 获取付账会员信息
+            BMemberInfo bMemberInfo = bMemberInfoMapper.selectBMemberInfoByMemberId(bPaymentDataVo.getMemberId());
+            // 根据会员类型判断是减金额还是减次数  1:赠送金额卡；2:赠送次数卡
+            if("1".equals(bMemberInfo.getMemberType())){
+                bMemberInfo.setSurplusAmount(bMemberInfo.getSurplusAmount().subtract(bPaymentDataVo.getOrderAmount()));
+            }else {
+                bMemberInfo.setSurplusTimes(bMemberInfo.getSurplusTimes()-bPaymentDataVo.getOrderTimes());
+            }
+            state = bMemberInfoMapper.updateBMemberInfo(bMemberInfo);
         }
         /** 赋值辅助信息 */
         return state;

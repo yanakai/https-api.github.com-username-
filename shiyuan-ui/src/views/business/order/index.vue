@@ -331,8 +331,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="消费次数" prop="consumeNum">
-              <el-input v-model="jieZhangForm.consumeNum" :disabled="true"/>
+            <el-form-item label="消费次数" prop="orderTimes">
+              <el-input v-model="jieZhangForm.orderTimes" :disabled="true"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -447,7 +447,7 @@ export default {
         // 结账密码
         memberJieZhangPassword:null,
         // 消费次数
-        consumeNum:0,
+        orderTimes:0,
       },
       // 会员搜索回显
       memberName:"",
@@ -559,15 +559,18 @@ export default {
       let obj = this.zhuAdditionalList.find(item => item.additionalId === val);
       // 判断的时候可以直接写obj而不需要以判断对象是否为空的方式是因为：如果找不到，find方法返回的是undefined而不是空对象
       if(obj) {
-          this.form.additionalName= obj.additionalName;
-          if(this.form.startTime){
-            const entTime = this.$moment(this.form.startTime).add(obj.duration,'minutes').format("YYYY-MM-DD HH:mm");// 通过this.$moment() 计算日期的加减和格式化
-            this.form.endTime = entTime ;
-          }else{
-            this.form.additionalId=null;
-            this.form.additionalName=null;
-            this.$modal.alertWarning("请先选择开始时间");
-          }
+        //赋值服务项目名称
+        this.form.additionalName= obj.additionalName;
+        // 赋值订单金额
+        this.form.orderAmount = obj.additionalAmount
+        if(this.form.startTime){
+          const entTime = this.$moment(this.form.startTime).add(obj.duration,'minutes').format("YYYY-MM-DD HH:mm");// 通过this.$moment() 计算日期的加减和格式化
+          this.form.endTime = entTime ;
+        }else{
+          this.form.additionalId=null;
+          this.form.additionalName=null;
+          this.$modal.alertWarning("请先选择开始时间");
+        }
       }
     },
     /** 查询技术人员列表 */
@@ -654,7 +657,7 @@ export default {
         // 结账密码
         memberPassword:null,
         // 消费次数
-        consumeNum:0,
+        orderTimes:0,
       };
       this.resetForm("jieZhangForm");
     },
@@ -743,7 +746,7 @@ export default {
           // 赠送金额卡会员 剩余次数为0
           this.jieZhangForm.cardSurplusNum = 0;
           // 赠送金额卡会员 当前消费次数为0
-          this.jieZhangForm.consumeNum = 0;
+          this.jieZhangForm.orderTimes = 0;
         }
       }else {
         // 赠送次数会员 结账金额为 0  辅助项目不能选取
@@ -755,7 +758,7 @@ export default {
           // 选中会员的剩余次数 = 会员剩余次数
           this.jieZhangForm.cardSurplusNum = item.surplusTimes;
           // 当前消费次数
-          this.jieZhangForm.consumeNum = 1;
+          this.jieZhangForm.orderTimes = 1;
         }else{
           this.$modal.alertWarning("该会员赠送次数已经用完！");
         }

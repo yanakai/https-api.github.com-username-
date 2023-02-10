@@ -41,6 +41,10 @@ public class BPaymentDataVo extends BaseEntity {
      */
     private BigDecimal orderAmount;
     /**
+     * 订单使用次数
+     */
+    private Integer orderTimes;
+    /**
      * 赠送金额会员剩余金额
      */
     private BigDecimal cardSurplusAmount;
@@ -94,6 +98,14 @@ public class BPaymentDataVo extends BaseEntity {
         this.orderAmount = orderAmount;
     }
 
+    public Integer getOrderTimes() {
+        return orderTimes;
+    }
+
+    public void setOrderTimes(Integer orderTimes) {
+        this.orderTimes = orderTimes;
+    }
+
     public BigDecimal getCardSurplusAmount() {
         return cardSurplusAmount;
     }
@@ -126,6 +138,7 @@ public class BPaymentDataVo extends BaseEntity {
                 .append("endTime", getEndTime())
                 .append("paymentType", getPaymentType())
                 .append("orderAmount", getOrderAmount())
+                .append("orderTimes", getOrderTimes())
                 .append("cardSurplusAmount", getCardSurplusAmount())
                 .append("cardSurplusNum", getCardSurplusNum())
                 .toString();
