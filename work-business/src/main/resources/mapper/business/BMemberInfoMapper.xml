@@ -70,7 +70,7 @@
             <if test="modifyName != null  and modifyName != ''"> and modify_name like concat('%', #{modifyName}, '%')</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
             <if test="memberName != null  and memberName != ''"> and member_name like concat('%', #{memberName}, '%')</if>
-            <if test="searchValue != null  and searchValue != ''"> and (member_phonenumper like concat('%', #{searchValue}, '%') OR member_name like concat('%', #{memberName}, '%'))</if>
+            <if test="searchValue != null  and searchValue != ''"> and (member_phonenumper like concat('%', #{searchValue}, '%') OR member_name like concat('%', #{searchValue}, '%'))</if>
         </where>
     </select>
 

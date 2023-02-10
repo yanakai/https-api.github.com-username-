@@ -271,12 +271,22 @@
           <el-col :span="24">
             <el-form-item label="会员搜索">
               <el-autocomplete style="width:100%"
-                v-model="jieZhangForm.memberName"
+                v-model="memberName"
                 :fetch-suggestions="memberSearchAsync"
                 @select="handleMemberSelect"
                 placeholder="请输入会员姓名、手机号"
                 >
+                <template slot-scope="{item}">
+                  <div class="autocomplete-choose-name" v-html="htmlValue(item)"></div>
+                </template>
               </el-autocomplete>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="memberInfoDataView">
+          <el-col :span="24">
+            <el-form-item label="会员信息">
+              <el-button size="medium" type="primary">{{memberInfoData}}</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -328,15 +338,17 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="密码" prop="memberPassword">
-              <el-input v-model="jieZhangForm.memberPassword"  />
+            <el-form-item label="密码" prop="memberJieZhangPassword">
+              <!-- <el-input v-model="jieZhangForm.memberJieZhangPassword" type="password"  show-password /> -->
+              <el-input v-model="jieZhangForm.memberJieZhangPassword" />
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitJieZhangForm">确 定</el-button>
-        <el-button @click="cancelJieZhangForm">取 消</el-button>
+        <el-button type="primary" @click="submitJieZhangForm">确认结账</el-button>
+        <el-button @click="cancelJieZhangForm">取消结账</el-button>
+        <el-button type="primary" @click="submitWuMiMaJieZhangForm">无密码结账</el-button>
       </div>
     </el-dialog>
   </div>
@@ -433,15 +445,24 @@ export default {
         // 次数会员剩余次数
         cardSurplusNum:0,
         // 结账密码
-        memberPassword:null,
+        memberJieZhangPassword:null,
         // 消费次数
         consumeNum:0,
       },
+      // 会员搜索回显
+      memberName:"",
+      // 选中会员信息
+      memberInfoData: null,
+      // 是否显示会员信息
+      memberInfoDataView: false,
       // 结账表单校验
       jieZhangRules: {
         paymentType: [
           { required: true, message: "结账方式不能为空", trigger: "blur" }
         ],
+        // memberJieZhangPassword: [
+        //   { required: true, message: "结账密码不能为空", trigger: "blur" }
+        // ],
       },
     };
   },
@@ -616,6 +637,9 @@ export default {
     },
     // 重置结账表单
     resetJieZhangForm() {
+      this.additionalIds = [];
+      this.memberName= "";
+      this.memberInfoDataView = false;
       this.jieZhangForm = {
         orderId:null,
         memberId: null,
@@ -660,22 +684,45 @@ export default {
     memberSearchAsync(queryString, callback) {
         const params={searchValue: queryString};
         memberList(params).then(response => {
-        //在这里为这个数组中每一个对象加一个value字段, 因为autocomplete只识别value字段并在下拉列中显示
-        for(let i of response.data){
-          i.value = i.memberName
-        }
-        const list = response.data;
-        callback(list);
+          let results = queryString ? response.data.filter(this.createmeMberNameFilter(queryString)) : response.data;
+          callback(results); // 回调匹配结果
       })
+    },
+    // 创建过滤器 适配大小写
+    createmeMberNameFilter(queryString) {
+      // 搜索框匹配的对象
+      return (item) => {
+        let searchValueTemp = item.memberName +" "+ item.memberPhonenumper +" "+item.memberCardName +" "+ item.surplusAmount;
+        return (searchValueTemp.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
+      };
+    },
+    // 会员搜索候选词高亮设定
+    htmlValue(item) {
+      let key = this.memberName;
+      let searchValueTemp = item.memberName +" "+ item.memberPhonenumper +" "+item.memberCardName +" "+ item.surplusAmount;
+      if (key.length > 0) {
+        return searchValueTemp.replace(
+        new RegExp(key, "g"),
+        "<span style='color:red;'>" + key + "</span>"
+        );
+      }
+      return searchValueTemp;
     },
     // 会员信息选中赋值
     handleMemberSelect(item){
+      // 会员信息回显
+      this.memberInfoDataView = true;
       // 选中会员密码赋值
       this.confirmPassword = item.memberPassword;
       // 选中会员id赋值
       this.jieZhangForm.memberId = item.memberId;
-      // 选中会员的名称负值
-      this.jieZhangForm.memberName = item.memberName;
+      // 选中会员的名称赋值
+      this.memberName = item.memberName;
+      // 回显选中的会员信息
+      this.memberInfoData = item.memberName +" "+ item.memberPhonenumper +" "+item.memberCardName +" "+ item.surplusAmount ;
+      if(item.remark){
+        this.memberInfoData = item.memberName +" "+ item.memberPhonenumper +" "+item.memberCardName +" "+ item.surplusAmount + " 备注："+ item.remark;
+      }
       // 判断当前选中的会员类型 1:赠送金额卡；2:赠送次数卡
       if(item.memberType == 1){
         if(item.surplusAmount < this.jieZhangForm.orderAmount){
@@ -721,14 +768,34 @@ export default {
     },
     /** 确认结账按钮操作 */
     submitJieZhangForm(){
+      if(this.jieZhangForm.memberJieZhangPassword){
+        this.$refs["jieZhangForm"].validate(valid => {
+          if (valid) {
+            if(this.jieZhangForm.memberJieZhangPassword){
+              if(this.jieZhangForm.memberJieZhangPassword != this.confirmPassword){
+                this.$modal.alertWarning("会员密码错误");
+                return ;
+              }
+            }
+            // 赋值选中的辅助项目
+            this.jieZhangForm.additionalIds = this.additionalIds;
+            savePaymentData(this.jieZhangForm).then(response => {
+              this.$modal.msgSuccess("结账成功");
+              this.jieZhangOpen = false;
+              this.getList();
+            });
+          }
+        })
+      }else{
+        this.$modal.alertWarning("结账密码不能为空");
+        return ;
+      }
+      
+    },
+    // 无密码结账
+    submitWuMiMaJieZhangForm(){
       this.$refs["jieZhangForm"].validate(valid => {
         if (valid) {
-          if(this.jieZhangForm.memberPassword){
-            if(this.jieZhangForm.memberPassword != this.confirmPassword){
-              this.$modal.alertWarning("会员密码错误");
-              return ;
-            }
-          }
           // 赋值选中的辅助项目
           this.jieZhangForm.additionalIds = this.additionalIds;
           savePaymentData(this.jieZhangForm).then(response => {
