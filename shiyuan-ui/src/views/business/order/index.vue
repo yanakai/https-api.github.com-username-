@@ -275,6 +275,7 @@
                 :fetch-suggestions="memberSearchAsync"
                 @select="handleMemberSelect"
                 placeholder="请输入会员姓名、手机号"
+                @change="handleMemberChange"
                 >
                 <template slot-scope="{item}">
                   <div class="autocomplete-choose-name" v-html="htmlValue(item)"></div>
@@ -303,7 +304,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="结账方式" prop="paymentType">
-              <el-select v-model="jieZhangForm.paymentType"  placeholder="请选择支付方式" >
+              <el-select v-model="jieZhangForm.paymentType"  placeholder="请选择支付方式" 
+               @change="selectPaymentTypeChange($event)"
+                >
                 <el-option
                   v-for="dict in dict.type.b_order_payment_type"
                   :key="dict.value"
@@ -726,6 +729,8 @@ export default {
       if(item.remark){
         this.memberInfoData = item.memberName +" "+ item.memberPhonenumper +" "+item.memberCardName +" "+ item.surplusAmount + " 备注："+ item.remark;
       }
+      // 回显结账方式自动赋值到会员
+      this.jieZhangForm.paymentType = '1';
       // 判断当前选中的会员类型 1:赠送金额卡；2:赠送次数卡
       if(item.memberType == 1){
         if(item.surplusAmount < this.jieZhangForm.orderAmount){
@@ -761,6 +766,34 @@ export default {
           this.jieZhangForm.orderTimes = 1;
         }else{
           this.$modal.alertWarning("该会员赠送次数已经用完！");
+        }
+      }
+    },
+    handleMemberChange(){
+      if(this.memberName==null || this.memberName == ''){
+        // 隐藏会员信息
+        this.memberInfoDataView = false;
+        this.memberId = null ;
+        // 赠送金额卡会员 剩余次数为0
+        this.jieZhangForm.cardSurplusNum = 0;
+        // 赠送金额卡会员 当前消费次数为0
+        this.jieZhangForm.orderTimes = 0;
+        // 赠送次数会员 剩余金额为0
+        this.jieZhangForm.cardSurplusAmount = 0;
+        // 清空结账方式
+        this.jieZhangForm.paymentType=null;
+        this.jieZhangForm.paymentType=null;
+        // 重置结账金额 账单金额 = 主服务项目金额 + 辅助项目金额
+        this.jieZhangForm.orderAmount = this.zhuAdditionalAmount + this.fuZhuAdditionalAmount;
+      }
+    },
+    /**监听结账方式下拉 */
+    selectPaymentTypeChange(val){//这个val也就是value值
+      if(val == '1'){ // 当选择的结账方式是会员时 判断是否已选会员
+        if(this.memberName ==null || this.memberName ==""){
+          this.jieZhangForm.paymentType=null;
+          this.jieZhangForm.paymentType=null;
+          this.$modal.alertWarning("请选择会员信息");
         }
       }
     },
