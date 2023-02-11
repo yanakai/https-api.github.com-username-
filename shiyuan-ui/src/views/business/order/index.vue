@@ -205,6 +205,7 @@
                     :key="item.artificerId"
                     :label="item.artificerName"
                     :value="item.artificerId"
+                    :disabled="item.bellState"
                   ></el-option>
                 </el-select>
               </el-form-item>

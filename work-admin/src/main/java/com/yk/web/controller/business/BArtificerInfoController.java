@@ -1,17 +1,21 @@
 package com.yk.web.controller.business;
 
 import com.yk.business.domain.BArtificerInfo;
+import com.yk.business.domain.BOrderInfo;
 import com.yk.business.service.IBArtificerInfoService;
+import com.yk.business.service.IBOrderInfoService;
 import com.yk.common.annotation.Log;
 import com.yk.common.core.controller.BaseController;
 import com.yk.common.core.domain.AjaxResult;
 import com.yk.common.core.page.TableDataInfo;
 import com.yk.common.enums.BusinessType;
+import com.yk.common.utils.StringUtils;
 import com.yk.common.utils.poi.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -29,6 +33,9 @@ import java.util.List;
 public class BArtificerInfoController extends BaseController {
     @Autowired
     private IBArtificerInfoService bArtificerInfoService;
+
+    @Resource
+    private IBOrderInfoService bOrderInfoService;
 
     /**
      * 查询业务--技师列表
@@ -52,6 +59,19 @@ public class BArtificerInfoController extends BaseController {
     @GetMapping("/getList")
     public AjaxResult getList(BArtificerInfo bArtificerInfo){
         List<BArtificerInfo> list = bArtificerInfoService.selectBArtificerInfoList(bArtificerInfo);
+        BOrderInfo orderInfo = new BOrderInfo();
+        orderInfo.setOrderState("0");
+        // 拿到正在进行的订单中上钟技师，匹配技师数组，开单不再选中上钟的技师
+        List<BOrderInfo> orderInfoList = bOrderInfoService.selectBOrderInfoList(orderInfo);
+        if(StringUtils.isNotEmpty(orderInfoList)){
+            list.forEach(item ->{
+                orderInfoList.forEach(obj ->{
+                    if(item.getArtificerId() == obj.getArtificerId()){
+                        item.setBellState(true);
+                    }
+                });
+            });
+        }
         return AjaxResult.success("数据获取成功",list);
     }
 

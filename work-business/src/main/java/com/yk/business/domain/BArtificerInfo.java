@@ -79,6 +79,11 @@ public class BArtificerInfo extends BaseEntity
     @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifyTime;
 
+    /**
+     * 上钟状态，false：未上钟；ture：已上钟
+     */
+    private Boolean bellState;
+
     public void setArtificerId(Long artificerId)
     {
         this.artificerId = artificerId;
@@ -215,6 +220,14 @@ public class BArtificerInfo extends BaseEntity
         return modifyTime;
     }
 
+    public Boolean getBellState() {
+        return bellState;
+    }
+
+    public void setBellState(Boolean bellState) {
+        this.bellState = bellState;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -235,6 +248,7 @@ public class BArtificerInfo extends BaseEntity
                 .append("createTime", getCreateTime())
                 .append("modifyName", getModifyName())
                 .append("modifyTime", getModifyTime())
+                .append("bellState", getBellState())
                 .toString();
     }
 }
