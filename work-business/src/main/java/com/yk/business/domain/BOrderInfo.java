@@ -23,13 +23,13 @@ public class BOrderInfo extends BaseEntity
     private Long orderId;
 
     /** 订单开始时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
-    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Excel(name = "订单开始时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
     /** 订单结束时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
-    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Excel(name = "订单结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
     /** 订单金额 */

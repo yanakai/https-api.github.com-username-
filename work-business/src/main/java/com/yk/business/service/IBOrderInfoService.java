@@ -68,4 +68,13 @@ public interface IBOrderInfoService
      * @date   2023/2/7
      */
     int savePaymentData(BPaymentDataVo bPaymentDataVo);
+    /**
+     * @title getOrderInfoDetailsById
+     * @description  查询订单所有的详情信息
+     * @param orderId  订单id
+     * @return com.yk.business.domain.BOrderInfo
+     * @author yanakai@126.com
+     * @date   2023/2/11
+     */
+    BOrderInfo getOrderInfoDetailsById(Long orderId);
 }

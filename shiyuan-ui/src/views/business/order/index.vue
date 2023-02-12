@@ -1,52 +1,5 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="订单状态" prop="orderState">
-        <el-select v-model="queryParams.orderState" placeholder="请选择订单状态" clearable>
-          <el-option
-            v-for="dict in dict.type.b_order_state"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="排钟类型" prop="bellType">
-        <el-select v-model="queryParams.bellType" placeholder="请选择排钟类型" clearable>
-          <el-option
-            v-for="dict in dict.type.b_order_bell_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="服务项目" prop="additionalId">
-        <el-select v-model="queryParams.additionalId" placeholder="请选择服务项目id" clearable>
-          <el-option
-            v-for="dict in dict.type.b_additional_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="技师名称" prop="artificerName">
-        <el-select v-model="queryParams.artificerName" placeholder="请选择技师名称" clearable>
-          <el-option
-            v-for="dict in dict.type.b_additional_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -71,7 +24,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
+    <el-table stripe v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="index" >
         <template slot-scope="scope">
@@ -104,7 +57,6 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" :min-width=150>
         <template slot-scope="scope">
           <el-button
-              v-if="scope.row.orderState === '0'"
               size="small"
               type="primary"
               round
@@ -392,11 +344,14 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        orderState: null,
+        orderState: '0',
         bellType: null,
         additionalId: null,
         artificerId: null,
         artificerName: null,
+        params:{
+          'orderSort':"end_time DESC"
+        },
       },
       // 表单参数
       form: {},

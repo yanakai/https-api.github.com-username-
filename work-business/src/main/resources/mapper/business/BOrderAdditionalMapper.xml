@@ -64,6 +64,14 @@
         </foreach>
     </insert>
 
+    <!--通过订单id查询 订单所关联的辅助项目-->
+    <select id="getListByOrderId" parameterType="Long" resultMap="BOrderAdditionalResult">
+        <include refid="selectBOrderAdditionalVo"/>
+        where order_id = #{orderId}
+    </select>
+
+
+
 
 
 </mapper>

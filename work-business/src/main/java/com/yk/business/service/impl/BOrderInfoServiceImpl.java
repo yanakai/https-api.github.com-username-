@@ -1,7 +1,9 @@
 package com.yk.business.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.yk.business.domain.BMemberInfo;
 import com.yk.business.domain.BOrderAdditional;
@@ -11,7 +13,6 @@ import com.yk.business.mapper.BOrderAdditionalMapper;
 import com.yk.common.utils.DateUtils;
 import com.yk.common.utils.SecurityUtils;
 import com.yk.common.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yk.business.mapper.BOrderInfoMapper;
 import com.yk.business.domain.BOrderInfo;
@@ -160,4 +161,30 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
         /** 赋值辅助信息 */
         return state;
     }
+
+    @Override
+    public BOrderInfo getOrderInfoDetailsById(Long orderId) {
+        BOrderInfo bOrderInfo = bOrderInfoMapper.selectBOrderInfoByOrderId(orderId);
+        List<BOrderAdditional> list = bOrderAdditionalMapper.getListByOrderId(orderId);
+        // 获取订单关联的辅助项目信息
+        if(StringUtils.isNotEmpty(list)){
+            Long[] additionalIds = new Long[list.size()];
+            for (int i =0;i<list.size();i++){
+                additionalIds[i]= list.get(i).getAdditionalId();
+            }
+            Map<String,Object> params = new HashMap<>();
+            params.put("additionalIds",additionalIds);
+            bOrderInfo.setParams(params);
+        }
+        // 获取订单关联的会员信息
+        if(bOrderInfo.getMemberId()!=null){
+            BMemberInfo bMemberInfo = bMemberInfoMapper.selectBMemberInfoByMemberId(bOrderInfo.getMemberId());
+            Map<String,Object> params = new HashMap<>();
+            params.put("bMemberInfo",bMemberInfo);
+            bOrderInfo.setParams(params);
+        }
+        return bOrderInfo;
+    }
+
+
 }

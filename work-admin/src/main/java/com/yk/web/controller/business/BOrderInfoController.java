@@ -1,7 +1,6 @@
 package com.yk.web.controller.business;
 
 import java.util.List;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yk.business.domain.BPaymentDataVo;
@@ -70,6 +69,17 @@ public class BOrderInfoController extends BaseController {
     public AjaxResult getInfo(@PathVariable("orderId") Long orderId)
     {
         return AjaxResult.success(bOrderInfoService.selectBOrderInfoByOrderId(orderId));
+    }
+
+
+    /**
+     *
+     */
+    @PreAuthorize("@ss.hasPermi('business:order:query')")
+    @GetMapping(value = "/getOrderInfoDetails/{orderId}")
+    public AjaxResult getOrderInfoDetails(@PathVariable("orderId") Long orderId)
+    {
+        return AjaxResult.success(bOrderInfoService.getOrderInfoDetailsById(orderId));
     }
 
     /**

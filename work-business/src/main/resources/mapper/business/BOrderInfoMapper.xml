@@ -43,7 +43,17 @@
             <if test="artificerName != null  and artificerName != ''"> and artificer_name = #{artificerName}</if>
             <if test="memberId != null "> and member_id = #{memberId}</if>
             <if test="paymentTime != null "> and payment_time = #{paymentTime}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
         </where>
+        <if test="params.orderSort != null and params.orderSort != ''"><!-- 排序 -->
+            order by ${params.orderSort}
+        </if>
+
     </select>
 
     <select id="selectBOrderInfoByOrderId" parameterType="Long" resultMap="BOrderInfoResult">

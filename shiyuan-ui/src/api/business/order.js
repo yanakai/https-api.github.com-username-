@@ -16,6 +16,16 @@ export function getOrder(orderId) {
     method: 'get'
   })
 }
+// 查询订单信息所有详情
+export function getOrderInfoDetails(orderId) {
+  return request({
+    url: '/business/order/getOrderInfoDetails/' + orderId,
+    method: 'get'
+  })
+}
+
+
+
 
 // 新增订单信息
 export function addOrder(data) {
