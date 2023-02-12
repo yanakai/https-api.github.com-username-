@@ -5,16 +5,20 @@
             <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabsClick">
                 <el-tab-pane name="first">
                     <span slot="label"><i class="el-icon-date"></i> 预约</span>
-                    <el-table :data="yuYueDatList">
-                        <el-table-column label="时间/人员" align="center" prop="currentTime" />
-                        <el-table-column label="师傅1" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅2" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅3" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅4" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅5" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅6" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅7" align="center" prop="orderAmount" />
-                        <el-table-column label="师傅8" align="center" prop="orderAmount" />
+                    <el-table stripe :data="yuYueDataList" :row-style="rowStyle">>
+                        <el-table-column label="状态" align="center" prop="orderState" />
+                        <el-table-column label="师傅1" align="center" prop="artificerName1">
+                            <template slot-scope="scope">
+                                <span @click="handleOrder(scope.row)">{{ scope.row.artificerName1}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="师傅2" align="center" prop="artificerName2" />
+                        <el-table-column label="师傅3" align="center" prop="artificerName3" />
+                        <el-table-column label="师傅4" align="center" prop="artificerName4" />
+                        <el-table-column label="师傅5" align="center" prop="artificerName5" />
+                        <el-table-column label="师傅6" align="center" prop="artificerName6" />
+                        <el-table-column label="师傅7" align="center" prop="artificerName7" />
+                        <el-table-column label="师傅8" align="center" prop="artificerName8" />
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane name="second">
@@ -39,11 +43,21 @@ export default {
       // 默认选项卡选中第一个
       activeName: 'first',
       //预约列表数据
-      yuYueDatList:[],
+      yuYueDataList:[
+        {
+            orderState:"预约",
+            artificerName1:"预约时间：18:00\n技师：李四\n客户：麻子\n下钟时间：19:00",
+            artificerName2:"预约时间：18:20\n技师：李欢\n客户：麻子\n下钟时间：19:20"
+        },
+        {
+            orderState:"开单",
+            artificerName1:"开单时间：17:00\n技师：张三\n客户：麻子\n下钟时间：18:00"
+        }
+      ],
     };
   },
   created(){
-    this.getYuYueDataList();
+   // this.getYuYueDataList();
   },
   methods: {
     // 选项卡操作事件
@@ -64,10 +78,27 @@ export default {
             }
         }
     },
+    handleOrder(row){
+        console.log(row)
+    },
+    // 设置首行背景颜色
+    rowStyle({row, rowIndex}) {
+        if(rowIndex === 0){
+            return { 'background': 'rgb(16 214 227)'};
+        } else {
+            return {};
+        }
+    },
+
   },
 };
 </script>
 
-<style scoped lang="scss">
-
+<style lang="scss">
+//或者全局换行
+.el-table {
+    .cell{
+        white-space: pre-wrap !important;
+    }
+}
 </style>
