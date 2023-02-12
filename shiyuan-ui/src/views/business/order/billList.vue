@@ -206,7 +206,6 @@ import { listOrder, getOrderInfoDetails } from "@/api/business/order";
 import { additionalList } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
 
-
 export default {
   name: "Order",
   dicts: ['b_additional_type', 'b_order_bell_type', 'b_order_state','b_order_payment_type'],
@@ -293,7 +292,13 @@ export default {
     reset() {
       this.additionalIds=[];
       this.fuZhuAdditionalList=[];
-      this.form = {
+      this.memberInfoView=false;
+      this.bMemberInfo={
+        memberName:null,
+        surplusAmount:null,
+        surplusTimes:null,
+      };
+      this.orderInfo = {
         orderId: null,
         startTime: null,
         endTime: null,
@@ -306,7 +311,6 @@ export default {
         artificerName: null,
         createTime: null,
         createBy: null,
-        memberInfoView:false,
       };
       this.resetForm("form");
     },
@@ -339,20 +343,21 @@ export default {
           this.bMemberInfo = response.data.params.bMemberInfo;
           this.bMemberInfo.memberName = this.bMemberInfo.memberName +" "+ this.bMemberInfo.memberPhonenumper +" "+this.bMemberInfo.memberCardName +" "+ this.bMemberInfo.surplusAmount + " 备注："+ this.bMemberInfo.remark;
         }
-        for(let k =0; k<this.fuZhuAdditionalList.length; k++){
-          if(response.data.params.additionalIds){
-            this.additionalIds = response.data.params.additionalIds;
-            for(let i =0; i<this.additionalIds.length; i++){
-              if(this.additionalIds[i] == this.fuZhuAdditionalList[k].additionalId){
-                this.fuZhuAdditionalList[k].disabled = false;
-              }else{
-                this.fuZhuAdditionalList[k].disabled =true;
-              }
+        if(response.data.params.additionalIds){
+          this.additionalIds = response.data.params.additionalIds;
+          for(let i =0; i <this.fuZhuAdditionalList.length; i++){
+            if(this.additionalIds.includes(this.fuZhuAdditionalList[i].additionalId)){
+              this.$set(this.fuZhuAdditionalList[i],'disabled',false);
+            }else{
+              this.$set(this.fuZhuAdditionalList[i],'disabled',true);
             }
-          }else{
-            this.fuZhuAdditionalList[k].disabled =true;
           }
+        }else{
+          this.fuZhuAdditionalList.forEach(item => {
+            this.$set(item,'disabled',true);
+          })
         }
+        console.log(this.fuZhuAdditionalList)
         this.open = true;
         this.title = "账单详情";
       })
