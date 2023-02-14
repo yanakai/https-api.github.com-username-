@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 14/02/2023 20:38:08
+ Date: 14/02/2023 20:49:57
 */
 
 SET NAMES utf8mb4;
@@ -195,6 +195,7 @@ CREATE TABLE `b_order_info`  (
   `additional_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '服务项目名称',
   `artificer_id` bigint NULL DEFAULT NULL COMMENT '技师id',
   `artificer_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '技师名称',
+  `customer_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '客户名称',
   `member_id` bigint NULL DEFAULT NULL COMMENT '结账会员id',
   `payment_time` datetime NULL DEFAULT NULL COMMENT '付款时间',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -208,11 +209,11 @@ CREATE TABLE `b_order_info`  (
 -- ----------------------------
 -- Records of b_order_info
 -- ----------------------------
-INSERT INTO `b_order_info` VALUES (19, '2023-02-10 23:56:00', '2023-02-10 23:56:00', 0.00, '1', '1', '1', 2, '98全是推拿调理', 4, '1 号张三', 9, '2023-02-10 23:56:00', '2023-02-10 23:56:48', '典唐', '2023-02-10 23:57:01', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (20, '2023-02-10 23:57:00', '2023-02-10 23:58:00', 60.00, '1', '1', '1', 2, '98全是推拿调理', 4, '1 号张三', 10, '2023-02-10 23:58:00', '2023-02-10 23:57:48', '典唐', '2023-02-10 23:58:25', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (21, '2023-02-11 00:06:00', '2023-02-12 00:56:00', 188.00, '1', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, '2023-02-12 00:56:00', '2023-02-11 00:06:12', '典唐', '2023-02-12 00:57:08', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (24, '2023-02-11 23:50:00', '2023-02-11 23:50:00', 158.00, '1', '2', '1', 2, '98全是推拿调理', 5, '1 李四', NULL, '2023-02-11 23:50:00', '2023-02-11 23:50:10', '典唐', '2023-02-11 23:50:25', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (25, '2023-02-12 17:16:00', '2023-02-12 21:47:00', 98.00, '1', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, '2023-02-12 21:47:00', '2023-02-12 17:16:46', '典唐', '2023-02-12 21:47:18', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (19, '2023-02-10 23:56:00', '2023-02-10 23:56:00', 0.00, '1', '1', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, 9, '2023-02-10 23:56:00', '2023-02-10 23:56:48', '典唐', '2023-02-10 23:57:01', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (20, '2023-02-10 23:57:00', '2023-02-10 23:58:00', 60.00, '1', '1', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, 10, '2023-02-10 23:58:00', '2023-02-10 23:57:48', '典唐', '2023-02-10 23:58:25', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (21, '2023-02-11 00:06:00', '2023-02-12 00:56:00', 188.00, '1', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, NULL, '2023-02-12 00:56:00', '2023-02-11 00:06:12', '典唐', '2023-02-12 00:57:08', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (24, '2023-02-11 23:50:00', '2023-02-11 23:50:00', 158.00, '1', '2', '1', 2, '98全是推拿调理', 5, '1 李四', NULL, NULL, '2023-02-11 23:50:00', '2023-02-11 23:50:10', '典唐', '2023-02-11 23:50:25', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (25, '2023-02-12 17:16:00', '2023-02-12 21:47:00', 98.00, '1', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, NULL, '2023-02-12 21:47:00', '2023-02-12 17:16:46', '典唐', '2023-02-12 21:47:18', '典唐', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -351,26 +352,28 @@ INSERT INTO `gen_table_column` VALUES (65, '4', 'remarks', '备注', 'varchar(25
 INSERT INTO `gen_table_column` VALUES (66, '4', 'data_type', '服务项目类型 1：主服务项目；2：附加项项目', 'char(2)', 'String', 'dataType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'b_additional_type', 5, '', '2023-01-11 22:34:41', NULL, '2023-01-11 23:05:16');
 INSERT INTO `gen_table_column` VALUES (67, '4', 'order_num', '排序', 'int', 'Long', 'orderNum', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 6, '', '2023-01-11 22:34:41', NULL, '2023-01-11 23:05:16');
 INSERT INTO `gen_table_column` VALUES (68, '4', 'duration', '服务项目时长单位分钟', 'int', 'Long', 'duration', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'input', '', 4, '', '2023-01-11 23:03:23', '', '2023-01-11 23:05:16');
-INSERT INTO `gen_table_column` VALUES (69, '5', 'order_id', '订单id', 'bigint', 'Long', 'orderId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 1, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (70, '5', 'start_time', '订单开始时间', 'datetime', 'Date', 'startTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 2, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (71, '5', 'end_time', '订单结束时间', 'datetime', 'Date', 'endTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 3, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (72, '5', 'order_amount', '订单金额', 'decimal(10,2)', 'BigDecimal', 'orderAmount', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (73, '5', 'order_state', '订单状态关联字典表b_order_state', 'char(2)', 'String', 'orderState', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', 'b_order_state', 5, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (74, '5', 'bell_type', '排钟类型关联字典表 b_order_bell_type', 'char(2)', 'String', 'bellType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'b_order_bell_type', 7, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (75, '5', 'additional_id', '服务项目id', 'bigint', 'Long', 'additionalId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', 'b_additional_type', 8, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (76, '5', 'additional_name', '服务项目名称', 'varchar(255)', 'String', 'additionalName', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 9, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:31');
-INSERT INTO `gen_table_column` VALUES (77, '5', 'artificer_id', '技师id', 'bigint', 'Long', 'artificerId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 10, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:31');
-INSERT INTO `gen_table_column` VALUES (78, '5', 'artificer_name', '技师名称', 'varchar(255)', 'String', 'artificerName', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', 'b_additional_type', 11, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:31');
-INSERT INTO `gen_table_column` VALUES (79, '5', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', NULL, 14, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:31');
-INSERT INTO `gen_table_column` VALUES (80, '5', 'create_by', '创建人', 'varchar(255)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 15, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-01 16:52:31');
-INSERT INTO `gen_table_column` VALUES (81, '5', 'payment_type', '订单付款类型关联字典表b_order_payment_type', 'char(2)', 'String', 'paymentType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'b_order_payment_type', 6, '', '2023-01-31 20:49:39', NULL, '2023-02-01 16:52:30');
-INSERT INTO `gen_table_column` VALUES (82, '5', 'member_id', '结账会员id', 'bigint', 'Long', 'memberId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 12, '', '2023-02-01 16:52:31', '', NULL);
-INSERT INTO `gen_table_column` VALUES (83, '5', 'payment_time', '付款时间', 'datetime', 'Date', 'paymentTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 13, '', '2023-02-01 16:52:31', '', NULL);
-INSERT INTO `gen_table_column` VALUES (84, '5', 'update_time', '修改时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', '', 16, '', '2023-02-01 16:52:31', '', NULL);
-INSERT INTO `gen_table_column` VALUES (85, '5', 'update_by', '修改人', 'varchar(255)', 'String', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'input', '', 17, '', '2023-02-01 16:52:31', '', NULL);
+INSERT INTO `gen_table_column` VALUES (69, '5', 'order_id', '订单id', 'bigint', 'Long', 'orderId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 1, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (70, '5', 'start_time', '订单开始时间', 'datetime', 'Date', 'startTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 2, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (71, '5', 'end_time', '订单结束时间', 'datetime', 'Date', 'endTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 3, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (72, '5', 'order_amount', '订单金额', 'decimal(10,2)', 'BigDecimal', 'orderAmount', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (73, '5', 'order_state', '订单状态关联字典表b_order_state', 'char(2)', 'String', 'orderState', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', 'b_order_state', 5, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (74, '5', 'bell_type', '排钟类型关联字典表 b_order_bell_type', 'char(2)', 'String', 'bellType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'b_order_bell_type', 7, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (75, '5', 'additional_id', '服务项目id', 'bigint', 'Long', 'additionalId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', 'b_additional_type', 8, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (76, '5', 'additional_name', '服务项目名称', 'varchar(255)', 'String', 'additionalName', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 9, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (77, '5', 'artificer_id', '技师id', 'bigint', 'Long', 'artificerId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 10, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (78, '5', 'artificer_name', '技师名称', 'varchar(255)', 'String', 'artificerName', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', 'b_additional_type', 11, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (79, '5', 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', NULL, 15, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (80, '5', 'create_by', '创建人', 'varchar(255)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 16, 'admin', '2023-01-13 21:33:50', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (81, '5', 'payment_type', '订单付款类型关联字典表b_order_payment_type', 'char(2)', 'String', 'paymentType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', 'b_order_payment_type', 6, '', '2023-01-31 20:49:39', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (82, '5', 'member_id', '结账会员id', 'bigint', 'Long', 'memberId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 13, '', '2023-02-01 16:52:31', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (83, '5', 'payment_time', '付款时间', 'datetime', 'Date', 'paymentTime', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 14, '', '2023-02-01 16:52:31', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (84, '5', 'update_time', '修改时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', NULL, 17, '', '2023-02-01 16:52:31', NULL, '2023-02-14 20:45:43');
+INSERT INTO `gen_table_column` VALUES (85, '5', 'update_by', '修改人', 'varchar(255)', 'String', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'input', NULL, 18, '', '2023-02-01 16:52:31', NULL, '2023-02-14 20:45:43');
 INSERT INTO `gen_table_column` VALUES (86, '6', 'id', '主键id', 'bigint', 'Long', 'id', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', NULL, 1, 'admin', '2023-02-07 23:15:50', NULL, '2023-02-07 23:18:00');
 INSERT INTO `gen_table_column` VALUES (87, '6', 'order_id', '订单id', 'bigint', 'Long', 'orderId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2023-02-07 23:15:50', NULL, '2023-02-07 23:18:00');
 INSERT INTO `gen_table_column` VALUES (89, '6', 'additional_id', '辅助项目id', 'bigint', 'Long', 'additionalId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 3, '', '2023-02-07 23:18:00', '', NULL);
+INSERT INTO `gen_table_column` VALUES (90, '5', 'customer_name', '客户名称', 'varchar(255)', 'String', 'customerName', '0', '0', NULL, '1', '1', '1', '1', 'LIKE', 'input', '', 12, '', '2023-02-14 20:45:43', '', NULL);
+INSERT INTO `gen_table_column` VALUES (91, '5', 'remark', '备注', 'varchar(255)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'input', '', 19, '', '2023-02-14 20:45:43', '', NULL);
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -1125,6 +1128,7 @@ INSERT INTO `sys_oper_log` VALUES (54, '字典数据', 2, 'com.yk.web.controller
 INSERT INTO `sys_oper_log` VALUES (55, '字典数据', 2, 'com.yk.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', NULL, '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2023-01-13 21:39:14\",\"default\":false,\"dictCode\":112,\"dictLabel\":\"未支付\",\"dictSort\":1,\"dictType\":\"b_order_state\",\"dictValue\":\"1\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-14 20:27:51');
 INSERT INTO `sys_oper_log` VALUES (56, '字典数据', 2, 'com.yk.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', NULL, '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2023-01-13 21:39:27\",\"default\":false,\"dictCode\":113,\"dictLabel\":\"已支付\",\"dictSort\":2,\"dictType\":\"b_order_state\",\"dictValue\":\"2\",\"isDefault\":\"N\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-14 20:27:58');
 INSERT INTO `sys_oper_log` VALUES (57, '字典数据', 1, 'com.yk.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"预约中\",\"dictSort\":0,\"dictType\":\"b_order_state\",\"dictValue\":\"0\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-14 20:28:17');
+INSERT INTO `sys_oper_log` VALUES (58, '代码生成', 2, 'com.yk.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', NULL, '/tool/gen/synchDb/b_order_info', '127.0.0.1', '内网IP', '{tableName=b_order_info}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-14 20:45:43');
 
 -- ----------------------------
 -- Table structure for sys_post
