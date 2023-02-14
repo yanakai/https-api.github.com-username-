@@ -60,7 +60,7 @@ public class BArtificerInfoController extends BaseController {
     public AjaxResult getList(BArtificerInfo bArtificerInfo){
         List<BArtificerInfo> list = bArtificerInfoService.selectBArtificerInfoList(bArtificerInfo);
         BOrderInfo orderInfo = new BOrderInfo();
-        orderInfo.setOrderState("0");
+        orderInfo.setOrderState("1");
         // 拿到正在进行的订单中上钟技师，匹配技师数组，开单不再选中上钟的技师
         List<BOrderInfo> orderInfoList = bOrderInfoService.selectBOrderInfoList(orderInfo);
         if(StringUtils.isNotEmpty(orderInfoList)){

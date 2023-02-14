@@ -74,7 +74,6 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
     {
         bOrderInfo.setCreateTime(DateUtils.getNowDate());
         bOrderInfo.setCreateBy(SecurityUtils.getLoginUser().getUser().getNickName());
-        bOrderInfo.setOrderState("1"); // 订单状态  0：预约中；1：已开单；2：已支付
         return bOrderInfoMapper.insertBOrderInfo(bOrderInfo);
     }
 

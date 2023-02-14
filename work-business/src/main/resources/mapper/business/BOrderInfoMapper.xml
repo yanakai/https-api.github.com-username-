@@ -77,8 +77,7 @@
             <if test="additionalName != null">additional_name,</if>
             <if test="artificerId != null">artificer_id,</if>
             <if test="artificerName != null">artificer_name,</if>
-            <if test="customerName != null">customer_name,</if>
-            <if test="customerName != null">#{customerName},</if>
+            <if test="customerName != null and customerName != '' ">customer_name,</if>
             <if test="memberId != null">member_id,</if>
             <if test="paymentTime != null">payment_time,</if>
             <if test="createTime != null">create_time,</if>
@@ -98,7 +97,7 @@
             <if test="additionalName != null">#{additionalName},</if>
             <if test="artificerId != null">#{artificerId},</if>
             <if test="artificerName != null">#{artificerName},</if>
-            <if test="customerName != null">#{customerName},</if>
+            <if test="customerName != null and customerName != '' ">#{customerName},</if>
             <if test="memberId != null">#{memberId},</if>
             <if test="paymentTime != null">#{paymentTime},</if>
             <if test="createTime != null">#{createTime},</if>

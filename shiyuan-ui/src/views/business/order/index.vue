@@ -492,6 +492,10 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+      // 加载主服务项目列表
+      this.getZhuAdditionalList();
+      // 加载技师列表数据
+      this.getArtificerListDat();
       const orderId = row.orderId || this.ids
       getOrder(orderId).then(response => {
         this.form = response.data;
@@ -558,6 +562,7 @@ export default {
               this.getList();
             });
           } else {
+            this.form.orderState = '1' // 赋值订单状态 订单状态  0：预约中；1：已开单；2：已支付
             addOrder(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;

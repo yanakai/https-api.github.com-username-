@@ -8,6 +8,14 @@ export function listOrder(query) {
     params: query
   })
 }
+// 查询订单列表--不分页
+export function orderDataList(query) {
+  return request({
+    url: '/business/order/getOrderDataList',
+    method: 'get',
+    params: query
+  })
+}
 
 // 查询订单信息详细
 export function getOrder(orderId) {

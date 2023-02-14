@@ -49,6 +49,20 @@ public class BOrderInfoController extends BaseController {
     }
 
     /**
+     * @title getOrderDataList
+     * @description  查询订单列表--不分页
+     * @param bOrderInfo
+     * @return com.yk.common.core.domain.AjaxResult
+     * @author yanakai@126.com
+     * @date   2023/2/14
+     */
+    @GetMapping("/getOrderDataList")
+    public AjaxResult getOrderDataList(BOrderInfo bOrderInfo){
+        List<BOrderInfo> list = bOrderInfoService.selectBOrderInfoList(bOrderInfo);
+        return AjaxResult.success(list);
+    }
+
+    /**
      * 导出订单信息列表
      */
     @PreAuthorize("@ss.hasPermi('business:order:export')")
