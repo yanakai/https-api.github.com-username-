@@ -235,7 +235,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        orderState: '1',
+        orderState: '2', // 订单状态  0：预约中；1：已开单；2：已支付
         bellType: null,
         additionalId: null,
         artificerId: null,

@@ -12,7 +12,7 @@
                                 <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
                             </div>
                             <el-table stripe :data="yuYueDataList">
-                                <el-table-column label="技师" align="center" prop="artificerName" />
+                                <el-table-column label="师傅名称" align="center" prop="artificerName" />
                                 <el-table-column label="客户姓名" align="center" prop="artificerName2" />
                                 <el-table-column label="预约时间" align="center" prop="artificerName2" />
                                 <el-table-column label="下钟时间" align="center" prop="artificerName3" />
@@ -27,7 +27,7 @@
                                 <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
                             </div>
                             <el-table stripe :data="yuYueDataList">
-                                <el-table-column label="技师" align="center" prop="artificerName" />
+                                <el-table-column label="师傅名称" align="center" prop="artificerName" />
                                 <el-table-column label="客户姓名" align="center" prop="artificerName2" />
                                 <el-table-column label="开单时间" align="center" prop="artificerName2" />
                                 <el-table-column label="下钟时间" align="center" prop="artificerName3" />

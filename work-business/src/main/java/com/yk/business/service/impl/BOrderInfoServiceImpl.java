@@ -64,7 +64,7 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
     }
 
     /**
-     * 新增订单信息
+     * 新增订单信息；直接开单
      *
      * @param bOrderInfo 订单信息
      * @return 结果
@@ -74,7 +74,7 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
     {
         bOrderInfo.setCreateTime(DateUtils.getNowDate());
         bOrderInfo.setCreateBy(SecurityUtils.getLoginUser().getUser().getNickName());
-        bOrderInfo.setOrderState("0");
+        bOrderInfo.setOrderState("1"); // 订单状态  0：预约中；1：已开单；2：已支付
         return bOrderInfoMapper.insertBOrderInfo(bOrderInfo);
     }
 
@@ -128,7 +128,7 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
         orderInfo.setPaymentType(bPaymentDataVo.getPaymentType());
         orderInfo.setUpdateTime(DateUtils.getNowDate());
         orderInfo.setUpdateBy(SecurityUtils.getLoginUser().getUser().getNickName());
-        orderInfo.setOrderState("1");
+        orderInfo.setOrderState("2");// 订单状态  0：预约中；1：已开单；2：已支付
         state = bOrderInfoMapper.updateBOrderInfo(orderInfo);
         /** 赋值订单信息 */
 
