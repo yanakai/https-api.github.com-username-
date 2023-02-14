@@ -5,21 +5,36 @@
             <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabsClick">
                 <el-tab-pane name="first">
                     <span slot="label"><i class="el-icon-date"></i> 预约</span>
-                    <el-table stripe :data="yuYueDataList" :row-style="rowStyle">>
-                        <el-table-column label="状态" align="center" prop="orderState" />
-                        <el-table-column label="师傅1" align="center" prop="artificerName1">
-                            <template slot-scope="scope">
-                                <span @click="handleOrder(scope.row)">{{ scope.row.artificerName1}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="师傅2" align="center" prop="artificerName2" />
-                        <el-table-column label="师傅3" align="center" prop="artificerName3" />
-                        <el-table-column label="师傅4" align="center" prop="artificerName4" />
-                        <el-table-column label="师傅5" align="center" prop="artificerName5" />
-                        <el-table-column label="师傅6" align="center" prop="artificerName6" />
-                        <el-table-column label="师傅7" align="center" prop="artificerName7" />
-                        <el-table-column label="师傅8" align="center" prop="artificerName8" />
-                    </el-table>
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                        <el-card class="box-card">
+                            <div slot="header" class="clearfix">
+                                <span>预约列表</span>
+                                <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                            </div>
+                            <el-table stripe :data="yuYueDataList">
+                                <el-table-column label="技师" align="center" prop="artificerName" />
+                                <el-table-column label="客户姓名" align="center" prop="artificerName2" />
+                                <el-table-column label="预约时间" align="center" prop="artificerName2" />
+                                <el-table-column label="下钟时间" align="center" prop="artificerName3" />
+                                <el-table-column label="操作" align="center" prop="artificerName4" />
+                            </el-table>
+                        </el-card>
+                    </el-col>
+                    <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                        <el-card class="box-card">
+                            <div slot="header" class="clearfix">
+                                <span>上钟列表</span>
+                                <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                            </div>
+                            <el-table stripe :data="yuYueDataList">
+                                <el-table-column label="技师" align="center" prop="artificerName" />
+                                <el-table-column label="客户姓名" align="center" prop="artificerName2" />
+                                <el-table-column label="开单时间" align="center" prop="artificerName2" />
+                                <el-table-column label="下钟时间" align="center" prop="artificerName3" />
+                                <el-table-column label="操作" align="center" prop="artificerName4" />
+                            </el-table>
+                        </el-card>
+                    </el-col>
                 </el-tab-pane>
                 <el-tab-pane name="second">
                     <span slot="label"><i class="el-icon-monitor"></i> 统计</span>
@@ -45,14 +60,26 @@ export default {
       //预约列表数据
       yuYueDataList:[
         {
-            orderState:"预约",
-            artificerName1:"预约时间：18:00\n技师：李四\n客户：麻子\n下钟时间：19:00",
-            artificerName2:"预约时间：18:20\n技师：李欢\n客户：麻子\n下钟时间：19:20"
+            artificerName:"技师1",
         },
         {
-            orderState:"开单",
-            artificerName1:"开单时间：17:00\n技师：张三\n客户：麻子\n下钟时间：18:00"
-        }
+            artificerName:"技师2",
+        },
+        {
+            artificerName:"技师3",
+        },
+        {
+            artificerName:"技师4",
+        },
+        {
+            artificerName:"技师5",
+        },
+        {
+            artificerName:"技师6",
+        },
+        {
+            artificerName:"技师7",
+        },
       ],
     };
   },
@@ -81,24 +108,10 @@ export default {
     handleOrder(row){
         console.log(row)
     },
-    // 设置首行背景颜色
-    rowStyle({row, rowIndex}) {
-        if(rowIndex === 0){
-            return { 'background': 'rgb(16 214 227)'};
-        } else {
-            return {};
-        }
-    },
-
   },
 };
 </script>
 
 <style lang="scss">
-//或者全局换行
-.el-table {
-    .cell{
-        white-space: pre-wrap !important;
-    }
-}
+
 </style>
