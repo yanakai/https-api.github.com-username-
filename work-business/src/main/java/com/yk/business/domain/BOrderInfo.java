@@ -64,6 +64,10 @@ public class BOrderInfo extends BaseEntity
     @Excel(name = "技师名称")
     private String artificerName;
 
+    /** 客户名称 */
+    @Excel(name = "客户名称")
+    private String customerName;
+
     /** 结账会员id */
     @Excel(name = "结账会员id")
     private Long memberId;
@@ -172,6 +176,17 @@ public class BOrderInfo extends BaseEntity
     {
         return artificerName;
     }
+
+    public void setCustomerName(String customerName)
+    {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerName()
+    {
+        return customerName;
+    }
+
     public void setMemberId(Long memberId)
     {
         this.memberId = memberId;
@@ -205,6 +220,7 @@ public class BOrderInfo extends BaseEntity
                 .append("additionalName", getAdditionalName())
                 .append("artificerId", getArtificerId())
                 .append("artificerName", getArtificerName())
+                .append("customerName", getCustomerName())
                 .append("memberId", getMemberId())
                 .append("paymentTime", getPaymentTime())
                 .append("createTime", getCreateTime())

@@ -16,6 +16,7 @@
         <result property="additionalName"    column="additional_name"    />
         <result property="artificerId"    column="artificer_id"    />
         <result property="artificerName"    column="artificer_name"    />
+        <result property="customerName"    column="customer_name"    />
         <result property="memberId"    column="member_id"    />
         <result property="paymentTime"    column="payment_time"    />
         <result property="createTime"    column="create_time"    />
@@ -26,7 +27,7 @@
     </resultMap>
 
     <sql id="selectBOrderInfoVo">
-        select order_id, start_time, end_time, order_amount, order_state, payment_type, bell_type, additional_id, additional_name, artificer_id, artificer_name, member_id, payment_time, create_time, create_by, update_time, update_by,remark from b_order_info
+        select order_id, start_time, end_time, order_amount, order_state, payment_type, bell_type, additional_id, additional_name, artificer_id, artificer_name, customer_name, member_id, payment_time, create_time, create_by, update_time, update_by,remark from b_order_info
     </sql>
 
     <select id="selectBOrderInfoList" parameterType="BOrderInfo" resultMap="BOrderInfoResult">
@@ -42,6 +43,7 @@
             <if test="additionalName != null  and additionalName != ''"> and additional_name = #{additionalName}</if>
             <if test="artificerId != null "> and artificer_id = #{artificerId}</if>
             <if test="artificerName != null  and artificerName != ''"> and artificer_name = #{artificerName}</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
             <if test="memberId != null "> and member_id = #{memberId}</if>
             <if test="paymentTime != null "> and payment_time = #{paymentTime}</if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
@@ -75,6 +77,8 @@
             <if test="additionalName != null">additional_name,</if>
             <if test="artificerId != null">artificer_id,</if>
             <if test="artificerName != null">artificer_name,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="customerName != null">#{customerName},</if>
             <if test="memberId != null">member_id,</if>
             <if test="paymentTime != null">payment_time,</if>
             <if test="createTime != null">create_time,</if>
@@ -94,6 +98,7 @@
             <if test="additionalName != null">#{additionalName},</if>
             <if test="artificerId != null">#{artificerId},</if>
             <if test="artificerName != null">#{artificerName},</if>
+            <if test="customerName != null">#{customerName},</if>
             <if test="memberId != null">#{memberId},</if>
             <if test="paymentTime != null">#{paymentTime},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -117,6 +122,7 @@
             <if test="additionalName != null">additional_name = #{additionalName},</if>
             <if test="artificerId != null">artificer_id = #{artificerId},</if>
             <if test="artificerName != null">artificer_name = #{artificerName},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
             <if test="memberId != null">member_id = #{memberId},</if>
             <if test="paymentTime != null">payment_time = #{paymentTime},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

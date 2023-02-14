@@ -11,11 +11,12 @@
                                 <span>预约列表</span>
                                 <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
                             </div>
-                            <el-table stripe :data="yuYueDataList">
+                            <el-table stripe :data="yuYueOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
                                 <el-table-column label="客户姓名" align="center" prop="artificerName2" />
                                 <el-table-column label="预约时间" align="center" prop="artificerName2" />
                                 <el-table-column label="下钟时间" align="center" prop="artificerName3" />
+                                <el-table-column label="备注" align="center" prop="remark" />
                                 <el-table-column label="操作" align="center" prop="artificerName4" />
                             </el-table>
                         </el-card>
@@ -26,7 +27,7 @@
                                 <span>上钟列表</span>
                                 <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
                             </div>
-                            <el-table stripe :data="yuYueDataList">
+                            <el-table stripe :data="kaiDanOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
                                 <el-table-column label="客户姓名" align="center" prop="artificerName2" />
                                 <el-table-column label="开单时间" align="center" prop="artificerName2" />
@@ -57,30 +58,10 @@ export default {
     return {
       // 默认选项卡选中第一个
       activeName: 'first',
-      //预约列表数据
-      yuYueDataList:[
-        {
-            artificerName:"技师1",
-        },
-        {
-            artificerName:"技师2",
-        },
-        {
-            artificerName:"技师3",
-        },
-        {
-            artificerName:"技师4",
-        },
-        {
-            artificerName:"技师5",
-        },
-        {
-            artificerName:"技师6",
-        },
-        {
-            artificerName:"技师7",
-        },
-      ],
+      //预约订单列表数据
+      yuYueOrderList:[],
+      //开单订单列表数据
+      kaiDanOrderList:[],
     };
   },
   created(){
@@ -94,19 +75,8 @@ export default {
         this.getYuYueDataList();
     },
     // 加载预约列表数据
-    getYuYueDataList(){
-        const startTime = this.$moment().add(-1, 'hour').format("yyyy-MM-DD HH:mm");// 获取当前上一个小时的时间
-        // 1)将日期字符串转化为日期对象
-        let startDate = new Date(startTime);
-        let startHour = startDate.getHours();
-        for(let i=startHour;i<24; i++){
-            for(let k=0; k<60; k++){
-                console.log(i+":"+k);
-            }
-        }
-    },
-    handleOrder(row){
-        console.log(row)
+    getYuYueOrderList(){
+       
     },
   },
 };
