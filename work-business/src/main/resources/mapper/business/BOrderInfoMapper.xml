@@ -22,10 +22,11 @@
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectBOrderInfoVo">
-        select order_id, start_time, end_time, order_amount, order_state, payment_type, bell_type, additional_id, additional_name, artificer_id, artificer_name, member_id, payment_time, create_time, create_by, update_time, update_by from b_order_info
+        select order_id, start_time, end_time, order_amount, order_state, payment_type, bell_type, additional_id, additional_name, artificer_id, artificer_name, member_id, payment_time, create_time, create_by, update_time, update_by,remark from b_order_info
     </sql>
 
     <select id="selectBOrderInfoList" parameterType="BOrderInfo" resultMap="BOrderInfoResult">
@@ -80,6 +81,7 @@
             <if test="createBy != null">create_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="updateBy != null">update_by,</if>
+            <if test="remark != null and remark!=''">remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="startTime != null">#{startTime},</if>
@@ -98,6 +100,7 @@
             <if test="createBy != null">#{createBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null and remark!=''">#{remark},</if>
         </trim>
     </insert>
 
@@ -120,6 +123,7 @@
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null and remark!=''">remark = #{remark},</if>
         </trim>
         where order_id = #{orderId}
     </update>
