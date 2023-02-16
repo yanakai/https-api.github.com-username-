@@ -100,7 +100,7 @@
                 </el-tab-pane>
                 <el-tab-pane name="second">
                     <span slot="label"><i class="el-icon-monitor"></i> 统计</span>
-                    统计
+                    统计列表
                 </el-tab-pane>
                 <el-tab-pane name="third">
                     <span slot="label"><i class="el-icon-time"></i> 排钟</span>
