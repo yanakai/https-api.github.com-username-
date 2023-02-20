@@ -55,7 +55,7 @@
                         <el-card class="box-card">
                             <div slot="header" class="clearfix">
                                 <span>上钟列表</span>
-                                <el-button style="float: right; padding: 3px 0" type="text">新增开单</el-button>
+                                <el-button style="float: right; padding: 3px 0" type="text" @click="handleKaiDanOrder">新增开单</el-button>
                             </div>
                             <el-table stripe v-loading="kaiDanLoading" :data="kaiDanOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
@@ -571,7 +571,12 @@ export default {
         this.resetyuYueForm();
         // 隐藏预约表单
         this.yuYueOpen = false;
+      },
+    /** 上钟列表新增开单 */
+    handleKaiDanOrder () { 
+        this.$parent.handleKaiDanOrder('add');// 调用父组件的方法
     },
+      
     /** 查询主服务和附加项项目列表 1：主服务；2：附加项*/
     getZhuAdditionalList(){
         const params = {dataType:1};
