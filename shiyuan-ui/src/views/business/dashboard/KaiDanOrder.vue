@@ -122,7 +122,7 @@ export default {
    created() {
       this.reset();
       this.open = true;
-      this.title = "添加订单信息";
+      this.title = "新增订单信息";
       // 加载开单时间
       this.form.startTime = this.parseTime(new Date(),"{y}-{m}-{d} {h}:{i}");
       // 加载主服务项目列表
