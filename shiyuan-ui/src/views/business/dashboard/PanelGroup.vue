@@ -41,7 +41,7 @@
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('add')">
+      <div class="card-panel" @click="handleKaiDan('add')">
         <div class="card-panel-icon-wrapper icon-add">
           <svg-icon icon-class="add" class-name="card-panel-icon" />
         </div>
@@ -65,7 +65,11 @@ export default {
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
-    }
+    },
+    // 开单按钮
+    handleKaiDan(type) {  // 调用父组件的方法@handleKaiDanOrder 实现通信
+      this.$emit('handleKaiDanOrder', type)
+    },
   }
 }
 </script>
