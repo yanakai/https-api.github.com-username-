@@ -200,7 +200,7 @@
     <!-- 查询今日办理会员总金额   -->
     <select id="getMemberAmountStatistics" parameterType="BMemberInfo" resultType="integer">
         select
-            SUM(recharge_amount) AS memberAmountCount
+            IFNULL(SUM(recharge_amount),0) AS memberAmountCount
         from
             b_member_info
         where
