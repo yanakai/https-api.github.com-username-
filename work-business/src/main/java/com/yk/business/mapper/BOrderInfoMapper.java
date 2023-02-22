@@ -1,6 +1,8 @@
 package com.yk.business.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.yk.business.domain.BOrderInfo;
 
 /**
@@ -58,4 +60,13 @@ public interface BOrderInfoMapper
      * @return 结果
      */
     public int deleteBOrderInfoByOrderIds(Long[] orderIds);
+    /**
+     * @title getOrderStatistics
+     * @description  查询今日已结账的订单总额、及订单数量
+     * @param bOrderInfo
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @author yanakai@126.com
+     * @date   2023/2/22
+     */
+    Map<String, Object> getOrderStatistics(BOrderInfo bOrderInfo);
 }

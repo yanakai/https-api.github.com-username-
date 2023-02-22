@@ -10,7 +10,8 @@
           <div class="card-panel-text">
             今日收入
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <!-- count-to：数字滚动插件； startVal：开始值；endVal：结束值；duration：持续时间，以毫秒为单位-->
+          <count-to :start-val="0" :end-val="orderAmountCount" :duration="1000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -23,7 +24,7 @@
           <div class="card-panel-text">
             今日会员
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="memberAmountCount" :duration="1000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -36,7 +37,7 @@
           <div class="card-panel-text">
             今日订单
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="orderCount" :duration="1000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -57,10 +58,26 @@
 
 <script>
 import CountTo from 'vue-count-to'
-
+import { orderStatistics} from "@/api/business/index";
 export default {
   components: {
     CountTo
+  },
+  data(){
+    return {
+      // 今日订单总额
+      orderAmountCount: 0,
+      // 今日订单总数
+      orderCount: 0,
+      // 今日会员充值金额
+      memberAmountCount: 0,
+    }
+  },
+  created(){
+    // 初始化加载首页统计数据
+    setInterval(() => {
+      this.getOrderStatistics();
+    }, 1000)
   },
   methods: {
     handleSetLineChartData(type) {
@@ -70,6 +87,15 @@ export default {
     handleKaiDan(type) {  // 调用父组件的方法@handleKaiDanOrder 实现通信
       this.$emit('handleKaiDanOrder', type)
     },
+    //订单首页统计功能
+    getOrderStatistics(){
+      const queryParams= {};
+      orderStatistics().then( response => {
+        this.orderAmountCount = response.data.orderAmountCount;
+        this.orderCount = response.data.orderCount;
+        this.memberAmountCount = response.data.memberAmountCount;
+      })
+    }
   }
 }
 </script>

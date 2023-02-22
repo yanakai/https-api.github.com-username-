@@ -1,9 +1,6 @@
 package com.yk.business.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.yk.business.domain.BMemberInfo;
 import com.yk.business.domain.BOrderAdditional;
@@ -183,6 +180,24 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
             bOrderInfo.setParams(params);
         }
         return bOrderInfo;
+    }
+
+    @Override
+    public Map<String, Object> getOrderStatistics(BOrderInfo bOrderInfo) {
+        Map<String,Object> statisticsMap = new HashMap<>();
+        // 获取今日时间
+        String nowDayTime = DateUtils.getDate();
+        // 查询今日已结账的订单总额、及订单数量
+        bOrderInfo.setOrderState("2");
+        bOrderInfo.getParams().put("searchTime",nowDayTime);
+        statisticsMap =  bOrderInfoMapper.getOrderStatistics(bOrderInfo);
+        // 查询今日办理会员总金额
+        BMemberInfo bMemberInfo = new BMemberInfo();
+        bMemberInfo.getParams().put("searchTime",nowDayTime);
+        int memberAmountCount = bMemberInfoMapper.getMemberAmountStatistics(bMemberInfo);
+        // 今日会员重置金额
+        statisticsMap.put("memberAmountCount",memberAmountCount);
+        return statisticsMap;
     }
 
 

@@ -79,4 +79,13 @@ public interface BMemberInfoMapper
      * @date   2022/9/6
      */
     List<BMemberInfo> getBMemberInfoListByMemberIds(Long[] memberIds);
+    /**
+     * @title getMemberAmountStatistics
+     * @description  查询今日办理会员总金额
+     * @param bMemberInfo
+     * @return int
+     * @author yanakai@126.com
+     * @date   2023/2/22
+     */
+    int getMemberAmountStatistics(BMemberInfo bMemberInfo);
 }

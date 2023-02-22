@@ -1,6 +1,8 @@
 package com.yk.business.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.yk.business.domain.BOrderInfo;
 import com.yk.business.domain.BPaymentDataVo;
 
@@ -77,4 +79,6 @@ public interface IBOrderInfoService
      * @date   2023/2/11
      */
     BOrderInfo getOrderInfoDetailsById(Long orderId);
+
+    Map<String,Object> getOrderStatistics(BOrderInfo bOrderInfo);
 }

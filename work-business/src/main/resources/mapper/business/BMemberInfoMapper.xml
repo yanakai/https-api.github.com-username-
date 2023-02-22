@@ -197,6 +197,18 @@
         </foreach>
     </select>
 
+    <!-- 查询今日办理会员总金额   -->
+    <select id="getMemberAmountStatistics" parameterType="BMemberInfo" resultType="integer">
+        select
+            SUM(recharge_amount) AS memberAmountCount
+        from
+            b_member_info
+        where
+            date_format(create_time,'%y%m%d') = date_format(#{params.searchTime},'%y%m%d')
+    </select>
+
+
+
 
 
 
