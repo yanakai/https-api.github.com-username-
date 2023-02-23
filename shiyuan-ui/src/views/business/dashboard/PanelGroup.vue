@@ -75,9 +75,12 @@ export default {
   },
   created(){
     // 初始化加载首页统计数据
+    this.getOrderStatistics();
+    /** 请求后台太频繁暂时不用
     setInterval(() => {
       this.getOrderStatistics();
-    }, 1000)
+    }, 1000);
+     */
   },
   methods: {
     handleSetLineChartData(type) {
