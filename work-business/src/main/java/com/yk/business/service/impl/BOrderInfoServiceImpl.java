@@ -5,6 +5,7 @@ import java.util.*;
 import com.yk.business.domain.BMemberInfo;
 import com.yk.business.domain.BOrderAdditional;
 import com.yk.business.domain.BPaymentDataVo;
+import com.yk.business.mapper.BArtificerInfoMapper;
 import com.yk.business.mapper.BMemberInfoMapper;
 import com.yk.business.mapper.BOrderAdditionalMapper;
 import com.yk.common.utils.DateUtils;
@@ -35,6 +36,9 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
 
     @Resource
     private BMemberInfoMapper bMemberInfoMapper;
+
+    @Resource
+    private BArtificerInfoMapper bArtificerInfoMapper;
 
     /**
      * 查询订单信息
@@ -198,6 +202,13 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
         // 今日会员重置金额
         statisticsMap.put("memberAmountCount",memberAmountCount);
         return statisticsMap;
+    }
+
+    @Override
+    public String getArtificerStatistics(BOrderInfo bOrderInfo) {
+        // 获取所有技师的信息
+
+        return null;
     }
 
 

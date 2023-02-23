@@ -79,6 +79,22 @@ public interface IBOrderInfoService
      * @date   2023/2/11
      */
     BOrderInfo getOrderInfoDetailsById(Long orderId);
-
+    /**
+     * @title getOrderStatistics
+     * @description  订单首页统计功能
+     * @param bOrderInfo
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @author yanakai@126.com
+     * @date   2023/2/23
+     */
     Map<String,Object> getOrderStatistics(BOrderInfo bOrderInfo);
+    /**
+     * @title getArtificerStatistics
+     * @description  首页统计技师开单情况
+     * @param bOrderInfo
+     * @return java.lang.String
+     * @author yanakai@126.com
+     * @date   2023/2/23
+     */
+    String getArtificerStatistics(BOrderInfo bOrderInfo);
 }

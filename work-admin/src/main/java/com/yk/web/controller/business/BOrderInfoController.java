@@ -156,6 +156,20 @@ public class BOrderInfoController extends BaseController {
         return AjaxResult.success(bOrderInfoService.getOrderStatistics(bOrderInfo));
     }
 
+    /**
+     * @title getArtificerStatistics
+     * @description  首页统计技师开单情况
+     * @param bOrderInfo
+     * @return com.yk.common.core.domain.AjaxResult
+     * @author yanakai@126.com
+     * @date   2023/2/23
+     */
+    @GetMapping("/getArtificerStatistics")
+    public AjaxResult getArtificerStatistics(BOrderInfo bOrderInfo){
+        return AjaxResult.success(bOrderInfoService.getArtificerStatistics(bOrderInfo));
+    }
+
+
 
 
 }
