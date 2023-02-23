@@ -61,10 +61,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home {
-  h4 {
-    margin-top: 0px;
-  }
-}
+
 </style>
 
