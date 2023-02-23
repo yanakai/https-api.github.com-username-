@@ -100,7 +100,35 @@
                 </el-tab-pane>
                 <el-tab-pane name="second">
                     <span slot="label"><i class="el-icon-monitor"></i> 统计</span>
-                    统计列表
+                    <el-col :xs="24" :sm="24" :md="24" :lg="24">
+                        <el-card class="box-card">
+                            <el-form :model="queryParams" ref="queryForm" size="small" :inline="true"  label-width="68px">
+                                <el-form-item label="时间选择">
+                                    <el-date-picker
+                                      v-model="dateRange"
+                                      style="width: 240px"
+                                      value-format="yyyy-MM-dd"
+                                      type="daterange"
+                                      range-separator="-"
+                                      start-placeholder="开始日期"
+                                      end-placeholder="结束日期"
+                                    ></el-date-picker>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                                    <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                                </el-form-item>
+                            </el-form>
+                            <el-table stripe v-loading="tongJiLoading" :data="tongJiOrderList">
+                                <el-table-column label="师傅名称" align="center" prop="artificerName" />
+                                <el-table-column label="点钟" align="center" prop="dianZhongTongji"  />
+                                <el-table-column label="排钟" align="center" prop="paiZhongTongji" />
+                                <el-table-column label="辅助项目" align="center" prop="fuZhuAdditional" />
+                                <el-table-column label="非会员结账收入" align="center" prop="billTotal" />
+                                <el-table-column label="收入明细" align="center" prop="revenueDetails" :show-overflow-tooltip="true" />
+                            </el-table>
+                        </el-card>
+                    </el-col>
                 </el-tab-pane>
                 <el-tab-pane name="third">
                     <span slot="label"><i class="el-icon-time"></i> 排钟</span>
@@ -322,6 +350,19 @@ export default {
         jieZhangOrderFormView: false,
         // 结账弹窗表单
         jieZhangForm: {},
+
+        /** 统计 字段*/
+        // 统计列表遮罩层
+        tongJiLoading:false,
+        // 统计师傅订单列表
+        tongJiOrderList:[],
+        // 查询参数
+        queryParams: {
+            
+        },
+
+
+
 
     };
   },
