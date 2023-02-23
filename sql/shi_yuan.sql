@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 15/02/2023 00:31:05
+ Date: 23/02/2023 10:56:54
 */
 
 SET NAMES utf8mb4;
@@ -121,7 +121,7 @@ CREATE TABLE `b_member_info`  (
   `member_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会员姓名',
   `member_phonenumper` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '手机号',
   `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别关联字典表（0男 1女 2未知）',
-  `member_password` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会员密码',
+  `member_password` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会员密码',
   `member_card_id` bigint NULL DEFAULT NULL COMMENT '会员卡id（关联表b_member_card）',
   `member_card_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会员卡名称（关联表b_member_card）',
   `member_type` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '会员卡类型（关联表b_member_card）',
@@ -149,13 +149,14 @@ CREATE TABLE `b_member_info`  (
 -- ----------------------------
 -- Records of b_member_info
 -- ----------------------------
-INSERT INTO `b_member_info` VALUES (8, '闫凯', '15555555555', '0', '123456', 4, '1000 送300', '1', NULL, 1000.00, 300.00, 60.00, 1300.00, 0, '1', 4, '1 号张三', 2000, NULL, NULL, 'tryr', '这是备注', '2022-09-03 21:38:44', NULL, NULL, NULL);
+INSERT INTO `b_member_info` VALUES (8, '闫凯', '15555555555', '0', '123456', 4, '1000 送300', '1', NULL, 1000.00, 300.00, 60.00, 1141.00, 0, '1', 4, '1 号张三', 2000, NULL, NULL, 'tryr', '这是备注', '2022-09-03 21:38:44', NULL, NULL, NULL);
 INSERT INTO `b_member_info` VALUES (9, '赵四', '15538157826', '0', '123456', 7, '500 送5次', '2', NULL, 0.00, 0.00, 0.00, 0.00, 4, '3', 5, '1 李四', 23, NULL, NULL, '闫凯', '这是备注', '2022-09-03 22:16:51', NULL, NULL, NULL);
 INSERT INTO `b_member_info` VALUES (10, '他', '16602918019', '0', '123456', 4, '1000 送300', '1', NULL, 1000.00, 300.00, 60.00, 5140.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2022-09-06 17:24:14', NULL, NULL, NULL);
 INSERT INTO `b_member_info` VALUES (11, '麻子', '16602918019', '0', '123456', 5, '2000 送 600', '1', NULL, 2000.00, 600.00, 60.00, 30.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2022-09-06 17:24:43', NULL, NULL, NULL);
 INSERT INTO `b_member_info` VALUES (12, '王二', '16602918019', '0', '123456', 4, '1000 送300', '1', NULL, 1000.00, 300.00, 60.00, 0.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2022-09-06 22:10:49', NULL, NULL, NULL);
-INSERT INTO `b_member_info` VALUES (13, '李三', '16602918019', '0', '123456', 5, '2000 送 600', '1', NULL, 2000.00, 600.00, 60.00, 2600.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2022-09-07 21:48:26', NULL, NULL, NULL);
-INSERT INTO `b_member_info` VALUES (14, '胜多负少', '16602918019', '0', '123456', 5, '2000 送 600', '1', NULL, 2000.00, 600.00, 80.00, 2600.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2022-09-07 21:52:45', NULL, NULL, NULL);
+INSERT INTO `b_member_info` VALUES (13, '李三', '16602918019', '0', '123456', 5, '2000 送 600', '1', NULL, 2000.00, 600.00, 60.00, 2600.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2022-09-22 21:48:26', NULL, NULL, NULL);
+INSERT INTO `b_member_info` VALUES (14, '胜多负少', '16602918019', '0', '123456', 5, '2000 送 600', '1', NULL, 2000.00, 600.00, 80.00, 2600.00, 0, '3', 6, '1号田师傅', NULL, NULL, NULL, '源姐', '这是备注', '2023-02-22 21:52:45', NULL, NULL, NULL);
+INSERT INTO `b_member_info` VALUES (15, '不知道叫啥', '15555555555', '0', '9999999999', 5, '2000 送 600', '1', NULL, 2000.00, 600.00, 80.00, 2600.00, 0, '1', 4, '1 号张三', NULL, NULL, NULL, NULL, NULL, '2023-02-22 23:30:24', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for b_order_additional
@@ -166,7 +167,7 @@ CREATE TABLE `b_order_additional`  (
   `order_id` bigint NULL DEFAULT NULL COMMENT '订单id',
   `additional_id` bigint NULL DEFAULT NULL COMMENT '辅助项目id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表---订单和辅助项目关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务表---订单和辅助项目关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_order_additional
@@ -178,6 +179,10 @@ INSERT INTO `b_order_additional` VALUES (4, 24, 7);
 INSERT INTO `b_order_additional` VALUES (5, 21, 8);
 INSERT INTO `b_order_additional` VALUES (6, 21, 9);
 INSERT INTO `b_order_additional` VALUES (7, 21, 10);
+INSERT INTO `b_order_additional` VALUES (8, 34, 6);
+INSERT INTO `b_order_additional` VALUES (9, 34, 7);
+INSERT INTO `b_order_additional` VALUES (10, 33, 8);
+INSERT INTO `b_order_additional` VALUES (11, 33, 7);
 
 -- ----------------------------
 -- Table structure for b_order_info
@@ -204,16 +209,18 @@ CREATE TABLE `b_order_info`  (
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '修改人',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务主表---订单信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '业务主表---订单信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of b_order_info
 -- ----------------------------
-INSERT INTO `b_order_info` VALUES (21, '2023-02-11 00:06:00', '2023-02-12 00:56:00', 188.00, '2', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, NULL, '2023-02-12 00:56:00', '2023-02-11 00:06:12', '典唐', '2023-02-12 00:57:08', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (24, '2023-02-11 23:50:00', '2023-02-11 23:50:00', 158.00, '2', '2', '1', 2, '98全是推拿调理', 5, '1 李四', NULL, NULL, '2023-02-11 23:50:00', '2023-02-11 23:50:10', '典唐', '2023-02-11 23:50:25', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (25, '2023-02-12 17:16:00', '2023-02-12 21:47:00', 98.00, '2', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, NULL, '2023-02-12 21:47:00', '2023-02-12 17:16:46', '典唐', '2023-02-12 21:47:18', '典唐', NULL);
-INSERT INTO `b_order_info` VALUES (29, '2023-02-15 00:00:00', '2023-02-15 01:00:00', 98.00, '1', NULL, '1', 2, '98全是推拿调理', 5, '1 李四', '赵四232', 0, NULL, '2023-02-14 23:16:03', '典唐', NULL, NULL, '而为人温柔违法的事是都调试');
-INSERT INTO `b_order_info` VALUES (32, '2023-02-15 00:02:00', '2023-02-15 01:02:00', 98.00, '0', NULL, '1', 2, '98全是推拿调理', 6, '1号田师傅', '闫凯', NULL, NULL, '2023-02-15 00:02:41', '典唐', NULL, NULL, NULL);
+INSERT INTO `b_order_info` VALUES (21, '2023-02-11 00:06:00', '2023-02-12 00:56:00', 188.00, '2', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, NULL, '2023-02-12 00:56:00', '2023-02-22 00:06:12', '典唐', '2023-02-12 00:57:08', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (24, '2023-02-11 23:50:00', '2023-02-11 23:50:00', 158.00, '2', '2', '1', 2, '98全是推拿调理', 5, '1 李四', NULL, NULL, '2023-02-11 23:50:00', '2023-02-22 00:06:12', '典唐', '2023-02-11 23:50:25', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (25, '2023-02-12 17:16:00', '2023-02-12 21:47:00', 98.00, '2', '2', '1', 2, '98全是推拿调理', 4, '1 号张三', NULL, NULL, '2023-02-12 21:47:00', '2023-02-22 00:06:12', '典唐', '2023-02-12 21:47:18', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (29, '2023-02-15 00:00:00', '2023-02-22 23:28:00', 98.00, '2', '2', '1', 2, '98全是推拿调理', 5, '1 李四', '赵四232', 0, '2023-02-22 23:28:00', '2023-02-22 00:06:12', '典唐', '2023-02-22 23:28:30', '典唐', '而为人温柔违法的事是都调试');
+INSERT INTO `b_order_info` VALUES (32, '2023-02-15 00:02:00', '2023-02-15 01:02:00', 98.00, '0', NULL, '1', 2, '98全是推拿调理', 6, '1号田师傅', '闫凯2', 0, NULL, '2023-02-22 00:06:12', '典唐', NULL, NULL, NULL);
+INSERT INTO `b_order_info` VALUES (33, '2023-02-20 22:36:00', '2023-02-21 00:23:00', 159.00, '2', '1', '1', 11, '99主服务项目', 4, '1 号张三', NULL, 8, '2023-02-21 00:23:00', '2023-02-22 00:06:12', '典唐', '2023-02-21 00:23:25', '典唐', NULL);
+INSERT INTO `b_order_info` VALUES (34, '2023-02-20 22:48:00', '2023-02-21 00:16:00', 159.00, '2', '2', '1', 11, '99主服务项目', 6, '1号田师傅', NULL, NULL, '2023-02-21 00:16:00', '2023-02-22 00:06:12', '典唐', '2023-02-21 00:16:41', '典唐', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -281,7 +288,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 89 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -747,7 +754,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
   UNIQUE INDEX `dict_type`(`dict_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 108 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -834,7 +841,7 @@ CREATE TABLE `sys_logininfor`  (
   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '提示消息',
   `login_time` datetime NULL DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统访问记录' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统访问记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -866,6 +873,27 @@ INSERT INTO `sys_logininfor` VALUES (24, 'admin', '127.0.0.1', '内网IP', 'Chro
 INSERT INTO `sys_logininfor` VALUES (25, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-14 20:27:20');
 INSERT INTO `sys_logininfor` VALUES (26, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-14 22:28:15');
 INSERT INTO `sys_logininfor` VALUES (27, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-14 22:28:19');
+INSERT INTO `sys_logininfor` VALUES (28, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-15 08:32:56');
+INSERT INTO `sys_logininfor` VALUES (29, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 15:20:58');
+INSERT INTO `sys_logininfor` VALUES (30, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 19:56:40');
+INSERT INTO `sys_logininfor` VALUES (31, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 21:39:49');
+INSERT INTO `sys_logininfor` VALUES (32, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-20 22:04:17');
+INSERT INTO `sys_logininfor` VALUES (33, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 22:04:25');
+INSERT INTO `sys_logininfor` VALUES (34, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-20 23:23:34');
+INSERT INTO `sys_logininfor` VALUES (35, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 23:33:30');
+INSERT INTO `sys_logininfor` VALUES (36, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-20 23:46:55');
+INSERT INTO `sys_logininfor` VALUES (37, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 23:47:46');
+INSERT INTO `sys_logininfor` VALUES (38, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-20 23:59:52');
+INSERT INTO `sys_logininfor` VALUES (39, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-20 23:59:56');
+INSERT INTO `sys_logininfor` VALUES (40, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-21 01:03:57');
+INSERT INTO `sys_logininfor` VALUES (41, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-21 01:04:17');
+INSERT INTO `sys_logininfor` VALUES (42, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2023-02-21 01:20:53');
+INSERT INTO `sys_logininfor` VALUES (43, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '验证码已失效', '2023-02-21 01:23:59');
+INSERT INTO `sys_logininfor` VALUES (44, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-21 01:24:03');
+INSERT INTO `sys_logininfor` VALUES (45, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '验证码错误', '2023-02-22 15:20:28');
+INSERT INTO `sys_logininfor` VALUES (46, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-22 15:20:34');
+INSERT INTO `sys_logininfor` VALUES (47, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-22 22:39:29');
+INSERT INTO `sys_logininfor` VALUES (48, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2023-02-22 23:25:44');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1068,7 +1096,7 @@ CREATE TABLE `sys_oper_log`  (
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime NULL DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 98 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -1162,6 +1190,18 @@ INSERT INTO `sys_oper_log` VALUES (86, '订单信息', 2, 'com.yk.web.controller
 INSERT INTO `sys_oper_log` VALUES (87, '订单信息', 2, 'com.yk.web.controller.business.BOrderInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":5,\"artificerName\":\"1 李四\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-14 23:16:03\",\"customerName\":\"赵四\",\"endTime\":\"2023-02-15 01:00:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":29,\"orderState\":\"1\",\"params\":{},\"startTime\":\"2023-02-15 00:00:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-15 00:25:11');
 INSERT INTO `sys_oper_log` VALUES (88, '订单信息', 2, 'com.yk.web.controller.business.BOrderInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":5,\"artificerName\":\"1 李四\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-14 23:16:03\",\"customerName\":\"赵四\",\"endTime\":\"2023-02-15 01:00:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":29,\"orderState\":\"1\",\"params\":{},\"remark\":\"而为人温柔违法的事是都调试\",\"startTime\":\"2023-02-15 00:00:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-15 00:27:12');
 INSERT INTO `sys_oper_log` VALUES (89, '订单信息', 2, 'com.yk.web.controller.business.BOrderInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":5,\"artificerName\":\"1 李四\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-14 23:16:03\",\"customerName\":\"赵四232\",\"endTime\":\"2023-02-15 01:00:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":29,\"orderState\":\"1\",\"params\":{},\"remark\":\"而为人温柔违法的事是都调试\",\"startTime\":\"2023-02-15 00:00:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-15 00:28:19');
+INSERT INTO `sys_oper_log` VALUES (90, '订单信息', 1, 'com.yk.web.controller.business.BOrderInfoController.add()', 'POST', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":11,\"additionalName\":\"99主服务项目\",\"artificerId\":4,\"artificerName\":\"1 号张三\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-20T22:36:30.136+08:00\",\"endTime\":\"2023-02-21 00:06:00\",\"orderAmount\":99,\"orderId\":33,\"orderState\":\"1\",\"params\":{},\"startTime\":\"2023-02-20 22:36:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-20 22:36:30');
+INSERT INTO `sys_oper_log` VALUES (91, '订单信息', 1, 'com.yk.web.controller.business.BOrderInfoController.add()', 'POST', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":11,\"additionalName\":\"99主服务项目\",\"artificerId\":6,\"artificerName\":\"1号田师傅\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-20T22:48:31.094+08:00\",\"endTime\":\"2023-02-21 00:18:00\",\"orderAmount\":99,\"orderId\":34,\"orderState\":\"1\",\"params\":{},\"startTime\":\"2023-02-20 22:48:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-20 22:48:31');
+INSERT INTO `sys_oper_log` VALUES (92, '订单结账', 1, 'com.yk.web.controller.business.BOrderInfoController.savePaymentData()', 'POST', 1, 'admin', NULL, '/business/order/savePaymentData', '127.0.0.1', '内网IP', '{\"additionalIds\":[6,7],\"createBy\":\"典唐\",\"createTime\":\"2023-02-20 22:48:31\",\"endTime\":\"2023-02-21 00:16:00\",\"orderAmount\":159,\"orderId\":34,\"params\":{},\"paymentType\":\"2\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:16:40');
+INSERT INTO `sys_oper_log` VALUES (93, '订单结账', 1, 'com.yk.web.controller.business.BOrderInfoController.savePaymentData()', 'POST', 1, 'admin', NULL, '/business/order/savePaymentData', '127.0.0.1', '内网IP', '{\"additionalIds\":[8,7],\"cardSurplusAmount\":1300,\"cardSurplusNum\":0,\"createBy\":\"典唐\",\"createTime\":\"2023-02-20 22:36:30\",\"endTime\":\"2023-02-21 00:23:00\",\"memberId\":8,\"orderAmount\":159,\"orderId\":33,\"orderTimes\":0,\"params\":{},\"paymentType\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:23:24');
+INSERT INTO `sys_oper_log` VALUES (94, '订单信息', 1, 'com.yk.web.controller.business.BOrderInfoController.add()', 'POST', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":4,\"artificerName\":\"1 号张三\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-21T00:29:49.534+08:00\",\"customerName\":\"闫凯\",\"endTime\":\"2023-02-21 01:29:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":35,\"orderState\":\"0\",\"params\":{},\"startTime\":\"2023-02-21 00:29:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:29:49');
+INSERT INTO `sys_oper_log` VALUES (95, '订单信息', 2, 'com.yk.web.controller.business.BOrderInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":4,\"artificerName\":\"1 号张三\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-21 00:29:50\",\"customerName\":\"闫凯\",\"endTime\":\"2023-02-21 01:29:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":35,\"orderState\":\"1\",\"params\":{},\"startTime\":\"2023-02-21 00:29:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:29:58');
+INSERT INTO `sys_oper_log` VALUES (96, '订单信息', 2, 'com.yk.web.controller.business.BOrderInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":6,\"artificerName\":\"1号田师傅\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-15 00:02:41\",\"customerName\":\"闫凯2\",\"endTime\":\"2023-02-15 01:02:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":32,\"orderState\":\"0\",\"params\":{},\"startTime\":\"2023-02-15 00:02:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:30:03');
+INSERT INTO `sys_oper_log` VALUES (97, '订单信息', 2, 'com.yk.web.controller.business.BOrderInfoController.edit()', 'PUT', 1, 'admin', NULL, '/business/order', '127.0.0.1', '内网IP', '{\"additionalId\":2,\"additionalName\":\"98全是推拿调理\",\"artificerId\":4,\"artificerName\":\"1 号张三\",\"bellType\":\"1\",\"createBy\":\"典唐\",\"createTime\":\"2023-02-21 00:29:50\",\"customerName\":\"闫凯5\",\"endTime\":\"2023-02-21 01:29:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":35,\"orderState\":\"1\",\"params\":{},\"startTime\":\"2023-02-21 00:29:00\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:30:11');
+INSERT INTO `sys_oper_log` VALUES (98, '订单信息', 3, 'com.yk.web.controller.business.BOrderInfoController.remove()', 'DELETE', 1, 'admin', NULL, '/business/order/35', '127.0.0.1', '内网IP', '{orderIds=35}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-21 00:30:17');
+INSERT INTO `sys_oper_log` VALUES (99, '订单结账', 1, 'com.yk.web.controller.business.BOrderInfoController.savePaymentData()', 'POST', 1, 'admin', NULL, '/business/order/savePaymentData', '127.0.0.1', '内网IP', '{\"additionalIds\":[],\"createBy\":\"典唐\",\"createTime\":\"2023-02-22 00:06:12\",\"endTime\":\"2023-02-22 23:28:00\",\"memberId\":0,\"orderAmount\":98,\"orderId\":29,\"params\":{},\"paymentType\":\"2\",\"remark\":\"而为人温柔违法的事是都调试\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-22 23:28:30');
+INSERT INTO `sys_oper_log` VALUES (100, '会员信息', 1, 'com.yk.web.controller.business.BMemberInfoController.add()', 'POST', 1, 'admin', NULL, '/business/member', '127.0.0.1', '内网IP', '{\"artificerId\":4,\"artificerName\":\"1 号张三\",\"createTime\":\"2023-02-22T23:29:44.976+08:00\",\"giveAmount\":600,\"handleCardNum\":0,\"memberCardId\":5,\"memberCardName\":\"2000 送 600\",\"memberName\":\"不知道叫啥\",\"memberPassword\":\"9999999999\",\"memberPhonenumper\":\"15555555555\",\"memberType\":\"1\",\"params\":{},\"paymentType\":\"1\",\"rechargeAmount\":2000,\"sex\":\"0\",\"singleAmount\":80,\"surplusAmount\":2600,\"surplusTimes\":0}', NULL, 1, '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'member_password\' at row 1\r\n### The error may exist in file [D:\\soft\\web\\idea\\shi-yuan\\work-business\\target\\classes\\mapper\\business\\BMemberInfoMapper.xml]\r\n### The error may involve com.yk.business.mapper.BMemberInfoMapper.insertBMemberInfo-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into b_member_info          ( member_name,             member_phonenumper,             sex,             member_password,             member_card_id,             member_card_name,             member_type,                          recharge_amount,             give_amount,             single_amount,             surplus_amount,             surplus_times,             payment_type,             artificer_id,             artificer_name,                                                                              create_time )           values ( ?,             ?,             ?,             ?,             ?,             ?,             ?,                          ?,             ?,             ?,             ?,             ?,             ?,             ?,             ?,                                                                              ? )\r\n### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'member_password\' at row 1\n; Data truncation: Data too long for column \'member_password\' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'member_password\' at row 1', '2023-02-22 23:29:45');
+INSERT INTO `sys_oper_log` VALUES (101, '会员信息', 1, 'com.yk.web.controller.business.BMemberInfoController.add()', 'POST', 1, 'admin', NULL, '/business/member', '127.0.0.1', '内网IP', '{\"artificerId\":4,\"artificerName\":\"1 号张三\",\"createTime\":\"2023-02-22T23:30:23.813+08:00\",\"giveAmount\":600,\"handleCardNum\":0,\"memberCardId\":5,\"memberCardName\":\"2000 送 600\",\"memberName\":\"不知道叫啥\",\"memberPassword\":\"9999999999\",\"memberPhonenumper\":\"15555555555\",\"memberType\":\"1\",\"params\":{},\"paymentType\":\"1\",\"rechargeAmount\":2000,\"sex\":\"0\",\"singleAmount\":80,\"surplusAmount\":2600,\"surplusTimes\":0}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-02-22 23:30:23');
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -1363,7 +1403,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 100, 'admin', '典唐', '00', 'yanakai@126.com', '18888888888', '1', '/profile/avatar/2022/09/03/blob_20220903120800A002.jpeg', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-02-14 22:28:20', 'admin', '2022-09-01 23:37:14', '', '2023-02-14 22:28:19', '管理员');
+INSERT INTO `sys_user` VALUES (1, 100, 'admin', '典唐', '00', 'yanakai@126.com', '18888888888', '1', '/profile/avatar/2022/09/03/blob_20220903120800A002.jpeg', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-02-22 23:25:44', 'admin', '2022-09-01 23:37:14', '', '2023-02-22 23:25:44', '管理员');
 INSERT INTO `sys_user` VALUES (101, 100, '2323', '2323', '00', '', '15538157826', '0', '', '$2a$10$62do6hTOcRUHagBHvB2k..ulzcSssdY04t3WNB8i/AYtDSFxFg1rK', '0', '0', '', NULL, 'admin', '2022-09-02 12:02:29', '', NULL, NULL);
 
 -- ----------------------------
