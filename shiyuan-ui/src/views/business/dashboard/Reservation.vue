@@ -11,7 +11,7 @@
                                 <span>预约列表</span>
                                 <el-button style="float: right; padding: 3px 0" type="text"  @click="handleYuYueAdd">新增预约</el-button>
                             </div>
-                            <el-table stripe v-loading="yuYueLoading" :data="yuYueOrderList">
+                            <el-table stripe border v-loading="yuYueLoading" :data="yuYueOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
                                 <el-table-column label="客户姓名" align="center" prop="customerName" :show-overflow-tooltip="true" />
                                 <el-table-column label="预约时间" align="center" prop="startTime" >
@@ -57,7 +57,7 @@
                                 <span>上钟列表</span>
                                 <el-button style="float: right; padding: 3px 0" type="text" @click="handleKaiDanOrder">新增开单</el-button>
                             </div>
-                            <el-table stripe v-loading="kaiDanLoading" :data="kaiDanOrderList">
+                            <el-table stripe border v-loading="kaiDanLoading" :data="kaiDanOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
                                 <el-table-column label="客户姓名" align="center" prop="customerName" :show-overflow-tooltip="true"/>
                                 <el-table-column label="开单时间" align="center" prop="startTime" >
@@ -119,13 +119,13 @@
                                     <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
                                 </el-form-item>
                             </el-form>
-                            <el-table stripe v-loading="tongJiLoading" :data="tongJiOrderList">
+                            <el-table stripe border show-summary v-loading="tongJiLoading" :data="tongJiOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
-                                <el-table-column label="点钟" align="center" prop="dianZhongTotal"  />
-                                <el-table-column label="排钟" align="center" prop="paiZhongTotal" />
-                                <el-table-column label="辅助项目" align="center" prop="fuZhuAdditionalDetail"  :show-overflow-tooltip="true" :min-width=340 />
-                                <el-table-column label="非会员收入" align="center" prop="orderAmountTotal" />
-                                <el-table-column label="收入明细" align="center" prop="zhuAdditionalDetail" :show-overflow-tooltip="true" :min-width=340 />
+                                <el-table-column sortable label="点钟" align="center" prop="dianZhongTotal"  />
+                                <el-table-column sortable label="排钟" align="center" prop="paiZhongTotal" />
+                                <el-table-column sortable label="非会员收入" align="center" prop="orderAmountTotal" />
+                                <el-table-column label="辅助项目" align="center" prop="fuZhuAdditionalDetail"  :show-overflow-tooltip="true" :min-width=300 />
+                                <el-table-column label="收入明细" align="center" prop="zhuAdditionalDetail" :show-overflow-tooltip="true" :min-width=300 />
                             </el-table>
                         </el-card>
                     </el-col>
