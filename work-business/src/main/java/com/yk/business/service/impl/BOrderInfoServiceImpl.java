@@ -2,9 +2,7 @@ package com.yk.business.service.impl;
 
 import java.util.*;
 
-import com.yk.business.domain.BMemberInfo;
-import com.yk.business.domain.BOrderAdditional;
-import com.yk.business.domain.BPaymentDataVo;
+import com.yk.business.domain.*;
 import com.yk.business.mapper.BArtificerInfoMapper;
 import com.yk.business.mapper.BMemberInfoMapper;
 import com.yk.business.mapper.BOrderAdditionalMapper;
@@ -13,7 +11,6 @@ import com.yk.common.utils.SecurityUtils;
 import com.yk.common.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import com.yk.business.mapper.BOrderInfoMapper;
-import com.yk.business.domain.BOrderInfo;
 import com.yk.business.service.IBOrderInfoService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -205,10 +202,52 @@ public class BOrderInfoServiceImpl implements IBOrderInfoService
     }
 
     @Override
-    public String getArtificerStatistics(BOrderInfo bOrderInfo) {
+    public List<Map<String, Object>> getArtificerStatistics(BOrderInfo bOrderInfo) {
         // 获取所有技师的信息
-
-        return null;
+        List<BArtificerInfo> artificerInfoList = bArtificerInfoMapper.selectBArtificerInfoList(new BArtificerInfo());
+        List<Map<String,Object>> mapList = new ArrayList<>();
+        for (BArtificerInfo info: artificerInfoList){
+            Map<String,Object>  map = new HashMap<>();
+            // 赋值技师名称
+            map.put("artificerName",info.getArtificerFullName());
+            // 获取技师时间段内开单非会员的收入
+            bOrderInfo.setArtificerId(info.getArtificerId());
+            bOrderInfo.setOrderState("2");
+            int orderAmountTotal = bOrderInfoMapper.getOrderAmountTotalByArtificerId(bOrderInfo);
+            // 赋值技师结单的非会员收入
+            map.put("orderAmountTotal",orderAmountTotal);
+            // 获取技师时间段内的开单点钟和排钟的数量
+            bOrderInfo.setBellType("1"); // 查询排钟数量
+            int paiZhongTotal = bOrderInfoMapper.getPaiZhongTotalByArtificerId(bOrderInfo);
+            // 赋值技师结单的排钟数量
+            map.put("paiZhongTotal",paiZhongTotal);
+            bOrderInfo.setBellType("2"); // 查询点钟数量
+            int dianZhongTotal = bOrderInfoMapper.getPaiZhongTotalByArtificerId(bOrderInfo);
+            // 赋值技师结单的点钟数量
+            map.put("dianZhongTotal",dianZhongTotal);
+            // 获取技师时间段内的开单主服务项目数量及名称
+            List<Map<String,Object>> zhuAdditionalMapList = bOrderInfoMapper.getZhuAdditionalTotalByArtificerId(bOrderInfo);
+            if(StringUtils.isNotEmpty(zhuAdditionalMapList)){
+                StringBuilder sb = new StringBuilder();
+                zhuAdditionalMapList.forEach(item ->{
+                    sb.append(item.get("additionalName")+"*"+item.get("additionalTotal")+"；");
+                });
+                // 赋值技师结单的主服务项目信息
+                map.put("zhuAdditionalDetail",sb);
+            }
+            // 获取技师时间段内的开单辅助项目数量及名称
+            List<Map<String,Object>> fuZhuAdditionalMapList = bOrderAdditionalMapper.getFuZhuAdditionalTotalByArtificerId(bOrderInfo);
+            if(StringUtils.isNotEmpty(fuZhuAdditionalMapList)){
+                StringBuilder sb = new StringBuilder();
+                fuZhuAdditionalMapList.forEach(item ->{
+                    sb.append(item.get("fuZhuAdditionalName")+"*"+item.get("fuZhuAdditionalTotal")+"；");
+                });
+                // 赋值技师结单的辅助服务项目信息
+                map.put("fuZhuAdditionalDetail",sb);
+            }
+            mapList.add(map);
+        }
+        return mapList;
     }
 
 

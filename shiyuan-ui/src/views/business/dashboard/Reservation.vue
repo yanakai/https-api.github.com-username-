@@ -2,7 +2,7 @@
 <template>
     <el-row :gutter="20">
         <el-col :xs="24" :sm="24" :md="24" :lg="24">
-            <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabsClick">
+            <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabsClick(activeName)">
                 <el-tab-pane name="first">
                     <span slot="label"><i class="el-icon-date"></i> 预约</span>
                     <el-col :xs="24" :sm="24" :md="24" :lg="12">
@@ -121,11 +121,11 @@
                             </el-form>
                             <el-table stripe v-loading="tongJiLoading" :data="tongJiOrderList">
                                 <el-table-column label="师傅名称" align="center" prop="artificerName" />
-                                <el-table-column label="点钟" align="center" prop="dianZhongTongji"  />
-                                <el-table-column label="排钟" align="center" prop="paiZhongTongji" />
-                                <el-table-column label="辅助项目" align="center" prop="fuZhuAdditional" />
-                                <el-table-column label="非会员结账收入" align="center" prop="billTotal" />
-                                <el-table-column label="收入明细" align="center" prop="revenueDetails" :show-overflow-tooltip="true" />
+                                <el-table-column label="点钟" align="center" prop="dianZhongTotal"  />
+                                <el-table-column label="排钟" align="center" prop="paiZhongTotal" />
+                                <el-table-column label="辅助项目" align="center" prop="fuZhuAdditionalDetail"  :show-overflow-tooltip="true" :min-width=340 />
+                                <el-table-column label="非会员收入" align="center" prop="orderAmountTotal" />
+                                <el-table-column label="收入明细" align="center" prop="zhuAdditionalDetail" :show-overflow-tooltip="true" :min-width=340 />
                             </el-table>
                         </el-card>
                     </el-col>
@@ -271,6 +271,7 @@ import { orderDataList, getOrder, delOrder, addOrder, updateOrder } from "@/api/
 import { additionalList,getAdditional } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
 import { memberList, getMember } from "@/api/business/member";
+import { artificerStatistics } from "@/api/business/index";
 import JieZhangOrder from '../../business/dashboard/JieZhangOrder'
 
 export default {
@@ -353,31 +354,37 @@ export default {
 
         /** 统计 字段*/
         // 统计列表遮罩层
-        tongJiLoading:false,
+        tongJiLoading:true,
+        // 日期范围
+        dateRange: [
+            this.parseTime(new Date(), '{y}-{m}-{d}'),
+            this.parseTime(new Date(), '{y}-{m}-{d}')
+        ],
         // 统计师傅订单列表
         tongJiOrderList:[],
         // 查询参数
-        queryParams: {
-            
-        },
-
-
-
-
+        queryParams: {},
     };
   },
   created(){
-   // 加载预约列表数据
+    // 加载预约列表数据
     this.getYuYueOrderList();
     // 加载开单订单列表
     this.getKaiDaneOrderList();
   },
   methods: {
     // 选项卡操作事件
-    handleTabsClick(tab, event) {
-        console.log(tab, event);
-        console.log(this.activeName);
-        this.getYuYueDataList();
+    handleTabsClick(activeName) {
+        if(activeName == 'second'){
+            this.getArtificerStatistics();
+        }else if(activeName == 'third'){
+            console.log(activeName);
+        }else{
+            // 加载预约列表数据
+            this.getYuYueOrderList();
+            // 加载开单订单列表
+            this.getKaiDaneOrderList();
+        }
     },
     // 加载预约列表数据
     getYuYueOrderList(){
@@ -740,6 +747,24 @@ export default {
         this.memberInfoData = item.memberName +" "+ item.memberPhonenumper +" "+item.memberCardName +" "+ item.surplusAmount + " 备注："+ item.remark;
       }
     },
+    /**  首页统计功能--技师结单统计 */
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.getArtificerStatistics();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    getArtificerStatistics(){
+        this.tongJiLoading = true;
+        artificerStatistics(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+            this.tongJiOrderList = response.data;
+            this.tongJiLoading = false;
+        })
+    },
+
   },
 };
 </script>

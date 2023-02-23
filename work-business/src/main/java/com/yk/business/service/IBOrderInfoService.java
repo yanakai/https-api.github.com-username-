@@ -92,9 +92,9 @@ public interface IBOrderInfoService
      * @title getArtificerStatistics
      * @description  首页统计技师开单情况
      * @param bOrderInfo
-     * @return java.lang.String
+     * @return java.lang.List<Map<String, Object>>
      * @author yanakai@126.com
      * @date   2023/2/23
      */
-    String getArtificerStatistics(BOrderInfo bOrderInfo);
+    List<Map<String, Object>> getArtificerStatistics(BOrderInfo bOrderInfo);
 }

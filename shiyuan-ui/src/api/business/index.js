@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 
-// 订单首页统计功能
+// 首页订单统计功能
 export function orderStatistics(query) {
   return request({
     url: '/business/order/getOrderStatistics',
@@ -9,5 +9,14 @@ export function orderStatistics(query) {
     params: query
   })
 }
+// 首页--技师结单统计功能
+export function artificerStatistics(query) {
+  return request({
+    url: '/business/order/getArtificerStatistics',
+    method: 'get',
+    params: query
+  })
+}
+
 
 

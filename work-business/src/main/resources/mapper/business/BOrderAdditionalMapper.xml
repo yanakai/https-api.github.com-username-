@@ -70,6 +70,33 @@
         where order_id = #{orderId}
     </select>
 
+    <!--  获取技师时间段内的开单辅助项目数量及名称  -->
+    <select id="getFuZhuAdditionalTotalByArtificerId" parameterType="BOrderInfo" resultType="map">
+        SELECT
+            COUNT(id) AS fuZhuAdditionalTotal,
+            (SELECT additional_name FROM b_additional_info WHERE additional_id = boa.additional_id ) fuZhuAdditionalName
+        FROM
+            b_order_additional boa
+        WHERE
+            EXISTS(
+                select
+                    order_id
+                FROM
+                    b_order_info
+                WHERE
+                    order_state = #{orderState}
+                    AND artificer_id = #{artificerId}
+                    <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                        AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </if>
+                    <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                        AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </if>
+                    AND order_id = boa.order_id
+            )
+        GROUP BY additional_id
+    </select>
+
 
 
 

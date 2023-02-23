@@ -153,4 +153,66 @@
             order_state = #{orderState}
             AND date_format(create_time,'%y%m%d') = date_format(#{params.searchTime},'%y%m%d')
     </select>
+
+    <!--  获取技师时间段内开单非会员的收入 -->
+    <select id="getOrderAmountTotalByArtificerId" parameterType="BOrderInfo" resultType="integer">
+        select
+            IFNULL(SUM(order_amount),0) AS orderAmountCount
+        FROM
+            b_order_info
+        WHERE
+            order_state = #{orderState}
+            AND payment_type != '1' <!--  查询付款类型不等于会员 1 的结单数据  -->
+            AND artificer_id = #{artificerId}
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+    </select>
+
+    <!--  获取技师时间段内的开单点钟和排钟的数量  -->
+    <select id="getPaiZhongTotalByArtificerId" parameterType="BOrderInfo" resultType="integer">
+        select
+            COUNT(order_id)
+        FROM
+            b_order_info
+        WHERE
+            order_state = #{orderState}
+            AND bell_type = #{bellType}
+            AND artificer_id = #{artificerId}
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+    </select>
+
+    <!--  获取技师时间段内的开单主服务项目数量及名称  -->
+    <select id="getZhuAdditionalTotalByArtificerId" parameterType="BOrderInfo" resultType="map">
+        select
+            COUNT(order_id) AS additionalTotal,
+            any_value(additional_name) additionalName
+        FROM
+            b_order_info
+        WHERE
+            order_state = #{orderState}
+            AND artificer_id = #{artificerId}
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        GROUP BY additional_id
+    </select>
+
+
+
+
+
+
+
 </mapper>
