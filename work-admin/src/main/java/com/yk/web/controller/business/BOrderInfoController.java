@@ -1,19 +1,16 @@
 package com.yk.web.controller.business;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson2.JSON;
+import com.yk.business.domain.BArtificerInfo;
 import com.yk.business.domain.BPaymentDataVo;
+import com.yk.business.service.IBArtificerInfoService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.yk.common.annotation.Log;
 import com.yk.common.core.controller.BaseController;
 import com.yk.common.core.domain.AjaxResult;
@@ -34,6 +31,9 @@ import com.yk.common.core.page.TableDataInfo;
 public class BOrderInfoController extends BaseController {
     @Autowired
     private IBOrderInfoService bOrderInfoService;
+
+    @Resource
+    private IBArtificerInfoService bArtificerInfoService;
 
 
     /**
@@ -169,6 +169,15 @@ public class BOrderInfoController extends BaseController {
         return AjaxResult.success(bOrderInfoService.getArtificerStatistics(bOrderInfo));
     }
 
+    @GetMapping("/getArtificerPaiZhongList")
+    public AjaxResult getArtificerPaiZhongList(BArtificerInfo bArtificerInfo){
+        return  AjaxResult.success(bArtificerInfoService.getArtificerPaiZhongList(bArtificerInfo));
+    }
+
+    @PostMapping("/saveArtificerPaiZhongByList")
+    public AjaxResult saveArtificerPaiZhongByList(@RequestBody List<BArtificerInfo> bArtificerInfoList){
+        return AjaxResult.success(bArtificerInfoService.saveArtificerPaiZhongByList(bArtificerInfoList));
+    }
 
 
 

@@ -58,4 +58,22 @@ public interface BArtificerInfoMapper
      * @return 结果
      */
     public int deleteBArtificerInfoByArtificerIds(Long[] artificerIds);
+    /**
+     * @title getArtificerPaiZhongList
+     * @description  首页--查询技师排钟列表
+     * @param bArtificerInfo
+     * @return java.util.List<com.yk.business.domain.BArtificerInfo>
+     * @author yanakai@126.com
+     * @date   2023/3/18
+     */
+    List<BArtificerInfo> getArtificerPaiZhongList(BArtificerInfo bArtificerInfo);
+    /**
+     * @title saveArtificerPaiZhongByList
+     * @description  批量保存技师排钟信息
+     * @param list
+     * @return int
+     * @author yanakai@126.com
+     * @date   2023/3/18
+     */
+    int saveArtificerPaiZhongByList(List<BArtificerInfo> list);
 }

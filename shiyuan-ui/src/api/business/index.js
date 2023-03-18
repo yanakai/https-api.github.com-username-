@@ -18,5 +18,22 @@ export function artificerStatistics(query) {
   })
 }
 
+// 首页--技师排钟列表
+export function artificerPaiZhongList(query){
+  return request({
+    url: '/business/order/getArtificerPaiZhongList',
+    method: 'get',
+    params: query
+  })
+}
+
+// 首页--技师排钟列表保存功能
+export function saveArtificerPaiZhongByList(data){
+  return request({
+    url: '/business/order/saveArtificerPaiZhongByList',
+    method: 'post',
+    data: data
+  })
+}
 
 

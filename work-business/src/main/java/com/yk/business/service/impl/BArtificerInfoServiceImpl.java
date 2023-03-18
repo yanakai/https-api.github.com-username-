@@ -24,7 +24,7 @@ import javax.annotation.Resource;
  */
 @Service
 public class BArtificerInfoServiceImpl implements IBArtificerInfoService{
-    @Autowired
+    @Resource
     private BArtificerInfoMapper bArtificerInfoMapper;
 
     @Resource
@@ -103,5 +103,19 @@ public class BArtificerInfoServiceImpl implements IBArtificerInfoService{
     public int deleteBArtificerInfoByArtificerId(Long artificerId)
     {
         return bArtificerInfoMapper.deleteBArtificerInfoByArtificerId(artificerId);
+    }
+
+    @Override
+    public List<BArtificerInfo> getArtificerPaiZhongList(BArtificerInfo bArtificerInfo) {
+        return bArtificerInfoMapper.getArtificerPaiZhongList(bArtificerInfo);
+    }
+
+    @Override
+    public int saveArtificerPaiZhongByList(List<BArtificerInfo> list) {
+        int state = 0;
+        for (BArtificerInfo bArtificerInfo : list){
+            state = bArtificerInfoMapper.updateBArtificerInfo(bArtificerInfo);
+        }
+        return state;
     }
 }

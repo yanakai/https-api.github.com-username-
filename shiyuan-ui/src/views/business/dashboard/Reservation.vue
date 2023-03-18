@@ -132,7 +132,27 @@
                 </el-tab-pane>
                 <el-tab-pane name="third">
                     <span slot="label"><i class="el-icon-time"></i> 排钟</span>
-                    排钟
+                    <el-col :xs="24" :sm="24" :md="24" :lg="24">
+                        <el-card class="box-card">
+                            <div slot="header" class="clearfix">
+                                <span>排钟列表</span>
+                                <el-button v-if="iseditor" style="float: right; padding: 3px 0" type="text"  @click="saveArtificerPaiZhong">保存</el-button>
+                                <el-button v-else style="float: right; padding: 3px 0" type="text"  @click="editArtificerPaiZhong">编辑</el-button>
+                            </div>
+                            <el-table stripe border v-loading="paiZhongLoading" :data="artificerPaiZhongDataList">
+                                <el-table-column label="当前顺序" align="center" prop="orderNum" >
+                                    <template slot-scope="scope">
+                                        <input type="text" v-model="scope.row.orderNum" v-show="iseditor" />
+                                        <span v-show="!iseditor">{{scope.row.orderNum}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column sortable label="技师" align="center" prop="artificerName"  />
+                                <el-table-column sortable label="今日排钟数" align="center" prop="bellNum" />
+                                <el-table-column sortable label="备注" align="center" prop="" :show-overflow-tooltip="true" />
+                                <el-table-column label="其它" align="center" prop="fuZhuAdditionalDetail"  />
+                            </el-table>
+                        </el-card>
+                    </el-col>            
                 </el-tab-pane>
             </el-tabs>
         </el-col>
@@ -271,7 +291,7 @@ import { orderDataList, getOrder, delOrder, addOrder, updateOrder } from "@/api/
 import { additionalList,getAdditional } from "@/api/business/additional";
 import { getArtificerList} from "@/api/business/artificer";
 import { memberList, getMember } from "@/api/business/member";
-import { artificerStatistics } from "@/api/business/index";
+import { artificerStatistics, artificerPaiZhongList, saveArtificerPaiZhongByList} from "@/api/business/index";
 import JieZhangOrder from '../../business/dashboard/JieZhangOrder'
 
 export default {
@@ -364,6 +384,13 @@ export default {
         tongJiOrderList:[],
         // 查询参数
         queryParams: {},
+        /**首页排钟列表 */ 
+        // 技师排钟操作
+        artificerPaiZhongDataList: [],
+        // 排钟loading
+        paiZhongLoading: true,
+        // 表格是否可编辑
+        iseditor : false,
     };
   },
   created(){
@@ -376,9 +403,12 @@ export default {
     // 选项卡操作事件
     handleTabsClick(activeName) {
         if(activeName == 'second'){
+            //加载统计列表
             this.getArtificerStatistics();
         }else if(activeName == 'third'){
-            console.log(activeName);
+           // 加载技师排钟列表
+           this.iseditor = false;
+           this.getArtificerPaiZhongList();
         }else{
             // 加载预约列表数据
             this.getYuYueOrderList();
@@ -757,6 +787,7 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
+    /**加载统计列表 */
     getArtificerStatistics(){
         this.tongJiLoading = true;
         artificerStatistics(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -764,7 +795,25 @@ export default {
             this.tongJiLoading = false;
         })
     },
-
+    /**加载技师排钟列表 */
+    getArtificerPaiZhongList(){
+        this.paiZhongLoading = true;
+        let params={};
+        artificerPaiZhongList(params).then(response => {
+            this.artificerPaiZhongDataList = response.data;
+            this.paiZhongLoading = false;
+        })
+    },
+    editArtificerPaiZhong(){
+        this.iseditor = true;
+    },
+    saveArtificerPaiZhong(){
+        saveArtificerPaiZhongByList(JSON.stringify(this.artificerPaiZhongDataList)).then(response => {
+            this.$modal.msgSuccess("保存成功");
+            this.iseditor = false;
+            this.getArtificerPaiZhongList();
+        });
+    }
   },
 };
 </script>

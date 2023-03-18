@@ -66,6 +66,18 @@ public class BArtificerInfo extends BaseEntity
     @Excel(name = "是否排钟", readConverterExp = "0=：否；1：是")
     private String isBell;
 
+    /** 排序 */
+    @Excel(name = "排序")
+    private Long orderNum;
+
+    /** 当日排钟次数 */
+    @Excel(name = "当日排钟次数")
+    private Long bellNum;
+
+    /** 是否请假 */
+    @Excel(name = "是否请假")
+    private String isLeave;
+
     /** 创建人 */
     @Excel(name = "创建人")
     private String createName;
@@ -192,6 +204,34 @@ public class BArtificerInfo extends BaseEntity
     {
         return isBell;
     }
+
+    public void setOrderNum(Long orderNum)
+    {
+        this.orderNum = orderNum;
+    }
+
+    public Long getOrderNum()
+    {
+        return orderNum;
+    }
+    public void setBellNum(Long bellNum)
+    {
+        this.bellNum = bellNum;
+    }
+
+    public Long getBellNum()
+    {
+        return bellNum;
+    }
+    public void setIsLeave(String isLeave)
+    {
+        this.isLeave = isLeave;
+    }
+
+    public String getIsLeave()
+    {
+        return isLeave;
+    }
     public void setCreateName(String createName)
     {
         this.createName = createName;
@@ -243,6 +283,9 @@ public class BArtificerInfo extends BaseEntity
                 .append("entryTime", getEntryTime())
                 .append("speciality", getSpeciality())
                 .append("isBell", getIsBell())
+                .append("orderNum", getOrderNum())
+                .append("bellNum", getBellNum())
+                .append("isLeave", getIsLeave())
                 .append("remark", getRemark())
                 .append("createName", getCreateName())
                 .append("createTime", getCreateTime())

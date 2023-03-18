@@ -17,6 +17,9 @@
         <result property="entryTime"    column="entry_time"    />
         <result property="speciality"    column="speciality"    />
         <result property="isBell"    column="is_bell"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="bellNum"    column="bell_num"    />
+        <result property="isLeave"    column="is_leave"    />
         <result property="remark"    column="remark"    />
         <result property="createName"    column="create_name"    />
         <result property="createTime"    column="create_time"    />
@@ -25,7 +28,10 @@
     </resultMap>
 
     <sql id="selectBArtificerInfoVo">
-        select artificer_id, dept_id, dept_name, artificer_full_name, artificer_name, artificer_level, phone_number, sex, salary, entry_time, speciality, is_bell, remark, create_name, create_time, modify_name, modify_time from b_artificer_info
+        select artificer_id, dept_id, dept_name, artificer_full_name, artificer_name, artificer_level, phone_number,
+               sex, salary, entry_time, speciality, is_bell, order_num, bell_num, is_leave,remark, create_name,
+               create_time, modify_name, modify_time
+        from b_artificer_info
     </sql>
 
     <select id="selectBArtificerInfoList" parameterType="BArtificerInfo" resultMap="BArtificerInfoResult">
@@ -42,10 +48,14 @@
             <if test="entryTime != null "> and entry_time = #{entryTime}</if>
             <if test="speciality != null  and speciality != ''"> and speciality = #{speciality}</if>
             <if test="isBell != null  and isBell != ''"> and is_bell = #{isBell}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="bellNum != null "> and bell_num = #{bellNum}</if>
+            <if test="isLeave != null  and isLeave != ''"> and is_leave = #{isLeave}</if>
             <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
             <if test="modifyName != null  and modifyName != ''"> and modify_name like concat('%', #{modifyName}, '%')</if>
             <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
         </where>
+        order by order_num
     </select>
 
     <select id="selectBArtificerInfoByArtificerId" parameterType="Long" resultMap="BArtificerInfoResult">
@@ -67,6 +77,9 @@
             <if test="entryTime != null">entry_time,</if>
             <if test="speciality != null">speciality,</if>
             <if test="isBell != null">is_bell,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="bellNum != null">bell_num,</if>
+            <if test="isLeave != null">is_leave,</if>
             <if test="remark != null">remark,</if>
             <if test="createName != null">create_name,</if>
             <if test="createTime != null">create_time,</if>
@@ -85,6 +98,9 @@
             <if test="entryTime != null">#{entryTime},</if>
             <if test="speciality != null">#{speciality},</if>
             <if test="isBell != null">#{isBell},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="bellNum != null">#{bellNum},</if>
+            <if test="isLeave != null">#{isLeave},</if>
             <if test="remark != null">#{remark},</if>
             <if test="createName != null">#{createName},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -107,6 +123,9 @@
             <if test="entryTime != null">entry_time = #{entryTime},</if>
             <if test="speciality != null">speciality = #{speciality},</if>
             <if test="isBell != null">is_bell = #{isBell},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="bellNum != null">bell_num = #{bellNum},</if>
+            <if test="isLeave != null">is_leave = #{isLeave},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="createName != null">create_name = #{createName},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -126,4 +145,32 @@
             #{artificerId}
         </foreach>
     </delete>
+    <!--首页 查询技师排钟列表及技师排序-->
+    <select id="getArtificerPaiZhongList" parameterType="BArtificerInfo" resultMap="BArtificerInfoResult">
+        SELECT
+            artificer_id,
+            artificer_name,
+            order_num,
+            is_leave,
+            (SELECT COUNT(order_id) FROM b_order_info WHERE artificer_id = bai.artificer_id AND order_state != 0 AND date_format(create_time,'%y%m%d') = date_format(NOW(),'%y%m%d') AND bell_type = '1') bell_num
+        FROM
+            b_artificer_info bai
+        ORDER BY
+            order_num
+    </select>
+
+    <!--批量修改技师排钟信息-->
+    <update id="saveArtificerPaiZhongByList">
+        <foreach collection="list" separator=";" item="item">
+            UPDATE  b_artificer_info
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="item.orderNum != null">order_num = #{item.orderNum},</if>
+                <if test="item.isLeave != null and item.isLeave != ''">is_leave = #{item.isLeave},</if>
+            </trim>
+            WHERE artificer_id = #{item.artificerId}
+        </foreach>
+    </update>
+
+
+
 </mapper>
