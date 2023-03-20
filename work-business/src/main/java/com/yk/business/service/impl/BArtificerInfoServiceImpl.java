@@ -66,6 +66,7 @@ public class BArtificerInfoServiceImpl implements IBArtificerInfoService{
         bArtificerInfo.setCreateTime(DateUtils.getNowDate());
         bArtificerInfo.setCreateName(SecurityUtils.getUsername());
         bArtificerInfo.setDeptName(sysDeptMapper.selectDeptById(SecurityUtils.getDeptId()).getDeptName());
+        bArtificerInfo.setIsLeave("0");
         return bArtificerInfoMapper.insertBArtificerInfo(bArtificerInfo);
     }
 
