@@ -121,29 +121,21 @@
           >详情</el-button>
           <el-button
             size="small"
+            type="success"
+            round
+            icon="el-icon-s-grid"
+            @click="handleConsumptionRecord(scope.row)"
+            v-hasPermi="['business:member:consumptionRecord']"
+          >消费记录</el-button>
+          <el-button
+            size="small"
             type="primary"
             round
             icon="el-icon-plus"
             @click="handleAddMember(scope.row)"
             v-hasPermi="['business:member:add']"
           >续卡</el-button>
-          <el-button
-            size="small"
-            type="primary"
-            round
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['business:member:edit']"
-          >修改</el-button>
-          <el-button
-            size="small"
-            type="primary"
-            round
-            icon="el-icon-key"
-            @click="handleUpdatePwd(scope.row)"
-            v-hasPermi="['business:member:updatePwd']"
-          >修改密码</el-button>
-          <el-button
+           <el-button
             size="small"
             type="primary"
             round
@@ -153,12 +145,20 @@
           >合并</el-button>
           <el-button
             size="small"
-            type="info"
+            type="warning"
             round
-            icon="el-icon-s-grid"
-            @click="handleConsumptionRecord(scope.row)"
-            v-hasPermi="['business:member:consumptionRecord']"
-          >消费记录</el-button>
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['business:member:edit']"
+          >修改</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            round
+            icon="el-icon-key"
+            @click="handleUpdatePwd(scope.row)"
+            v-hasPermi="['business:member:updatePwd']"
+          >修改密码</el-button>
           <el-button
             size="small"
             type="danger"
@@ -647,7 +647,7 @@ export default {
     },
     // 消费记录
     handleConsumptionRecord(row){
-      this.$modal.msgError("暂无功能");
+      this.$router.push("/business/member-order/index/"+row.memberId); 
     },
     // 同种会员合并金额
     handleMerge(row){

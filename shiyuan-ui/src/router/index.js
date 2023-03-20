@@ -163,6 +163,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/business/member-order',
+    component: Layout,
+    hidden: true,
+    permissions: ['business:member:consumptionRecord'],
+    children: [
+      {
+        path: 'index/:memberId(\\d+)',
+        component: () => import('@/views/business/member/order'),
+        name: 'Data',
+        meta: { title: '会员订单', activeMenu: '/business/member' }
+      }
+    ]
+  },
+  {
     path: '/tool/gen-edit',
     component: Layout,
     hidden: true,

@@ -47,8 +47,8 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
+
     <el-table stripe v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="index" >
         <template slot-scope="scope">
           <span>{{ scope.$index + 1}}</span>
