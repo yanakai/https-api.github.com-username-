@@ -4,7 +4,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson2.JSON;
 import com.yk.business.domain.BArtificerInfo;
 import com.yk.business.domain.BPaymentDataVo;
 import com.yk.business.service.IBArtificerInfoService;
@@ -71,7 +70,7 @@ public class BOrderInfoController extends BaseController {
     public void export(HttpServletResponse response, BOrderInfo bOrderInfo)
     {
         List<BOrderInfo> list = bOrderInfoService.selectBOrderInfoList(bOrderInfo);
-        ExcelUtil<BOrderInfo> util = new ExcelUtil<BOrderInfo>(BOrderInfo.class);
+        ExcelUtil<BOrderInfo> util = new ExcelUtil<>(BOrderInfo.class);
         util.exportExcel(response, list, "订单信息数据");
     }
 
@@ -87,7 +86,7 @@ public class BOrderInfoController extends BaseController {
 
 
     /**
-     *
+     *查询订单详情
      */
     @PreAuthorize("@ss.hasPermi('business:order:query')")
     @GetMapping(value = "/getOrderInfoDetails/{orderId}")
